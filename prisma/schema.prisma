@@ -1,0 +1,746 @@
+// Smart Line Store — Prisma schema
+// PostgreSQL only. See DESIGN_SYSTEM.md / README.md for context.
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["store", "software"]
+}
+
+// ---------- Enums ----------
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
+  CATALOG_EDITOR
+  ORDER_STAFF
+
+  @@schema("store")
+}
+
+enum OrderStatus {
+  PENDING_WHATSAPP
+  CONTACTED
+  CONFIRMED
+  PREPARING
+  OUT_FOR_DELIVERY
+  COMPLETED
+  CANCELLED
+
+  @@schema("store")
+}
+
+enum DeliveryKind {
+  DELIVERY
+  PICKUP
+
+  @@schema("store")
+}
+
+enum InventoryMovementType {
+  ORDER_CONFIRM
+  ORDER_CANCEL_RESTORE
+  MANUAL_ADJUSTMENT
+  INITIAL_STOCK
+
+  @@schema("store")
+}
+
+enum ProductBadge {
+  NONE
+  OFFER
+  HOT
+  NEW
+  LOW
+  OUT
+  PICK
+
+  @@schema("store")
+}
+
+enum MediaKind {
+  PRODUCT_IMAGE
+  CATEGORY_IMAGE
+  BRAND_LOGO
+  HERO_SLIDE
+  BANNER
+  GENERIC
+
+  @@schema("store")
+}
+
+// ---------- Rate limiting ----------
+
+// Fixed-window counter, keyed by "action:identifier" (e.g. "checkout:1.2.3.4"). DB-backed
+// (not in-memory) so it works correctly across ephemeral serverless invocations — an
+// in-memory counter resets on every cold start and doesn't share state across concurrent
+// instances, which is exactly the deployment target here (Vercel). See src/lib/rate-limit.ts.
+model RateLimitEntry {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  count       Int      @default(1)
+  windowStart DateTime @default(now())
+
+  @@index([windowStart])
+  @@schema("store")
+}
+
+// ---------- Admin / Auth ----------
+
+model AdminUser {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  passwordHash   String
+  role           AdminRole @default(SUPER_ADMIN)
+  isActive       Boolean   @default(true)
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  sessions     Session[]
+  activityLogs ActivityLog[]
+
+  @@index([email])
+  @@schema("store")
+}
+
+model Session {
+  id          String    @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  tokenHash   String    @unique
+  userAgent   String?
+  ipAddress   String?
+  expiresAt   DateTime
+  createdAt   DateTime  @default(now())
+  rotatedFrom String?
+
+  @@index([adminUserId])
+  @@index([expiresAt])
+  @@schema("store")
+}
+
+model ActivityLog {
+  id          String     @id @default(cuid())
+  adminUserId String?
+  adminUser   AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull)
+  action      String
+  entityType  String
+  entityId    String?
+  metadata    Json?
+  createdAt   DateTime   @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@schema("store")
+}
+
+// ---------- Catalog ----------
+
+model Category {
+  id           String   @id @default(cuid())
+  nameAr       String
+  nameEn       String?
+  slug         String   @unique
+  description  String?
+  imageUrl     String?
+  tintColor    String?
+  isVisible    Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  displayOrder Int      @default(0)
+  isArchived   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  products           Product[]
+  // Secondary/additional categories a product can also appear under, on top of its one
+  // required primary `Product.categoryId`. Additive by design — the primary FK stays the
+  // source of truth for existing single-category logic (breadcrumbs, `/category/[slug]`
+  // filtering already merges both, see src/lib/catalog.ts); this only adds the ability for
+  // a product to *also* show up under other categories, per spec, without touching or
+  // migrating any existing product's primary category.
+  additionalProducts ProductCategory[]
+  campaignLinks      CampaignCategory[]
+
+  @@index([slug])
+  @@index([displayOrder])
+  @@schema("store")
+}
+
+model ProductCategory {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([productId, categoryId])
+  @@index([categoryId])
+  @@schema("store")
+}
+
+model Brand {
+  id           String   @id @default(cuid())
+  nameAr       String
+  nameEn       String?
+  slug         String   @unique
+  description  String?
+  logoUrl      String?
+  isVisible    Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  displayOrder Int      @default(0)
+  isArchived   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  products      Product[]
+  campaignLinks CampaignBrand[]
+
+  @@index([slug])
+  @@schema("store")
+}
+
+model Product {
+  id                String       @id @default(cuid())
+  nameAr            String
+  nameEn            String?
+  slug              String       @unique
+  sku               String       @unique
+  model             String?
+  categoryId        String
+  category          Category     @relation(fields: [categoryId], references: [id])
+  brandId           String
+  brand             Brand        @relation(fields: [brandId], references: [id])
+  shortSpec         String?
+  description       String?
+  searchKeywords    String?
+  seoTitle          String?
+  seoDescription    String?
+  price             Decimal      @db.Decimal(10, 3)
+  oldPrice          Decimal?     @db.Decimal(10, 3)
+  quantity          Int          @default(0)
+  lowStockThreshold Int          @default(5)
+  badge             ProductBadge @default(NONE)
+  isVisible         Boolean      @default(true)
+  isFeatured        Boolean      @default(false)
+  /// Editor-controlled placement in the store's "New arrivals" rows. This is kept
+  /// separate from the visual badge so the admin may still choose another badge.
+  isNew             Boolean      @default(false)
+  isArchived        Boolean      @default(false)
+  needsImage        Boolean      @default(false)
+  warrantyInfo      String?
+  supportInfo       String?
+  viewCount         Int          @default(0)
+  soldCount         Int          @default(0)
+  displayOrder      Int          @default(0)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  images               ProductImage[]
+  specifications       ProductSpecification[]
+  orderItems           OrderItem[]
+  movements            InventoryMovement[]
+  campaignLinks        CampaignProduct[]
+  campaignFinalPrices  CampaignProductPrice[]
+  additionalCategories ProductCategory[]
+
+  @@index([slug])
+  @@index([sku])
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([isVisible, isArchived])
+  @@schema("store")
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  altText   String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@schema("store")
+}
+
+model ProductSpecification {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  labelAr   String
+  labelEn   String?
+  value     String
+  sortOrder Int     @default(0)
+
+  @@index([productId])
+  @@schema("store")
+}
+
+model InventoryMovement {
+  id           String                @id @default(cuid())
+  productId    String
+  product      Product               @relation(fields: [productId], references: [id])
+  orderId      String?
+  order        Order?                @relation(fields: [orderId], references: [id])
+  type         InventoryMovementType
+  quantity     Int
+  balanceAfter Int
+  note         String?
+  createdAt    DateTime              @default(now())
+
+  @@index([productId])
+  @@index([orderId])
+  @@schema("store")
+}
+
+// ---------- Orders ----------
+
+model Order {
+  id               String         @id @default(cuid())
+  orderNumber      String         @unique
+  status           OrderStatus    @default(PENDING_WHATSAPP)
+  idempotencyKey   String         @unique
+  customerName     String
+  customerPhone    String
+  deliveryKind     DeliveryKind
+  deliveryZoneId   String?
+  deliveryZone     DeliveryZone?  @relation(fields: [deliveryZoneId], references: [id])
+  addressDetails   String?
+  paymentMethodId  String?
+  paymentMethod    PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  customerNotes    String?
+  adminNotes       String?
+  subtotal         Decimal        @db.Decimal(10, 3)
+  discountTotal    Decimal        @default(0) @db.Decimal(10, 3)
+  deliveryFee      Decimal        @default(0) @db.Decimal(10, 3)
+  total            Decimal        @db.Decimal(10, 3)
+  whatsappMessage  String?
+  inventoryApplied Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  items         OrderItem[]
+  statusHistory OrderStatusHistory[]
+  movements     InventoryMovement[]
+
+  @@index([status])
+  @@index([orderNumber])
+  @@index([createdAt])
+  @@schema("store")
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String?
+  product       Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  nameSnapshot  String
+  skuSnapshot   String
+  priceSnapshot Decimal  @db.Decimal(10, 3)
+  quantity      Int
+  lineTotal     Decimal  @db.Decimal(10, 3)
+
+  @@index([orderId])
+  @@index([productId])
+  @@schema("store")
+}
+
+model OrderStatusHistory {
+  id         String       @id @default(cuid())
+  orderId    String
+  order      Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  fromStatus OrderStatus?
+  toStatus   OrderStatus
+  note       String?
+  createdAt  DateTime     @default(now())
+
+  @@index([orderId])
+  @@schema("store")
+}
+
+// ---------- Delivery / Payments ----------
+
+model DeliveryMethod {
+  id                String       @id @default(cuid())
+  kind              DeliveryKind
+  nameAr            String
+  nameEn            String?
+  isActive          Boolean      @default(true)
+  sameDayCutoff     String?
+  pickupAddress     String?
+  pickupPrepMinutes Int?
+  estimatedTimeAr   String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  zones DeliveryZone[]
+
+  @@schema("store")
+}
+
+model DeliveryZone {
+  id               String         @id @default(cuid())
+  deliveryMethodId String
+  deliveryMethod   DeliveryMethod @relation(fields: [deliveryMethodId], references: [id], onDelete: Cascade)
+  nameAr           String
+  nameEn           String?
+  fee              Decimal        @db.Decimal(10, 3)
+  estimatedTimeAr  String?
+  isActive         Boolean        @default(true)
+  displayOrder     Int            @default(0)
+
+  orders Order[]
+
+  @@index([deliveryMethodId])
+  @@schema("store")
+}
+
+model PaymentMethod {
+  id           String  @id @default(cuid())
+  nameAr       String
+  nameEn       String?
+  description  String?
+  isVisible    Boolean @default(true)
+  displayOrder Int     @default(0)
+
+  orders Order[]
+
+  @@schema("store")
+}
+
+// ---------- Store settings ----------
+
+model StoreSetting {
+  id   String @id @default("singleton")
+  data Json
+
+  updatedAt DateTime @updatedAt
+
+  @@schema("store")
+}
+
+// ---------- Homepage / Marketing ----------
+
+model HomepageSection {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  titleAr      String
+  titleEn      String?
+  subtitleAr   String?
+  isEnabled    Boolean  @default(true)
+  displayOrder Int      @default(0)
+  config       Json?
+  updatedAt    DateTime @updatedAt
+
+  @@schema("store")
+}
+
+model HeroSlide {
+  id           String    @id @default(cuid())
+  titleAr      String
+  titleEn      String?
+  subtitleAr   String?
+  ctaLabel     String?
+  ctaUrl       String?
+  imageUrl     String?
+  mediaType    HeroMediaType @default(IMAGE)
+  videoUrl     String?
+  isActive     Boolean   @default(true)
+  isArchived   Boolean   @default(false)
+  startsAt     DateTime?
+  endsAt       DateTime?
+  displayOrder Int       @default(0)
+  createdAt    DateTime  @default(now())
+
+  @@schema("store")
+}
+
+enum HeroMediaType {
+  IMAGE
+  VIDEO
+
+  @@schema("store")
+}
+
+model Banner {
+  id           String    @id @default(cuid())
+  titleAr      String
+  imageUrl     String
+  linkUrl      String?
+  isActive     Boolean   @default(true)
+  displayOrder Int       @default(0)
+  startsAt     DateTime?
+  endsAt       DateTime?
+
+  @@schema("store")
+}
+
+enum CampaignDiscountMode {
+  PERCENTAGE
+  FINAL_PRICE
+
+  @@schema("store")
+}
+
+// Every value here must correspond to a real place the public site actually renders a
+// campaign — no placement is added speculatively (spec: "Do not add a placement that the
+// public site cannot render").
+enum CampaignPlacement {
+  HOMEPAGE_HERO
+  HOMEPAGE_SECTION
+  SHOP
+  CATEGORY_PAGE
+  BRAND_PAGE
+  PRODUCT_PAGE
+  BANNER
+
+  @@schema("store")
+}
+
+model Campaign {
+  id                   String               @id @default(cuid())
+  nameAr               String
+  description          String?
+  promoTextAr          String?
+  badgeText            String?
+  bannerImageUrl       String?
+  mobileBannerImageUrl String?
+  ctaLabel             String?
+  // Validated in the action, not just the DB: must be a same-site relative path (/shop,
+  // /category/x, /brands/x, /product/x) — never a javascript: URL or arbitrary external
+  // host (open-redirect / XSS-via-href guard).
+  ctaUrl               String?
+  placements           CampaignPlacement[]
+  discountMode         CampaignDiscountMode @default(PERCENTAGE)
+  // Only meaningful when discountMode = PERCENTAGE; 0 < value < 100, enforced in the action.
+  discountPercentage   Decimal?             @db.Decimal(5, 2)
+  startsAt             DateTime
+  endsAt               DateTime
+  // "Enabled for publication" — combined with startsAt/endsAt this is enough to derive
+  // Draft/Scheduled/Active/Expired deterministically (see src/lib/campaign-pricing.ts
+  // getCampaignStatus) without any cron job.
+  isEnabled            Boolean              @default(false)
+  isArchived           Boolean              @default(false)
+  showCountdown        Boolean              @default(false)
+  // Explicit tie-breaker for overlapping campaigns resolving to the same final price —
+  // higher wins, then earlier createdAt, then id (see campaign-pricing.ts).
+  priority             Int                  @default(0)
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+
+  products      CampaignProduct[]
+  categories    CampaignCategory[]
+  brands        CampaignBrand[]
+  // Only populated for FINAL_PRICE mode — a deliberate snapshot of the resolved product set
+  // at the moment the admin configured/saved final prices (see spec §8.4/§8.7: a category
+  // that later gains a new product must never silently apply an undefined final price to
+  // it). PERCENTAGE mode never uses this table — it re-resolves targeting dynamically since
+  // a percentage is always well-defined against whatever the current base price is.
+  productPrices CampaignProductPrice[]
+
+  @@index([isEnabled, startsAt, endsAt])
+  @@schema("store")
+}
+
+model CampaignProduct {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, productId])
+  @@schema("store")
+}
+
+model CampaignCategory {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, categoryId])
+  @@schema("store")
+}
+
+model CampaignBrand {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  brandId    String
+  brand      Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, brandId])
+  @@schema("store")
+}
+
+model CampaignProductPrice {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  finalPrice Decimal  @db.Decimal(10, 3)
+
+  @@unique([campaignId, productId])
+  @@schema("store")
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  authorName   String
+  rating       Int
+  bodyAr       String
+  productId    String?
+  isApproved   Boolean  @default(false)
+  isVisible    Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  isArchived   Boolean  @default(false)
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  @@schema("store")
+}
+
+model FaqItem {
+  id           String  @id @default(cuid())
+  questionAr   String
+  answerAr     String
+  category     String?
+  isVisible    Boolean @default(true)
+  displayOrder Int     @default(0)
+
+  @@schema("store")
+}
+
+model PolicyPage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  titleAr   String
+  bodyAr    String
+  updatedAt DateTime @updatedAt
+
+  @@schema("store")
+}
+
+model SocialLink {
+  id           String  @id @default(cuid())
+  platform     String
+  url          String
+  isVisible    Boolean @default(true)
+  displayOrder Int     @default(0)
+
+  @@schema("store")
+}
+
+model OpeningHour {
+  id        String  @id @default(cuid())
+  dayOfWeek Int
+  isClosed  Boolean @default(false)
+  opensAt   String?
+  closesAt  String?
+
+  @@schema("store")
+}
+
+model MediaAsset {
+  id        String    @id @default(cuid())
+  kind      MediaKind
+  url       String
+  altText   String?
+  width     Int?
+  height    Int?
+  sizeBytes Int?
+  createdAt DateTime  @default(now())
+
+  @@schema("store")
+}
+
+// ============================================================================
+// SOFTWARE MODELS
+// ============================================================================
+
+model Admin {
+  id             String    @id @default(cuid())
+  username       String    @unique
+  email          String    @unique
+  passwordHash   String
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@schema("software")
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+
+  @@schema("software")
+}
+
+model Receiver {
+  id               String       @id @default(cuid())
+  name             String
+  modelNumber      String
+  shortDescription String?      @map("description")
+  imageUrl         String?
+  imageKey         String?
+  isPublished      Boolean      @default(true)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  attachments      Attachment[]
+
+  @@schema("software")
+}
+
+enum AttachmentType {
+  SOFTWARE
+  ROM
+
+  @@schema("software")
+}
+
+model Attachment {
+  id            String         @id @default(cuid())
+  receiverId    String
+  receiver      Receiver       @relation(fields: [receiverId], references: [id], onDelete: Cascade)
+  name          String         @map("title")
+  originalName  String
+  storageKey    String
+  mimeType      String?
+  size          Int?           @map("fileSize")
+  type          AttachmentType
+  downloadCount Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@schema("software")
+}
+
+model SystemLog {
+  id        String   @id @default(cuid())
+  level     String // 'info', 'warn', 'error'
+  action    String // e.g., 'CREATE_RECEIVER', 'LOGIN_FAILED'
+  message   String
+  adminId   String? // Optional: which admin did this
+  metadata  Json? // Extra data like IP, browser, or changed fields
+  createdAt DateTime @default(now())
+
+  @@schema("software")
+}

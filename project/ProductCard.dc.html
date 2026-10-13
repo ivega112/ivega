@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif">
+<sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid #E4E9F1;border-radius:12px;overflow:hidden;transition:box-shadow .18s ease,border-color .18s ease,transform .18s ease" style-hover="transform:translateY(-3px);box-shadow:0 16px 32px -16px rgba(11,60,130,.26);border-color:#BED2F2">
+  <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#fff;border-bottom:1px solid #EDF1F7">
+    <sc-if value="{{ isPh }}" hint-placeholder-val="{{ false }}">
+      <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#F2F6FB 0 8px,#FBFDFF 8px 16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#A9B8CC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><circle cx="8.5" cy="10" r="1.6"></circle><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+        <span style="font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.03em;color:#8A9AB0;text-align:center;padding:0 12px;direction:ltr;line-height:1.5">{{ phLabel }}</span>
+      </span>
+    </sc-if>
+    <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}">
+      <img src="{{ img }}" alt="{{ name }}" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:contain;mix-blend-mode:multiply;transition:transform .35s cubic-bezier(.2,.7,.3,1)" style-hover="transform:scale(1.07)" />
+    </sc-if>
+    <div style="position:absolute;top:9px;right:9px;display:flex;flex-direction:column;gap:5px;align-items:flex-start">
+      <sc-if value="{{ badgeText }}" hint-placeholder-val="{{ true }}">
+        <span style="display:inline-flex;align-items:center;background:{{ badgeBg }};color:{{ badgeFg }};font-size:11px;font-weight:600;line-height:1;padding:6px 9px;border-radius:5px">{{ badgeText }}</span>
+      </sc-if>
+      <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+        <span style="display:inline-flex;background:#E03131;color:#fff;font-size:11px;font-weight:700;line-height:1;padding:6px 9px;border-radius:5px;direction:ltr">{{ discountText }}</span>
+      </sc-if>
+    </div>
+    <button type="button" title="أضف إلى المفضلة" style="position:absolute;top:9px;left:9px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94);border:1px solid #E4E9F1;border-radius:8px;cursor:pointer;color:#64748B;transition:all .15s ease" style-hover="color:#E03131;border-color:#F5C2C2;background:#fff">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M19 14c1.5-1.5 2-3.2 2-5a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 1.8.5 3.5 2 5l7 7z"></path></svg>
+    </button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:7px;padding:13px 14px 0">
+    <span style="display:flex;align-items:center;gap:7px">
+      <span style="font-size:11.5px;font-weight:600;color:#0B3C82;letter-spacing:.02em;direction:ltr">{{ brand }}</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#C3CEDD"></span>
+      <span style="font-size:11.5px;color:#8595AA">{{ cat }}</span>
+    </span>
+    <a href="#" style="font-size:14.5px;font-weight:600;line-height:1.5;color:#0F1B2D;text-decoration:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:43px;text-wrap:pretty" style-hover="color:#1B62E5">{{ name }}</a>
+    <span style="font-size:12px;color:#7C8CA1;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ spec }}</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-size:11.5px;font-weight:600;color:{{ stockFg }}">
+      <span style="width:7px;height:7px;border-radius:50%;background:{{ stockDot }}"></span>{{ stockText }}
+    </span>
+  </div>
+  <div style="display:flex;align-items:baseline;gap:8px;padding:10px 14px 12px">
+    <span style="font-size:19px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums;letter-spacing:-.01em">{{ priceText }}</span>
+    <span style="font-size:12px;font-weight:600;color:#0B3C82">د.أ</span>
+    <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size:12.5px;color:#9AA8BA;text-decoration:line-through;font-variant-numeric:tabular-nums">{{ oldText }}</span>
+    </sc-if>
+  </div>
+  <div style="display:flex;gap:7px;padding:0 14px 14px;margin-top:auto">
+    <sc-if value="{{ inStock }}" hint-placeholder-val="{{ true }}">
+      <button type="button" onClick="{{ onAdd }}" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:40px;background:#1B62E5;color:#fff;border:0;border-radius:9px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s ease,transform .1s ease" style-hover="background:#1550C4" style-active="transform:scale(.98)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2 3h2.2l2.4 12h11.6l2.2-9H5"></path></svg>
+        أضف إلى السلة
+      </button>
+    </sc-if>
+    <sc-if value="{{ isOut }}" hint-placeholder-val="{{ false }}">
+      <a href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:40px;background:#F0FAF4;color:#0E7A3E;border:1px solid #CFE9DA;border-radius:9px;font-size:13px;font-weight:600" style-hover="background:#12A150;color:#fff;border-color:#12A150">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path></svg>
+        اسأل عن توفّره
+      </a>
+    </sc-if>
+    <sc-if value="{{ inStock }}" hint-placeholder-val="{{ true }}">
+      <a href="#" title="اسأل عبر واتساب" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#fff;color:#128C4B;border:1px solid #CFE9DA;border-radius:9px;transition:all .15s ease" style-hover="background:#128C4B;color:#fff;border-color:#128C4B">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+      </a>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isHorizontal }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:14px;background:#fff;border:1px solid #E4E9F1;border-radius:12px;padding:11px;transition:box-shadow .18s ease,border-color .18s ease" style-hover="box-shadow:0 12px 26px -16px rgba(11,60,130,.22);border-color:#BED2F2">
+  <div style="position:relative;flex:0 0 132px;height:112px;background:#fff;border:1px solid #EDF1F7;border-radius:9px;overflow:hidden">
+    <sc-if value="{{ isPh }}" hint-placeholder-val="{{ false }}">
+      <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#F2F6FB 0 8px,#FBFDFF 8px 16px);display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9B8CC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><circle cx="8.5" cy="10" r="1.6"></circle><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+      </span>
+    </sc-if>
+    <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}">
+      <img src="{{ img }}" alt="{{ name }}" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:contain;mix-blend-mode:multiply" />
+    </sc-if>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:5px;min-width:0">
+    <span style="display:flex;align-items:center;gap:7px">
+      <span style="font-size:11.5px;font-weight:600;color:#0B3C82;direction:ltr">{{ brand }}</span>
+      <span style="width:3px;height:3px;border-radius:50%;background:#C3CEDD"></span>
+      <span style="font-size:11.5px;color:#8595AA">{{ cat }}</span>
+    </span>
+    <a href="#" style="font-size:14.5px;font-weight:600;color:#0F1B2D;text-decoration:none;line-height:1.5" style-hover="color:#1B62E5">{{ name }}</a>
+    <span style="font-size:12px;color:#7C8CA1;line-height:1.5">{{ spec }}</span>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:auto">
+      <span style="font-size:18px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums">{{ priceText }}</span>
+      <span style="font-size:11.5px;font-weight:600;color:#0B3C82">د.أ</span>
+      <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:12px;color:#9AA8BA;text-decoration:line-through">{{ oldText }}</span>
+      </sc-if>
+      <button type="button" onClick="{{ onAdd }}" style="margin-inline-start:auto;display:flex;align-items:center;gap:6px;height:36px;padding:0 14px;background:#1B62E5;color:#fff;border:0;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:background .15s ease" style-hover="background:#1550C4">أضف إلى السلة</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCompact }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;background:#fff;border:1px solid #E4E9F1;border-radius:11px;overflow:hidden">
+  <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#fff;border-bottom:1px solid #EDF1F7">
+    <sc-if value="{{ isPh }}" hint-placeholder-val="{{ false }}">
+      <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#F2F6FB 0 8px,#FBFDFF 8px 16px);display:flex;align-items:center;justify-content:center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A9B8CC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><circle cx="8.5" cy="10" r="1.6"></circle><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+      </span>
+    </sc-if>
+    <sc-if value="{{ hasImg }}" hint-placeholder-val="{{ true }}">
+      <img src="{{ img }}" alt="{{ name }}" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:contain;mix-blend-mode:multiply" />
+    </sc-if>
+    <sc-if value="{{ badgeText }}" hint-placeholder-val="{{ true }}">
+      <span style="position:absolute;top:7px;right:7px;background:{{ badgeBg }};color:{{ badgeFg }};font-size:10px;font-weight:600;padding:4px 7px;border-radius:5px;line-height:1">{{ badgeText }}</span>
+    </sc-if>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:5px;padding:10px 10px 12px">
+    <span style="font-size:13px;font-weight:600;color:#0F1B2D;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px">{{ name }}</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span style="font-size:15.5px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums">{{ priceText }}</span>
+      <span style="font-size:10.5px;font-weight:600;color:#0B3C82">د.أ</span>
+      <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11px;color:#9AA8BA;text-decoration:line-through">{{ oldText }}</span>
+      </sc-if>
+    </div>
+    <button type="button" onClick="{{ onAdd }}" style="margin-top:3px;height:38px;background:#1B62E5;color:#fff;border:0;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer">أضف إلى السلة</button>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:430},&quot;product&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{name:string,brand:string,cat:string,spec:string,price:number,old?:number,badge?:string,stock?:string,img?:string,ph?:string}&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grid&quot;,&quot;horizontal&quot;,&quot;compact&quot;],&quot;default&quot;:&quot;grid&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onAdd&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props.product || {};
+    const variant = this.props.variant || 'grid';
+    const badges = {
+      new:   { text: 'جديد',        bg: '#0B3C82', fg: '#ffffff' },
+      offer: { text: 'عرض',         bg: '#E9A100', fg: '#20170A' },
+      hot:   { text: 'الأكثر مبيعاً', bg: '#0891B2', fg: '#ffffff' },
+      pick:  { text: 'مميّز',        bg: '#5B5BD6', fg: '#ffffff' },
+      low:   { text: 'كمية محدودة',  bg: '#B27700', fg: '#ffffff' },
+      out:   { text: 'غير متوفر',    bg: '#64748B', fg: '#ffffff' }
+    };
+    const b = badges[p.badge] || null;
+    const hasOld = !!p.old && p.old > (p.price || 0);
+    const pct = hasOld ? Math.round((1 - p.price / p.old) * 100) : 0;
+    const stock = p.stock || (p.badge === 'out' ? 'out' : p.badge === 'low' ? 'low' : 'in');
+    const stockMap = {
+      in:  { text: 'متوفر',        fg: '#0E7A3E', dot: '#12A150' },
+      low: { text: 'كمية محدودة',  fg: '#B27700', dot: '#E9A100' },
+      out: { text: 'غير متوفر',    fg: '#64748B', dot: '#94A3B8' }
+    };
+    const s = stockMap[stock] || stockMap.in;
+    const fmt = (v) => (typeof v === 'number' ? v.toFixed(2) : '');
+    return {
+      name: p.name, spec: p.spec, brand: p.brand, cat: p.cat,
+      img: p.img, hasImg: !!p.img && !p.ph, isPh: !!p.ph, phLabel: p.ph || '',
+      priceText: fmt(p.price), oldText: fmt(p.old), hasOld,
+      discountText: '\u2212' + pct + '%',
+      badgeText: b ? b.text : '', badgeBg: b ? b.bg : '#0B3C82', badgeFg: b ? b.fg : '#fff',
+      stockText: s.text, stockFg: s.fg, stockDot: s.dot,
+      isOut: stock === 'out', inStock: stock !== 'out',
+      isGrid: variant === 'grid', isHorizontal: variant === 'horizontal', isCompact: variant === 'compact',
+      onAdd: this.props.onAdd || (() => {})
+    };
+  }
+}
+</script>
+</body>
+</html>

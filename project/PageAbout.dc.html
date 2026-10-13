@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;background:#F5F7FA;padding-bottom:56px">
+
+  <div style="background:#fff;border-bottom:1px solid #E9EEF4">
+    <div style="max-width:1320px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:#8595AA">
+      <a href="#" onClick="{{ goHome }}" style="color:#8595AA">الرئيسية</a>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2.2" stroke-linecap="round"><path d="m14 6-6 6 6 6"></path></svg>
+      <span style="color:#0F1B2D;font-weight:600">من نحن</span>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:24px">
+    <div style="position:relative;overflow:hidden;background:linear-gradient(100deg,#0B3C82,#0E4A9E);border-radius:20px;padding:44px;display:grid;grid-template-columns:1.4fr 1fr;gap:36px;align-items:center">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 0);background-size:24px 24px"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:16px">
+        <span style="align-self:flex-start;padding:7px 13px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:12.5px;color:#CFE3FA;white-space:nowrap">متجر إلكترونيات وأجهزة كهربائية في الأردن</span>
+        <h1 style="margin:0;font-size:36px;font-weight:700;line-height:1.4;color:#fff;text-wrap:pretty">نساعد العميل يختار الجهاز الصحيح — ونبقى معه بعد الشراء</h1>
+        <p style="margin:0;font-size:15.5px;line-height:2;color:#B9D2F0;max-width:600px;text-wrap:pretty">Smart Line متجر إلكترونيات وأجهزة كهربائية في الأردن. نوفّر رسيفرات وأجهزة أندرويد وشاشات وريموتات وكيبلات وصوتيات ومراوح ومكيفات وأجهزة منزلية وعناية شخصية — مع دعم مباشر قبل الشراء وبعده.</p>
+      </div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:14px;align-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:26px">
+        <img src="assets/smart-line-logo.png" alt="Smart Line" style="width:96px;height:96px;border-radius:18px" />
+        <span style="font-size:13px;color:#CFE3FA;text-align:center;line-height:1.8">الوكيل والموزّع المعتمد<br />لأجهزة Smart Line في الأردن</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:5px;padding:22px;background:#fff;border:1px solid #E6EBF2;border-radius:15px">
+          <span style="font-size:28px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums;line-height:1.2">{{ s.v }}</span>
+          <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ s.t }}</span>
+          <span style="font-size:12px;color:#8595AA;line-height:1.65">{{ s.sub }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:24px">
+    <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:stretch">
+      <div style="background:#fff;border:1px solid #E6EBF2;border-radius:18px;padding:32px;display:flex;flex-direction:column;gap:16px">
+        <h2 style="margin:0;font-size:22px;font-weight:700;line-height:1.45;color:#0F1B2D">قصة المتجر</h2>
+        <p style="margin:0;font-size:14.5px;line-height:2;color:#4A5B70;text-wrap:pretty">بدأ عملنا من سؤال يتكرر كل يوم في المتجر: «أي جهاز يناسبني؟». من هنا بنينا تشكيلتنا على أساس الاحتياج الفعلي للعميل — من جهاز استقبال اقتصادي للغرفة الثانية، إلى مروحة أو مبرّد هواء للصيف، أو جهاز منزلي صغير يخدم البيت كل يوم.</p>
+        <p style="margin:0;font-size:14.5px;line-height:2;color:#4A5B70;text-wrap:pretty">اليوم يشمل المتجر اثني عشر قسماً: رسيفرات وأجهزة استقبال، أجهزة أندرويد، تلفزيونات وشاشات، ريموتات، حوامل وإكسسوارات، كيبلات ومحوّلات، سماعات وصوتيات، مراوح وتبريد ومكيفات، أجهزة منزلية صغيرة، أجهزة عناية شخصية، ساعات وراديو، وأجهزة مكافحة الحشرات.</p>
+        <div style="display:flex;flex-direction:column;gap:11px;margin-top:6px;padding-top:20px;border-top:1px solid #EEF2F7">
+          <sc-for list="{{ points }}" as="pt" hint-placeholder-count="3">
+            <span style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#3B4A5F;line-height:1.75">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:3px"><path d="m5 13 4 4L19 7"></path></svg>
+              {{ pt }}
+            </span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="flex:1;min-height:210px;position:relative;overflow:hidden;border:1px dashed #C7D9F6;border-radius:18px;background:repeating-linear-gradient(135deg,#F2F6FB 0 9px,#FBFDFF 9px 18px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9BB4D6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5"></path><path d="M2.5 9.5 5 4h14l2.5 5.5z"></path><path d="M9.5 20.5v-6h5v6"></path></svg>
+          <span style="font-size:12.5px;font-weight:600;color:#4A5B70">صورة واجهة المتجر</span>
+          <span style="font-size:11px;color:#8595AA;text-align:center;line-height:1.7;max-width:230px">صور حقيقية من المتجر فقط — لا صور مجانية أو صور أشخاص غير مرتبطة</span>
+        </div>
+        <div style="flex:1;min-height:210px;position:relative;overflow:hidden;border:1px dashed #C7D9F6;border-radius:18px;background:repeating-linear-gradient(135deg,#F2F6FB 0 9px,#FBFDFF 9px 18px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9BB4D6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><circle cx="8.5" cy="10" r="1.6"></circle><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+          <span style="font-size:12.5px;font-weight:600;color:#4A5B70">صورة من داخل المتجر</span>
+          <span style="font-size:11px;color:#8595AA;text-align:center;line-height:1.7;max-width:230px">رفوف العرض أو طاولة الخدمة — تُرفع من لوحة التحكم</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px 24px">
+    <div style="background:#fff;border:1px solid #E6EBF2;border-radius:18px;padding:32px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <h2 style="margin:0;font-size:22px;font-weight:700;line-height:1.45;color:#0F1B2D">قيم نعمل بها</h2>
+        <span style="font-size:13.5px;color:#64748B">ثلاث قواعد بسيطة تحدّد طريقة تعاملنا مع كل طلب</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+        <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:11px;padding:24px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:15px">
+            <span style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:12px;color:#1B62E5">{{ v.icon }}</span>
+            <span style="font-size:15.5px;font-weight:600;color:#0F1B2D">{{ v.title }}</span>
+            <span style="font-size:13.5px;color:#64748B;line-height:1.85;text-wrap:pretty">{{ v.text }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#0B3C82;border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:13px">
+        <span style="font-size:20px;font-weight:700;color:#fff">تصفّح المنتجات</span>
+        <span style="font-size:13.5px;color:#B9D2F0;line-height:1.85">أكثر من ٢٥٠ منتجاً في اثني عشر قسماً — إلكترونيات وأجهزة كهربائية لكل البيت.</span>
+        <button type="button" onClick="{{ goShop }}" style="align-self:flex-start;margin-top:6px;height:46px;padding:0 22px;background:#fff;color:#0B3C82;border:0;border-radius:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#EAF1FD">دخول المتجر</button>
+      </div>
+      <div style="background:#F0FAF4;border:1px solid #CFE9DA;border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:13px">
+        <span style="font-size:20px;font-weight:700;color:#0F1B2D">تحتاج استشارة سريعة؟</span>
+        <span style="font-size:13.5px;color:#4A5B70;line-height:1.85">راسلنا على واتساب أو زُر المتجر، وسنساعدك في اختيار الجهاز والملحقات المناسبة.</span>
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <a href="#" style="display:flex;align-items:center;gap:9px;height:46px;padding:0 20px;background:#12A150;color:#fff;border-radius:11px;font-size:14px;font-weight:600" style-hover="background:#0E8843;color:#fff">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+            واتساب
+          </a>
+          <a href="#" onClick="{{ goContact }}" style="display:flex;align-items:center;height:46px;padding:0 20px;background:#fff;color:#0F1B2D;border:1px solid #D6E0EC;border-radius:11px;font-size:14px;font-weight:600" style-hover="border-color:#12A150;color:#12A150">معلومات الاتصال</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 22, height: size || 22, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+
+class Component extends DCLogic {
+  renderVals() {
+    const go = this.props.go || (() => {});
+    return {
+      stats: [
+        { v: '+250', t: 'منتجاً في المتجر', sub: 'محدّثة حسب التوفر' },
+        { v: '12', t: 'قسماً رئيسياً', sub: 'من أجهزة الاستقبال إلى الأجهزة المنزلية' },
+        { v: '8', t: 'شركات متوفرة', sub: 'بما فيها أجهزة Smart Line الأصلية' },
+        { v: '2', t: 'سرعتا توصيل', sub: 'فوري نفس اليوم أو اليوم التالي' }
+      ],
+      points: [
+        'شرح واضح للفرق بين الأجهزة قبل الشراء — بدون مبالغة في المواصفات.',
+        'توفير الملحقات الأصلية والبديلة لكل جهاز نبيعه.',
+        'خدمة ما بعد البيع للمساعدة في التشغيل والضبط والاستخدام.'
+      ],
+      values: [
+        { icon: svg([p('M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z'), p('m9 12 2 2 4-4')]), title: 'وضوح قبل البيع', text: 'نوضح مواصفات الجهاز وحدوده، ونرشّح البديل الأنسب إن كان أوفر للعميل.' },
+        { icon: svg([c(12, 12, 9), p('M12 7.2V12l3.2 2')]), title: 'سرعة في الخدمة', text: 'ردّ سريع على الاستفسارات عبر واتساب والهاتف، وتجهيز الطلبات في نفس اليوم عند التوفر.' },
+        { icon: svg([p('M4 14a8 8 0 0 1 16 0'), p('M4 14v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2z'), p('M20 14v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z')]), title: 'دعم لا ينتهي بالفاتورة', text: 'نساعد في التركيب والبرمجة والتحديث، ونبقى متاحين للاستفسارات بعد الشراء.' }
+      ],
+      goHome: () => go('home'), goShop: () => go('shop'), goContact: () => go('contact')
+    };
+  }
+}
+</script>
+</body>
+</html>

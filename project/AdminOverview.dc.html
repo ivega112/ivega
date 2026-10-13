@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;display:flex;flex-direction:column;gap:16px">
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;gap:12px;padding:20px;background:#fff;border:1px solid #E4E9F1;border-radius:14px">
+        <span style="display:flex;align-items:center;gap:10px">
+          <span style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:{{ k.iconBg }};border-radius:10px;color:{{ k.iconFg }}">{{ k.icon }}</span>
+          <span style="font-size:12.5px;color:#64748B">{{ k.label }}</span>
+        </span>
+        <span style="display:flex;align-items:baseline;gap:8px">
+          <span style="font-size:27px;font-weight:700;color:#0F1B2D;font-variant-numeric:tabular-nums;line-height:1.1">{{ k.value }}</span>
+          <span style="font-size:12px;color:#8595AA">{{ k.unit }}</span>
+        </span>
+        <span style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:{{ k.trendFg }}">
+          <span style="display:flex">{{ k.trendIcon }}</span>
+          {{ k.trend }}
+        </span>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px">
+    <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">الطلبات الواردة عبر واتساب</span>
+          <span style="font-size:12.5px;color:#64748B">آخر ١٤ يوماً</span>
+        </div>
+        <div style="display:flex;gap:5px;padding:4px;background:#F1F5F9;border-radius:9px">
+          <sc-for list="{{ ranges }}" as="rg" hint-placeholder-count="3">
+            <button type="button" onClick="{{ rg.go }}" style="height:32px;padding:0 13px;background:{{ rg.bg }};color:{{ rg.fg }};border:0;border-radius:7px;font-family:inherit;font-size:12px;font-weight:{{ rg.fw }};cursor:pointer;box-shadow:{{ rg.sh }}">{{ rg.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:8px;height:200px;padding-bottom:22px;border-bottom:1px solid #EEF2F7;position:relative">
+        <sc-for list="{{ bars }}" as="b" hint-placeholder-count="14">
+          <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%;justify-content:flex-end">
+            <span style="font-size:10.5px;font-weight:600;color:#8595AA;font-variant-numeric:tabular-nums">{{ b.v }}</span>
+            <span style="width:100%;height:{{ b.h }};background:{{ b.bg }};border-radius:5px 5px 0 0"></span>
+            <span style="position:absolute;bottom:0;font-size:10px;color:#9AA8BA;font-variant-numeric:tabular-nums">{{ b.d }}</span>
+          </span>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:22px">
+        <sc-for list="{{ chartLegend }}" as="l" hint-placeholder-count="3">
+          <span style="display:flex;align-items:center;gap:8px;font-size:12px;color:#4A5B70">
+            <span style="width:10px;height:10px;border-radius:3px;background:{{ l.color }}"></span>
+            {{ l.label }}
+            <span style="font-weight:600;color:#0F1B2D;font-variant-numeric:tabular-nums">{{ l.value }}</span>
+          </span>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+      <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">تنبيهات تحتاج إجراء</span>
+      <sc-for list="{{ alerts }}" as="a" hint-placeholder-count="4">
+        <a href="#" onClick="{{ a.go }}" style="display:flex;gap:12px;padding:14px;background:{{ a.bg }};border:1px solid {{ a.bd }};border-radius:12px" style-hover="border-color:{{ a.tint }}">
+          <span style="flex:0 0 auto;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:{{ a.tint }};border-radius:9px;color:#fff">{{ a.icon }}</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ a.title }}</span>
+            <span style="font-size:11.5px;color:#4A5B70;line-height:1.7">{{ a.text }}</span>
+          </span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2.2" stroke-linecap="round" style="flex:0 0 auto;margin-top:10px"><path d="m14 6-6 6 6 6"></path></svg>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:16px">
+    <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;overflow:hidden">
+      <div style="display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid #EEF2F7">
+        <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">أحدث الطلبات</span>
+        <span style="margin-inline-start:auto;display:flex;gap:6px">
+          <sc-for list="{{ orderTabs }}" as="ot" hint-placeholder-count="4">
+            <button type="button" onClick="{{ ot.go }}" style="height:32px;padding:0 12px;background:{{ ot.bg }};border:1px solid {{ ot.bd }};border-radius:8px;font-family:inherit;font-size:12px;font-weight:{{ ot.fw }};color:{{ ot.fg }};cursor:pointer">{{ ot.label }}</button>
+          </sc-for>
+        </span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 20px;background:#F8FAFD;border-bottom:1px solid #EEF2F7;font-size:11.5px;font-weight:600;color:#64748B">
+        <span style="flex:0 0 84px">الرقم</span>
+        <span style="flex:1">العميل</span>
+        <span style="flex:0 0 128px">المنطقة</span>
+        <span style="flex:0 0 96px">الإجمالي</span>
+        <span style="flex:0 0 112px">الحالة</span>
+        <span style="flex:0 0 34px"></span>
+      </div>
+      <sc-for list="{{ orders }}" as="o" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid #F1F5F9">
+          <span style="flex:0 0 84px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0B3C82;direction:ltr">{{ o.id }}</span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+            <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ o.name }}</span>
+            <span style="font-size:11px;color:#8595AA;font-variant-numeric:tabular-nums;direction:ltr;text-align:right">{{ o.phone }} · {{ o.items }} منتجات</span>
+          </span>
+          <span style="flex:0 0 128px;font-size:12.5px;color:#3B4A5F">{{ o.area }}</span>
+          <span style="flex:0 0 96px;font-size:13.5px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums">{{ o.total }}</span>
+          <span style="flex:0 0 112px">
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:{{ o.stBg }};border:1px solid {{ o.stBd }};border-radius:7px;font-size:11px;font-weight:600;color:{{ o.stFg }}">
+              <span style="width:6px;height:6px;border-radius:50%;background:{{ o.stDot }}"></span>{{ o.status }}
+            </span>
+          </span>
+          <a href="#" style="flex:0 0 34px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:8px;color:#128C4B" style-hover="background:#12A150;color:#fff;border-color:#12A150">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+          </a>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">الأكثر مبيعاً هذا الشهر</span>
+        <sc-for list="{{ topProducts }}" as="tp" hint-placeholder-count="5">
+          <span style="display:flex;align-items:center;gap:12px">
+            <span style="flex:0 0 22px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9AA8BA">{{ tp.rank }}</span>
+            <span style="position:relative;flex:0 0 48px;height:42px;background:#fff;border:1px solid #EDF1F7;border-radius:8px;overflow:hidden">
+              <sc-if value="{{ tp.img }}" hint-placeholder-val="{{ true }}">
+                <img src="{{ tp.img }}" alt="{{ tp.name }}" style="position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:contain;mix-blend-mode:multiply" />
+              </sc-if>
+              <sc-if value="{{ tp.ph }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#F2F6FB 0 6px,#FBFDFF 6px 12px)"></span>
+              </sc-if>
+            </span>
+            <span style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font-size:12.5px;font-weight:600;color:#0F1B2D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ tp.name }}</span>
+              <span style="height:5px;background:#EEF2F7;border-radius:3px;overflow:hidden">
+                <span style="display:block;height:100%;width:{{ tp.pct }};background:#1B62E5;border-radius:3px"></span>
+              </span>
+            </span>
+            <span style="flex:0 0 auto;font-size:12.5px;font-weight:600;color:#0B3C82;font-variant-numeric:tabular-nums">{{ tp.sold }}</span>
+          </span>
+        </sc-for>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">إجراءات سريعة</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <sc-for list="{{ quickActions }}" as="qa" hint-placeholder-count="4">
+            <button type="button" onClick="{{ qa.go }}" style="display:flex;flex-direction:column;gap:9px;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px;cursor:pointer;text-align:right;font-family:inherit;transition:all .15s ease" style-hover="border-color:#1B62E5;background:#fff">
+              <span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#EEF4FE;border-radius:9px;color:#1B62E5">{{ qa.icon }}</span>
+              <span style="font-size:12.5px;font-weight:600;color:#0F1B2D;line-height:1.5">{{ qa.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">الطلبات حسب القسم</span>
+        <a href="#" onClick="{{ goProducts }}" style="margin-inline-start:auto;font-size:12px;font-weight:600;color:#1B62E5">كل الأقسام ←</a>
+      </div>
+      <sc-for list="{{ catStats }}" as="cs" hint-placeholder-count="6">
+        <span style="display:flex;align-items:center;gap:12px">
+          <span style="flex:0 0 152px;font-size:12.5px;color:#3B4A5F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cs.name }}</span>
+          <span style="flex:1;height:8px;background:#EEF2F7;border-radius:4px;overflow:hidden">
+            <span style="display:block;height:100%;width:{{ cs.pct }};background:{{ cs.color }};border-radius:4px"></span>
+          </span>
+          <span style="flex:0 0 42px;text-align:left;font-size:12px;font-weight:600;color:#0F1B2D;font-variant-numeric:tabular-nums">{{ cs.value }}</span>
+        </span>
+      </sc-for>
+    </div>
+
+    <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+      <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">سجلّ النشاط</span>
+      <sc-for list="{{ activity }}" as="ac" hint-placeholder-count="5">
+        <span style="display:flex;gap:12px">
+          <span style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px">
+            <span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:{{ ac.bg }};border-radius:8px;color:{{ ac.fg }}">{{ ac.icon }}</span>
+            <span style="flex:1;width:1px;background:#EEF2F7"></span>
+          </span>
+          <span style="flex:1;display:flex;flex-direction:column;gap:3px;padding-bottom:14px">
+            <span style="font-size:12.5px;color:#22364F;line-height:1.65">{{ ac.text }}</span>
+            <span style="font-size:11px;color:#9AA8BA">{{ ac.time }}</span>
+          </span>
+        </span>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 18, height: size || 18, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+
+const I = {
+  wa: [p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z'), p('M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8')],
+  cash: [r(2.5, 6, 19, 12, 2.5), c(12, 12, 2.8)],
+  box: [p('M12 2.5 3.5 7v10L12 21.5 20.5 17V7z'), p('M3.5 7 12 11.5 20.5 7')],
+  eye: [p('M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12S18 18.5 12 18.5 2.5 12 2.5 12z'), c(12, 12, 2.8)],
+  up: [p('M12 19V5'), p('m6 11 6-6 6 6')],
+  down: [p('M12 5v14'), p('m6 13 6 6 6-6')],
+  warn: [p('M12 3 2.5 20h19z'), p('M12 10v4'), p('M12 17h.01')],
+  image: [r(3, 4.5, 18, 15, 2.5), c(8.5, 10, 1.6), p('m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8')],
+  star: [p('m12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z')],
+  plus: [p('M12 5v14M5 12h14')],
+  truck: [p('M2 7h11v10H2z'), p('M13 10h4l3 3v4h-7z'), c(6, 18.5, 1.6), c(16.5, 18.5, 1.6)],
+  pencil: [p('M4 20h4L20 8l-4-4L4 16z')],
+  home: [p('M3.5 11.5 12 4l8.5 7.5'), p('M6 11v9.5h12V11')],
+  check: [p('m5 13 4 4L19 7')],
+  tag: [p('M20.2 12.4 12.4 20.2a2 2 0 0 1-2.8 0L3.8 14.4V4h10.4l6 6a2 2 0 0 1 0 2.4z')]
+};
+
+class Component extends DCLogic {
+  state = { range: 1, orderTab: 0 };
+
+  renderVals() {
+    const go = this.props.go || (() => {});
+    const barData = [14, 18, 11, 22, 26, 19, 31, 24, 29, 17, 35, 28, 33, 39];
+    const max = 39;
+    const st = {
+      new: { label: 'جديد', bg: '#F5F9FF', bd: '#D9E6FA', fg: '#0B3C82', dot: '#1B62E5' },
+      confirmed: { label: 'مؤكّد', bg: '#F0FAF4', bd: '#CFE9DA', fg: '#0E7A3E', dot: '#12A150' },
+      prep: { label: 'قيد التجهيز', bg: '#FFF9EC', bd: '#F3E0B5', fg: '#8A5D00', dot: '#E9A100' },
+      done: { label: 'تم التسليم', bg: '#F1F5F9', bd: '#E2E8F0', fg: '#475569', dot: '#94A3B8' }
+    };
+    const ord = (id, name, phone, items, area, total, s) => Object.assign({
+      id, name, phone, items, area, total, status: st[s].label
+    }, { stBg: st[s].bg, stBd: st[s].bd, stFg: st[s].fg, stDot: st[s].dot });
+
+    return {
+      kpis: [
+        { label: 'طلبات واتساب اليوم', value: '39', unit: 'طلباً', icon: svg(I.wa, 17), iconBg: '#F0FAF4', iconFg: '#12A150', trend: '+18% مقارنة بالأمس', trendFg: '#0E7A3E', trendIcon: svg(I.up, 13) },
+        { label: 'قيمة الطلبات المؤكّدة', value: '1,284', unit: 'د.أ', icon: svg(I.cash, 17), iconBg: '#EEF4FE', iconFg: '#1B62E5', trend: '+9% هذا الأسبوع', trendFg: '#0E7A3E', trendIcon: svg(I.up, 13) },
+        { label: 'منتجات نفدت أو شحّت', value: '11', unit: 'منتجاً', icon: svg(I.box, 17), iconBg: '#FFF9EC', iconFg: '#B27700', trend: '3 منتجات نفدت كلياً', trendFg: '#B27700', trendIcon: svg(I.warn, 13) },
+        { label: 'زوّار المتجر', value: '2,470', unit: 'زائر', icon: svg(I.eye, 17), iconBg: '#EAF7FB', iconFg: '#0891B2', trend: '−4% مقارنة بالأسبوع الماضي', trendFg: '#C92A2A', trendIcon: svg(I.down, 13) }
+      ],
+      ranges: ['٧ أيام', '١٤ يوماً', '٣٠ يوماً'].map((l, i) => ({
+        label: l, go: () => this.setState({ range: i }),
+        bg: this.state.range === i ? '#fff' : 'transparent',
+        fg: this.state.range === i ? '#0B3C82' : '#64748B',
+        fw: this.state.range === i ? 600 : 500,
+        sh: this.state.range === i ? '0 1px 3px rgba(15,27,45,.12)' : 'none'
+      })),
+      bars: barData.map((v, i) => ({
+        v, d: i + 16, h: Math.round((v / max) * 100) + '%',
+        bg: i === barData.length - 1 ? '#0B3C82' : '#1B62E5'
+      })),
+      chartLegend: [
+        { label: 'إجمالي الطلبات', value: '346', color: '#1B62E5' },
+        { label: 'مؤكّدة', value: '289', color: '#12A150' },
+        { label: 'متوسط الطلب', value: '32.9 د.أ', color: '#0891B2' }
+      ],
+      alerts: [
+        { title: '3 منتجات نفدت من المخزون', text: 'رسيفر K3، ساوند بار 60W، ومحوّل 12V — أخفِها أو حدّث الكمية.', icon: svg(I.warn, 16), tint: '#E03131', bg: '#FFF5F5', bd: '#F5C2C2', go: () => go('products') },
+        { title: '7 أقسام بحاجة إلى صورة', text: 'بطاقات الأقسام تعرض لوحة مؤقتة حتى ترفع الصور.', icon: svg(I.image, 16), tint: '#1B62E5', bg: '#F5F9FF', bd: '#D9E6FA', go: () => go('categories') },
+        { title: '6 شركات بلا شعار', text: 'ارفع ملفات الشعارات لتحسين شكل بطاقات الشركات.', icon: svg(I.tag, 16), tint: '#0891B2', bg: '#EAF7FB', bd: '#C7E6F0', go: () => go('brands') },
+        { title: '4 آراء عملاء بانتظار الموافقة', text: 'راجعها قبل نشرها في الصفحة الرئيسية.', icon: svg(I.star, 16), tint: '#E9A100', bg: '#FFF9EC', bd: '#F3E0B5', go: () => go('reviews') }
+      ],
+      orderTabs: ['الكل', 'جديد', 'مؤكّد', 'قيد التجهيز'].map((l, i) => ({
+        label: l, go: () => this.setState({ orderTab: i }),
+        bg: this.state.orderTab === i ? '#EEF4FE' : '#fff',
+        bd: this.state.orderTab === i ? '#1B62E5' : '#E3E9F0',
+        fg: this.state.orderTab === i ? '#0B3C82' : '#3B4A5F',
+        fw: this.state.orderTab === i ? 600 : 500
+      })),
+      orders: [
+        ord('#IV-2418', 'محمد العبداللات', '079 123 4567', 3, 'عمّان — مرج الحمام', '50.00', 'new'),
+        ord('#IV-2417', 'سائدة خليل', '077 884 2210', 1, 'إربد', '29.50', 'new'),
+        ord('#IV-2416', 'رامي عوض', '078 990 1145', 4, 'الزرقاء', '96.75', 'confirmed'),
+        ord('#IV-2415', 'أبو محمد', '079 445 7781', 2, 'عمّان — الجبيهة', '61.00', 'prep'),
+        ord('#IV-2414', 'هيا الشوابكة', '077 220 3390', 5, 'سحاب', '143.25', 'confirmed'),
+        ord('#IV-2413', 'خالد الرشدان', '078 112 6654', 1, 'البقعة', '18.50', 'done')
+      ],
+      topProducts: [
+        { rank: '1', name: 'رسيفر Smart Line HYPER K800 5G', img: 'assets/products/k800.png', ph: '', sold: '48', pct: '100%' },
+        { rank: '2', name: 'رسيفر Smart Line HYPER K000 5G', img: 'assets/products/k000.png', ph: '', sold: '37', pct: '77%' },
+        { rank: '3', name: 'مروحة عمودية 16 بوصة', img: '', ph: 'x', sold: '31', pct: '65%' },
+        { rank: '4', name: 'كيبل HDMI 4K بطول ٣ متر', img: '', ph: 'x', sold: '26', pct: '54%' },
+        { rank: '5', name: 'رسيفر Smart Line HYPER K150', img: 'assets/products/k150.png', ph: '', sold: '22', pct: '46%' }
+      ],
+      quickActions: [
+        { label: 'إضافة منتج جديد', icon: svg(I.plus, 17), go: () => go('product-edit') },
+        { label: 'تعديل حملة الرئيسية', icon: svg(I.home, 17), go: () => go('campaigns') },
+        { label: 'تحديث أسعار التوصيل', icon: svg(I.truck, 17), go: () => go('delivery') },
+        { label: 'تعديل قالب رسالة واتساب', icon: svg(I.wa, 17), go: () => go('whatsapp') }
+      ],
+      catStats: [
+        { name: 'رسيفرات وأجهزة استقبال', value: '124', pct: '100%', color: '#0B3C82' },
+        { name: 'مراوح وتبريد ومكيفات', value: '68', pct: '55%', color: '#0891B2' },
+        { name: 'كيبلات ومحوّلات', value: '54', pct: '44%', color: '#1B62E5' },
+        { name: 'أجهزة منزلية صغيرة', value: '41', pct: '33%', color: '#5B5BD6' },
+        { name: 'سماعات وصوتيات', value: '29', pct: '23%', color: '#0E7490' },
+        { name: 'أجهزة العناية الشخصية', value: '18', pct: '15%', color: '#3E5A8A' }
+      ],
+      activity: [
+        { text: 'تم تحديث سعر «رسيفر Smart Line HYPER K800 5G» إلى 42.00 د.أ', time: 'قبل 12 دقيقة', icon: svg(I.pencil, 15), bg: '#EEF4FE', fg: '#1B62E5' },
+        { text: 'أُضيف منتج جديد: «مبرّد هواء منزلي 60 لتر»', time: 'قبل ساعة', icon: svg(I.plus, 15), bg: '#F0FAF4', fg: '#12A150' },
+        { text: 'تم تفعيل حملة «موسم الصيف» في الصفحة الرئيسية', time: 'اليوم — 10:24', icon: svg(I.home, 15), bg: '#FFF9EC', fg: '#B27700' },
+        { text: 'تم تعديل سعر التوصيل الفوري لمنطقة سحاب إلى 4.00 د.أ', time: 'أمس — 18:40', icon: svg(I.truck, 15), bg: '#EAF7FB', fg: '#0891B2' },
+        { text: 'تمت الموافقة على رأي عميل ونشره في الرئيسية', time: 'أمس — 15:05', icon: svg(I.check, 15), bg: '#F0FAF4', fg: '#12A150' }
+      ],
+      goProducts: () => go('products')
+    };
+  }
+}
+</script>
+</body>
+</html>

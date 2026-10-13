@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;background:#F5F7FA;padding-bottom:56px">
+
+  <div style="background:#fff;border-bottom:1px solid #E9EEF4">
+    <div style="max-width:1320px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:#8595AA">
+      <a href="#" onClick="{{ goHome }}" style="color:#8595AA">الرئيسية</a>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2.2" stroke-linecap="round"><path d="m14 6-6 6 6 6"></path></svg>
+      <span style="color:#0F1B2D;font-weight:600">تواصل معنا</span>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:24px">
+    <div style="position:relative;overflow:hidden;background:linear-gradient(105deg,#0B3C82,#0E4A9E);border-radius:20px;padding:38px 40px;display:grid;grid-template-columns:1.35fr 1fr;gap:32px;align-items:center">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 0);background-size:24px 24px"></div>
+      <div style="position:relative;display:flex;flex-direction:column;gap:16px">
+        <span style="display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:7px 13px;background:rgba(18,161,80,.22);border:1px solid rgba(124,224,168,.4);border-radius:999px;font-size:12.5px;font-weight:500;color:#B6F0CD;white-space:nowrap">
+          <span style="width:7px;height:7px;border-radius:50%;background:#4ADE80"></span>
+          واتساب هو الطريقة الأسرع للتواصل
+        </span>
+        <h1 style="margin:0;font-size:34px;font-weight:700;line-height:1.4;color:#fff;text-wrap:pretty">راسلنا على واتساب<br />ونرد عليك مباشرة</h1>
+        <p style="margin:0;font-size:15.5px;line-height:1.95;color:#B9D2F0;max-width:540px;text-wrap:pretty">للاستفسار عن منتج، تأكيد توفّره، متابعة طلبك، أو المساعدة في التشغيل والاستخدام — أرسل لنا رسالة واحدة وسنتابع معك حتى الانتهاء. لا حاجة لتعبئة نماذج أو إنشاء حساب.</p>
+        <div style="display:flex;gap:11px;margin-top:4px;flex-wrap:wrap">
+          <a href="#" style="display:flex;align-items:center;gap:10px;height:54px;padding:0 26px;background:#12A150;color:#fff;border-radius:13px;font-size:15.5px;font-weight:700;box-shadow:0 14px 30px -12px rgba(18,161,80,.6)" style-hover="background:#0E8843;color:#fff">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+            ابدأ محادثة واتساب
+          </a>
+          <a href="tel:+962795718978" style="display:flex;align-items:center;gap:10px;height:54px;padding:0 24px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:13px;font-size:15px;font-weight:600" style-hover="background:rgba(255,255,255,.18);color:#fff">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M21 16.5v3a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 3.8 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.6a15 15 0 0 0 5.7 5.7l1-1a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"></path></svg>
+            <span style="direction:ltr;font-variant-numeric:tabular-nums">+962 79 571 8978</span>
+          </a>
+        </div>
+      </div>
+      <div style="position:relative;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:11.5px;font-weight:600;color:#7CC9F5;letter-spacing:.03em">اكتب لنا مثل هذه الرسالة</span>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ bubbles }}" as="b" hint-placeholder-count="3">
+            <span style="align-self:{{ b.align }};max-width:88%;padding:11px 14px;background:{{ b.bg }};color:{{ b.fg }};border-radius:{{ b.radius }};font-size:13px;line-height:1.75;box-shadow:0 2px 6px rgba(3,20,45,.18)">{{ b.text }}</span>
+          </sc-for>
+        </div>
+        <span style="display:flex;align-items:center;gap:7px;margin-top:2px;font-size:11.5px;color:#9FBEE8">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 13 3.5 3.5L14 10"></path><path d="m11 16.5 3 3L21 12"></path></svg>
+          نرد خلال ساعات العمل — وغالباً في دقائق
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px 24px">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ quickCards }}" as="q" hint-placeholder-count="4">
+        <a href="{{ q.href }}" style="display:flex;flex-direction:column;gap:11px;padding:20px;background:{{ q.bg }};border:1px solid {{ q.bd }};border-radius:15px;transition:all .16s ease" style-hover="transform:translateY(-3px);box-shadow:0 14px 28px -18px rgba(11,60,130,.3)">
+          <span style="width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:{{ q.iconBg }};border-radius:11px;color:{{ q.iconFg }}">{{ q.icon }}</span>
+          <span style="font-size:12px;color:#8595AA">{{ q.label }}</span>
+          <span style="font-size:14.5px;font-weight:600;color:#0F1B2D;line-height:1.6;direction:{{ q.dir }};text-align:right">{{ q.value }}</span>
+          <span style="font-size:12px;font-weight:600;color:{{ q.ctaColor }}">{{ q.cta }} ←</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px 24px">
+    <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:flex-start">
+
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;overflow:hidden">
+        <div style="position:relative;height:280px;background:repeating-linear-gradient(135deg,#F2F6FB 0 9px,#FBFDFF 9px 18px);display:flex;align-items:center;justify-content:center;border-bottom:1px solid #EEF2F7">
+          <span style="display:flex;flex-direction:column;align-items:center;gap:9px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9BB4D6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+            <span style="font-size:12.5px;font-weight:600;color:#4A5B70">خريطة موقع المتجر</span>
+            <span style="font-size:11px;color:#8595AA">Google Maps</span>
+          </span>
+          <span style="position:absolute;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#1B62E5;border:3px solid #fff;border-radius:50%;box-shadow:0 8px 18px rgba(11,60,130,.4);color:#fff">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+          </span>
+          <a href="#" style="position:absolute;bottom:16px;right:16px;left:16px;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;background:#fff;border:1px solid #E3E9F0;border-radius:11px;font-size:13.5px;font-weight:600;color:#0B3C82" style-hover="border-color:#1B62E5;color:#1B62E5">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.6 7-11a7 7 0 1 0-14 0c0 4.4 7 11 7 11z"></path><path d="m9.5 12 5-5"></path></svg>
+            افتح الاتجاهات على الخريطة
+          </a>
+        </div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:16px;font-weight:700;color:#0F1B2D">موقع المتجر</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:2px">
+            <span style="position:relative;height:96px;border:1px dashed #C7D9F6;border-radius:11px;background:repeating-linear-gradient(135deg,#F2F6FB 0 8px,#FBFDFF 8px 16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9BB4D6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5"></path><path d="M2.5 9.5 5 4h14l2.5 5.5z"></path></svg>
+              <span style="font-size:11px;font-weight:600;color:#4A5B70">واجهة المتجر</span>
+            </span>
+            <span style="position:relative;height:96px;border:1px dashed #C7D9F6;border-radius:11px;background:repeating-linear-gradient(135deg,#F2F6FB 0 8px,#FBFDFF 8px 16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9BB4D6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+              <span style="font-size:11px;font-weight:600;color:#4A5B70">مكان الاستلام</span>
+            </span>
+          </div>
+          <span style="font-size:11px;color:#8595AA;line-height:1.7;margin-top:-4px">صور حقيقية من المتجر تُرفع من لوحة التحكم</span>
+          <sc-for list="{{ infoRows }}" as="r" hint-placeholder-count="4">
+            <span style="display:flex;gap:12px">
+              <span style="flex:0 0 auto;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:#EEF4FE;border-radius:10px;color:#1B62E5">{{ r.icon }}</span>
+              <span style="display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:11.5px;color:#8595AA">{{ r.label }}</span>
+                <span style="font-size:13.5px;font-weight:600;color:#22364F;line-height:1.7;direction:{{ r.dir }};text-align:right">{{ r.value }}</span>
+              </span>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:#0B3C82;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;align-items:center;gap:9px;font-size:16px;font-weight:700;color:#fff">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#7CC9F5" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.2V12l3.2 2"></path></svg>
+            أوقات العمل
+          </span>
+          <sc-for list="{{ hours }}" as="h" hint-placeholder-count="3">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.12);font-size:13.5px;color:#CFE3FA">
+              <span>{{ h.d }}</span>
+              <span style="font-weight:600;color:{{ h.color }};font-variant-numeric:tabular-nums;direction:ltr">{{ h.t }}</span>
+            </span>
+          </sc-for>
+          <span style="font-size:11.5px;color:#9FBEE8;line-height:1.8">الأوقات المعروضة قابلة للتعديل من لوحة التحكم حسب مواعيد المتجر الفعلية.</span>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:16px;font-weight:700;color:#0F1B2D">تابعنا على مواقع التواصل</span>
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="3">
+            <a href="#" style="display:flex;align-items:center;gap:12px;padding:13px 14px;background:{{ s.bg }};border:1px solid {{ s.bd }};border-radius:12px" style-hover="border-color:{{ s.tint }}">
+              <span style="flex:0 0 auto;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:{{ s.tint }};border-radius:10px;color:#fff">{{ s.icon }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:13.5px;font-weight:600;color:#0F1B2D">{{ s.name }}</span>
+                <span style="font-size:11.5px;color:#8595AA;direction:ltr;text-align:right">{{ s.handle }}</span>
+              </span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2.2" stroke-linecap="round"><path d="m14 6-6 6 6 6"></path></svg>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:0 24px 24px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:18px;font-weight:700;color:#0F1B2D">التوصيل والاستلام</span>
+          <span style="font-size:13px;color:#64748B;line-height:1.75">اختر ما يناسبك عند إرسال الطلب على واتساب</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:11px;padding:18px;background:#F5F9FF;border:1px solid #D9E6FA;border-radius:14px">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:#0B3C82">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.2V12l3.2 2"></path></svg>
+                توصيل فوري — نفس اليوم
+              </span>
+              <span style="font-size:12px;color:#64748B;font-variant-numeric:tabular-nums">3 – 5 د.أ</span>
+            </span>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ zones }}" as="z" hint-placeholder-count="5">
+                <span style="display:flex;align-items:center;gap:6px;padding:7px 11px;background:#fff;border:1px solid #E4E9F1;border-radius:999px;font-size:12px;color:#22364F">
+                  {{ z.area }}
+                  <span style="font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums">{{ z.fee }}</span>
+                </span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:18px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:14px">
+            <span style="flex:1;display:flex;flex-direction:column;gap:5px">
+              <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:#0E7A3E">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v10H2z"></path><path d="M13 10h4l3 3v4h-7z"></path><circle cx="6" cy="18.5" r="1.5"></circle><circle cx="16.5" cy="18.5" r="1.5"></circle></svg>
+                توصيل اليوم التالي
+              </span>
+              <span style="font-size:12.5px;color:#3B4A5F;line-height:1.75">سعر موحّد لجميع مناطق المملكة</span>
+            </span>
+            <span style="display:flex;align-items:baseline;gap:6px">
+              <span style="font-size:26px;font-weight:700;color:#0E7A3E;font-variant-numeric:tabular-nums">2.00</span>
+              <span style="font-size:12.5px;font-weight:600;color:#0E7A3E">د.أ</span>
+            </span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;margin-top:2px"><path d="M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5"></path><path d="M2.5 9.5 5 4h14l2.5 5.5z"></path><path d="M9.5 20.5v-6h5v6"></path></svg>
+            <span style="font-size:13px;color:#4A5B70;line-height:1.85"><span style="font-weight:600;color:#0F1B2D">الاستلام من المتجر مجاناً</span> — نبلغك على واتساب عند تجهيز الطلب، وتستلمه خلال ساعات العمل.</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:16px;border-top:1px solid #EEF2F7">
+          <span style="font-size:12.5px;color:#8595AA;margin-inline-end:4px">طرق الدفع:</span>
+          <sc-for list="{{ payments }}" as="pm" hint-placeholder-count="4">
+            <span style="padding:8px 13px;background:#F8FAFD;border:1px solid #E4E9F1;border-radius:9px;font-size:12.5px;font-weight:500;color:#22364F">{{ pm }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:18px;font-weight:700;color:#0F1B2D">خدمة ما بعد البيع</span>
+          <span style="font-size:13px;color:#64748B;line-height:1.75">دعمنا لا ينتهي عند تسليم الطلب</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ afterSales }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;gap:12px;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:13px">
+              <span style="flex:0 0 auto;width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:10px;color:#1B62E5">{{ a.icon }}</span>
+              <span style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:13.5px;font-weight:600;color:#0F1B2D">{{ a.title }}</span>
+                <span style="font-size:12.5px;color:#64748B;line-height:1.8;text-wrap:pretty">{{ a.text }}</span>
+              </span>
+            </span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid #EEF2F7">
+          <a href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:9px;height:48px;background:#12A150;color:#fff;border-radius:11px;font-size:14px;font-weight:600" style-hover="background:#0E8843;color:#fff">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+            اطلب مساعدة على واتساب
+          </a>
+          <a href="#" onClick="{{ goSupport }}" style="flex:0 0 auto;display:flex;align-items:center;height:48px;padding:0 20px;background:#fff;color:#0F1B2D;border:1px solid #D6E0EC;border-radius:11px;font-size:14px;font-weight:600" style-hover="border-color:#1B62E5;color:#1B62E5">مركز الدعم</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 20, height: size || 20, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+const fill = (d) => React.createElement('path', { d, fill: 'currentColor', stroke: 'none' });
+
+const I = {
+  wa: [p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z'), p('M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8')],
+  phone: [p('M21 16.5v3a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 3.8 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.6a15 15 0 0 0 5.7 5.7l1-1a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z')],
+  pin: [p('M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z'), c(12, 10, 2.6)],
+  clock: [c(12, 12, 9), p('M12 7.2V12l3.2 2')],
+  store: [p('M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5'), p('M2.5 9.5 5 4h14l2.5 5.5z'), p('M9.5 20.5v-6h5v6')],
+  headset: [p('M4 14a8 8 0 0 1 16 0'), p('M4 14v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2z'), p('M20 14v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z')],
+  shield: [p('M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z'), p('m9 12 2 2 4-4')],
+  refresh: [p('M20 12a8 8 0 1 1-2.6-5.9'), p('M20 3.5V8h-4.5')],
+  box: [p('M12 2.5 3.5 7v10L12 21.5 20.5 17V7z'), p('M3.5 7 12 11.5 20.5 7'), p('M12 11.5v10')],
+  ig: [r(3, 3, 18, 18, 5), c(12, 12, 4), c(17.4, 6.6, 1.1)],
+  fb: [p('M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5c0-.6.4-1 1-1H15z')],
+  tiktok: [p('M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5'), p('M14 3c.4 2.4 2 4 4.5 4.3')]
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    const go = this.props.go || (() => {});
+    return {
+      bubbles: [
+        { text: 'مرحباً، بكم سعر مروحة عمودية ١٦ إنش؟ وهل متوفرة الآن؟', align: 'flex-end', bg: '#12A150', fg: '#fff', radius: '14px 14px 4px 14px' },
+        { text: 'أهلاً بك 👋 متوفرة — 27.50 د.أ، بثلاث سرعات وهزّاز أوتوماتيكي.', align: 'flex-start', bg: 'rgba(255,255,255,.92)', fg: '#0F1B2D', radius: '14px 14px 14px 4px' },
+        { text: 'ممتاز، أرسلوها اليوم على عمّان — مرج الحمام.', align: 'flex-end', bg: '#12A150', fg: '#fff', radius: '14px 14px 4px 14px' }
+      ],
+      quickCards: [
+        { label: 'واتساب المتجر', value: 'استفسار أو طلب سريع', cta: 'ابدأ محادثة', dir: 'rtl', href: '#', icon: svg(I.wa), bg: '#F0FAF4', bd: '#CFE9DA', iconBg: '#12A150', iconFg: '#fff', ctaColor: '#0E7A3E' },
+        { label: 'اتصال هاتفي', value: '+962 79 571 8978', cta: 'اتصل الآن', dir: 'ltr', href: 'tel:+962795718978', icon: svg(I.phone), bg: '#fff', bd: '#E4E9F1', iconBg: '#EEF4FE', iconFg: '#1B62E5', ctaColor: '#1B62E5' },
+        { label: 'موقع المتجر', value: 'مرج الحمام — إسكان عالية', cta: 'الاتجاهات', dir: 'rtl', href: '#', icon: svg(I.pin), bg: '#fff', bd: '#E4E9F1', iconBg: '#EEF4FE', iconFg: '#1B62E5', ctaColor: '#1B62E5' },
+        { label: 'الاستلام من المتجر', value: 'مجاناً خلال ساعات العمل', cta: 'التفاصيل', dir: 'rtl', href: '#', icon: svg(I.store), bg: '#fff', bd: '#E4E9F1', iconBg: '#EEF4FE', iconFg: '#1B62E5', ctaColor: '#1B62E5' }
+      ],
+      infoRows: [
+        { icon: svg(I.pin, 18), label: 'العنوان', value: 'عمّان — مرج الحمام، إسكان عالية، مقابل شركة أورنج', dir: 'rtl' },
+        { icon: svg(I.wa, 18), label: 'واتساب', value: '+962 79 571 8978', dir: 'ltr' },
+        { icon: svg(I.phone, 18), label: 'الهاتف', value: '+962 79 571 8978', dir: 'ltr' },
+        { icon: svg(I.store, 18), label: 'نوع المتجر', value: 'إلكترونيات وأجهزة كهربائية — بيع مفرّق وكميات', dir: 'rtl' }
+      ],
+      hours: [
+        { d: 'السبت – الأربعاء', t: '10:00 – 21:00', color: '#fff' },
+        { d: 'الخميس', t: '10:00 – 22:00', color: '#fff' },
+        { d: 'الجمعة', t: 'مغلق', color: '#FFC9C9' }
+      ],
+      socials: [
+        { name: 'واتساب', handle: '+962 79 571 8978', icon: svg(I.wa, 19), tint: '#12A150', bg: '#F0FAF4', bd: '#CFE9DA' },
+        { name: 'إنستغرام', handle: '@smartline.jo', icon: svg(I.ig, 19), tint: '#C13584', bg: '#FDF4FA', bd: '#F0D8E8' },
+        { name: 'فيسبوك', handle: 'Smart Line Jordan', icon: svg(I.fb, 19), tint: '#1877F2', bg: '#F4F8FF', bd: '#D8E6FB' }
+      ],
+      zones: [
+        { area: 'عمّان', fee: '3 د.أ' }, { area: 'سحاب', fee: '4 د.أ' }, { area: 'عين الباشا', fee: '4 د.أ' },
+        { area: 'البقعة', fee: '4 د.أ' }, { area: 'باقي المحافظات', fee: '5 د.أ' }
+      ],
+      payments: ['الدفع عند الاستلام', 'CliQ', 'حوالة بنكية', 'الدفع في المتجر'],
+      afterSales: [
+        { icon: svg(I.headset, 18), title: 'مساعدة في التشغيل والضبط', text: 'نرشدك خطوة بخطوة على واتساب حتى يعمل الجهاز كما يجب.' },
+        { icon: svg(I.shield, 18), title: 'ضمان الشركة المصنّعة', text: 'تُحدَّد مدة الضمان وشروطه لكل منتج وتُثبَّت في فاتورة الشراء.' },
+        { icon: svg(I.refresh, 18), title: 'منتج غير مطابق للطلب', text: 'أبلغنا فوراً عبر واتساب مع صورة للمنتج والفاتورة ونرتّب الاستبدال.' },
+        { icon: svg(I.box, 18), title: 'الملحقات وقطع الاستبدال', text: 'نوفّر الريموتات والكيبلات والمحوّلات البديلة للأجهزة التي نبيعها.' }
+      ],
+      goHome: () => go('home'), goSupport: () => go('support')
+    };
+  }
+}
+</script>
+</body>
+</html>

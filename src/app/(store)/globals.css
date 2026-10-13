@@ -1,0 +1,403 @@
+@import "tailwindcss";
+
+@keyframes whatsapp-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(30, 190, 87, 0.62); }
+  70% { box-shadow: 0 0 0 17px rgba(30, 190, 87, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(30, 190, 87, 0); }
+}
+
+@theme {
+  /* Brand */
+  --color-brand-950: #062a5c;
+  --color-brand-deep: #0b3c82;
+  --color-brand-navy: #08213f;
+  --color-brand-700: #0e4a9e;
+  --color-brand-action: #1b62e5;
+  --color-brand-action-hover: #1550c4;
+  --color-brand-action-tint: #eef4fe;
+  --color-accent-cyan: #0891b2;
+  --color-whatsapp: #12a150;
+  --color-whatsapp-hover: #0e8843;
+
+  /* Surfaces */
+  --color-bg-page: #f5f7fa;
+  --color-bg-subtle: #f4f7fb;
+  --color-bg-input: #f7f9fc;
+  --color-bg-panel: #f8fafd;
+  --color-bg-card: #ffffff;
+
+  /* Text */
+  --color-text-primary: #0f1b2d;
+  --color-text-secondary: #22364f;
+  --color-text-body: #4a5b70;
+  --color-text-muted: #64748b;
+  --color-text-faint: #8595aa;
+  --color-text-faintest: #9aa8ba;
+
+  /* Borders */
+  --color-border-light: #edf1f7;
+  --color-border: #e4e9f1;
+  --color-border-strong: #d6e0ec;
+
+  /* Admin form fields — deliberately more visible than the pale storefront borders above;
+     admins stare at dense forms all day and need to see field edges without hunting. */
+  --color-admin-border: #a9c8f2;
+  --color-admin-border-hover: #7fa9e8;
+  --color-admin-border-focus: #0b3c82;
+  --color-admin-focus-ring: rgba(27, 98, 229, 0.22);
+
+  /* Badges (see DESIGN_SYSTEM.md §1) */
+  --color-badge-new-bg: #0b3c82;
+  --color-badge-offer-bg: #e9a100;
+  --color-badge-offer-fg: #20170a;
+  --color-badge-hot-bg: #0891b2;
+  --color-badge-pick-bg: #5b5bd6;
+  --color-badge-low-bg: #b27700;
+  --color-badge-out-bg: #64748b;
+  --color-discount-ribbon: #e03131;
+
+  /* Stock states */
+  --color-stock-in-dot: #12a150;
+  --color-stock-in-text: #0e7a3e;
+  --color-stock-low-dot: #e9a100;
+  --color-stock-low-text: #b27700;
+  --color-stock-out-dot: #94a3b8;
+  --color-stock-out-text: #64748b;
+
+  /* Success / error surfaces */
+  --color-success-bg: #e8f7ee;
+  --color-success-border: #cfe9da;
+  --color-error: #e03131;
+  --color-error-bg: #fff5f5;
+  --color-error-border: #f5c2c2;
+
+  --font-sans: "IBM Plex Sans Arabic", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --container-content: 1320px;
+
+  --radius-badge: 5px;
+  --radius-btn-sm: 9px;
+  --radius-control: 11px;
+  --radius-card-image: 12px;
+  --radius-card: 14px;
+  --radius-section: 18px;
+  --radius-sheet-top: 20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 27, 45, 0.06);
+  --shadow-card: 0 16px 32px -16px rgba(11, 60, 130, 0.26);
+  --shadow-hero: 0 30px 60px -26px rgba(3, 20, 45, 0.6);
+  --shadow-popover: 0 24px 48px -20px rgba(11, 60, 130, 0.28);
+  --shadow-modal: 0 40px 80px -24px rgba(8, 18, 31, 0.5);
+  --shadow-sticky-bar: 0 -6px 20px -10px rgba(15, 27, 45, 0.2);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    /* Defensive safety net: a few absolutely-positioned RTL elements (e.g. the mobile
+       bottom-nav cart badge) can round to a fraction of a pixel past the viewport edge.
+       No layout is meant to require horizontal scroll, so clip it outright. */
+    overflow-x: hidden;
+  }
+  body {
+    background: var(--color-bg-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-brand-action);
+  }
+  ::selection {
+    background: #cfe0fb;
+    color: var(--color-brand-deep);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-action);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------- Shared admin form fields ----------
+   One definition used by every admin page/form instead of each page re-declaring its own
+   `.input { border: 1px solid var(--color-border) }` via `<style jsx global>` (13 separate
+   copies previously, all using the pale storefront border color that's hard to see). */
+@layer components {
+  .input,
+  .admin-input {
+    display: block;
+    width: 100%;
+    min-height: 2.5rem;
+    border-radius: var(--radius-control);
+    border: 1.5px solid var(--color-admin-border);
+    background: #ffffff;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+  textarea.input,
+  textarea.admin-input {
+    min-height: auto;
+    height: auto;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+  }
+  select.input[multiple],
+  select.admin-input[multiple] {
+    height: auto;
+    padding: 0.5rem;
+  }
+  .input::placeholder,
+  .admin-input::placeholder {
+    color: var(--color-text-faint);
+  }
+  .input:hover:not(:disabled):not([readonly]),
+  .admin-input:hover:not(:disabled):not([readonly]) {
+    border-color: var(--color-admin-border-hover);
+  }
+  .input:focus,
+  .admin-input:focus,
+  .input:focus-visible,
+  .admin-input:focus-visible {
+    outline: none;
+    border-color: var(--color-admin-border-focus);
+    box-shadow: 0 0 0 3px var(--color-admin-focus-ring);
+  }
+  .input[aria-invalid="true"],
+  .admin-input[aria-invalid="true"] {
+    border-color: var(--color-error);
+  }
+  .input[aria-invalid="true"]:focus,
+  .admin-input[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgba(224, 49, 49, 0.16);
+  }
+  .input:disabled,
+  .admin-input:disabled,
+  .input[readonly],
+  .admin-input[readonly] {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+  }
+  .admin-field-error {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-error);
+  }
+  .admin-field-help {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-text-faint);
+  }
+}
+
+@keyframes iv-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes iv-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes iv-sheet {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ---------- Storefront (AYTC-style) tokens ----------
+   Separate names so the admin, which shares this stylesheet, keeps its own palette. */
+@theme {
+  --color-ay-primary: #007bc4;
+  --color-ay-primary-dark: #00649f;
+  --color-ay-text: #777777;
+  --color-ay-title: #333333;
+  --color-ay-heading: #242424;
+  --color-ay-line: #e8e8e8;
+  --color-ay-line-soft: rgba(0, 0, 0, 0.075);
+  --color-ay-page: #f9f9f9;
+  --color-ay-stock: #008000;
+  --color-ay-out: #b50808;
+  --color-ay-muted: #a5a5a5;
+  --color-ay-footer: #0a0a0a;
+  --color-ay-whatsapp: #1ebe57;
+  --container-ay: 1222px;
+  --ease-ay: cubic-bezier(0.19, 1, 0.22, 1);
+  --animate-ay-fade: ay-fade 0.3s ease both;
+  --animate-ay-rise: ay-rise 0.4s cubic-bezier(0.19, 1, 0.22, 1) both;
+  --animate-ay-zoom: ay-zoom 0.35s cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+@keyframes ay-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ay-rise {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes ay-zoom {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+@layer components {
+  .ay-container {
+    width: 100%;
+    max-width: var(--container-ay);
+    margin-inline: auto;
+    padding-inline: 15px;
+  }
+  .ay-store {
+    background: #fff;
+    color: var(--color-ay-text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  /* Zero-specificity so .ay-btn-* (and utilities) still set their own link colour. */
+  :where(.ay-store) a {
+    color: inherit;
+  }
+
+  /* Dropdown motion measured on the reference: fade + 15px rise, 0.4s expo-out. */
+  .ay-dropdown {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease-ay), visibility 0.4s var(--ease-ay), transform 0.4s var(--ease-ay);
+    background: #fff;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+    z-index: 40;
+  }
+  .ay-dropdown-host:hover > .ay-dropdown,
+  .ay-dropdown-host:focus-within > .ay-dropdown {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .ay-btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding-inline: 18px;
+    border-radius: 35px;
+    background: #000;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+  }
+  .ay-btn-pill:hover {
+    background: #333;
+  }
+  .ay-btn-pill:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .ay-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 42px;
+    padding-inline: 20px;
+    border-radius: 35px;
+    background: var(--color-ay-primary);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+  }
+  .ay-btn-primary:hover {
+    background: var(--color-ay-primary-dark);
+  }
+  .ay-btn-primary:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .ay-btn-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 42px;
+    padding-inline: 20px;
+    border-radius: 35px;
+    background: #f3f3f3;
+    color: var(--color-ay-title);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.25s ease;
+  }
+  .ay-btn-light:hover {
+    background: #e6e6e6;
+  }
+  .ay-section-title {
+    color: var(--color-ay-heading);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .ay-no-scrollbar {
+    scrollbar-width: none;
+  }
+  .ay-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;display:flex;flex-direction:column;gap:16px">
+
+  <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:15px;font-weight:700;color:#0F1B2D">سرعات التوصيل</span>
+            <span style="font-size:12px;color:#64748B">تظهر للعميل في صفحة مراجعة الطلب</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:13px;padding:20px;background:#F5F9FF;border:1px solid #D9E6FA;border-radius:14px">
+              <span style="display:flex;align-items:center;gap:11px">
+                <span style="flex:1;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#0B3C82">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.2V12l3.2 2"></path></svg>
+                  توصيل فوري — نفس اليوم
+                </span>
+                <span style="width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#1B62E5;border-radius:12px;cursor:pointer">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:17px"></span>
+                </span>
+              </span>
+              <span style="font-size:12px;color:#4A5B70;line-height:1.8">السعر يختلف حسب المنطقة — يُضبط في جدول المناطق أدناه.</span>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:11.5px;font-weight:600;color:#22364F">آخر وقت لاستقبال طلبات نفس اليوم</span>
+                <input value="17:00" style="height:42px;padding:0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0F1B2D;outline:0;direction:ltr;text-align:center" />
+              </label>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;padding:20px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:14px">
+              <span style="display:flex;align-items:center;gap:11px">
+                <span style="flex:1;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#0E7A3E">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h11v10H2z"></path><path d="M13 10h4l3 3v4h-7z"></path><circle cx="6" cy="18.5" r="1.5"></circle><circle cx="16.5" cy="18.5" r="1.5"></circle></svg>
+                  توصيل اليوم التالي
+                </span>
+                <span style="width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#12A150;border-radius:12px;cursor:pointer">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:17px"></span>
+                </span>
+              </span>
+              <span style="font-size:12px;color:#3B4A5F;line-height:1.8">سعر موحّد لجميع مناطق المملكة.</span>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:11.5px;font-weight:600;color:#22364F">السعر الموحّد (د.أ)</span>
+                <input value="2.00" style="height:42px;padding:0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;color:#0E7A3E;outline:0;direction:ltr;text-align:center" />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #EEF2F7">
+            <span style="font-size:15px;font-weight:700;color:#0F1B2D">مناطق التوصيل الفوري</span>
+            <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#0B3C82;cursor:pointer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              منطقة جديدة
+            </button>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;background:#F8FAFD;border-bottom:1px solid #EEF2F7;font-size:11.5px;font-weight:600;color:#64748B">
+            <span style="flex:0 0 26px"></span>
+            <span style="flex:1">المنطقة</span>
+            <span style="flex:0 0 128px">سعر التوصيل</span>
+            <span style="flex:0 0 148px">وقت التسليم المتوقع</span>
+            <span style="flex:0 0 84px">مفعّلة</span>
+            <span style="flex:0 0 36px"></span>
+          </div>
+          <sc-for list="{{ zones }}" as="z" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid #F1F5F9">
+              <span style="flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:#C3CEDD;cursor:grab">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+              </span>
+              <input value="{{ z.area }}" style="flex:1;height:40px;padding:0 12px;background:#fff;border:1px solid #E3E9F0;border-radius:9px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+              <span style="flex:0 0 128px;display:flex;align-items:center;gap:7px">
+                <input value="{{ z.fee }}" style="flex:1;height:40px;padding:0 10px;background:#fff;border:1px solid #E3E9F0;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0B3C82;outline:0;direction:ltr;text-align:center" />
+                <span style="font-size:11.5px;color:#8595AA">د.أ</span>
+              </span>
+              <input value="{{ z.eta }}" style="flex:0 0 148px;height:40px;padding:0 12px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:9px;font-family:inherit;font-size:12px;color:#4A5B70;outline:0" />
+              <span style="flex:0 0 84px">
+                <span style="width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ z.tgBg }};border-radius:12px;cursor:pointer">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ z.tgPos }}"></span>
+                </span>
+              </span>
+              <button type="button" style="flex:0 0 36px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#8595AA" style-hover="color:#E03131;border-color:#F5C2C2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"></path></svg>
+              </button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">الاستلام من المتجر</span>
+          <span style="display:flex;align-items:center;gap:11px">
+            <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:12.5px;color:#22364F">تفعيل الاستلام من المتجر</span>
+              <span style="font-size:10.5px;color:#8595AA">بدون رسوم</span>
+            </span>
+            <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#1B62E5;border-radius:12px;cursor:pointer">
+              <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:17px"></span>
+            </span>
+          </span>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">عنوان الاستلام</span>
+            <textarea style="min-height:70px;padding:11px 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0;resize:vertical;line-height:1.8">عمّان — مرج الحمام، إسكان عالية، مقابل شركة أورنج</textarea>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">مدة تجهيز الطلب</span>
+            <input value="خلال ساعة إلى ساعتين" style="height:42px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+          </label>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">قواعد إضافية</span>
+          <sc-for list="{{ deliveryRules }}" as="dr" hint-placeholder-count="3">
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12.5px;color:#22364F">{{ dr.label }}</span>
+                <span style="font-size:10.5px;color:#8595AA">{{ dr.note }}</span>
+              </span>
+              <sc-if value="{{ dr.isToggle }}" hint-placeholder-val="{{ true }}">
+                <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ dr.bg }};border-radius:12px;cursor:pointer">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ dr.pos }}"></span>
+                </span>
+              </sc-if>
+              <sc-if value="{{ dr.value }}" hint-placeholder-val="{{ false }}">
+                <span style="flex:0 0 auto;height:34px;padding:0 12px;display:flex;align-items:center;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0F1B2D;direction:ltr">{{ dr.value }}</span>
+              </sc-if>
+            </span>
+          </sc-for>
+          <button type="button" style="height:44px;margin-top:4px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ قواعد التوصيل</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPayments }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ payMethods }}" as="pm" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid {{ pm.bd }};border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <span style="flex:0 0 auto;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:{{ pm.iconBg }};border-radius:12px;color:{{ pm.iconFg }}">{{ pm.icon }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">{{ pm.title }}</span>
+                <span style="font-size:12px;color:#64748B;line-height:1.7">{{ pm.note }}</span>
+              </span>
+              <span style="flex:0 0 auto;width:44px;height:25px;display:flex;align-items:center;padding:2px;background:{{ pm.tgBg }};border-radius:13px;cursor:pointer">
+                <span style="width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ pm.tgPos }}"></span>
+              </span>
+            </div>
+            <sc-if value="{{ pm.hasFields }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:16px;border-top:1px solid #EEF2F7">
+                <sc-for list="{{ pm.fields }}" as="f" hint-placeholder-count="2">
+                  <label style="display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:12px;font-weight:600;color:#22364F">{{ f.label }}</span>
+                    <input value="{{ f.value }}" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:{{ f.font }};font-size:12.5px;color:#0F1B2D;outline:0;direction:{{ f.dir }};text-align:right" />
+                  </label>
+                </sc-for>
+              </div>
+              <span style="display:flex;align-items:flex-start;gap:10px;padding:13px;background:#FFF9EC;border:1px solid #F3E0B5;border-radius:11px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B27700" stroke-width="1.9" stroke-linecap="round" style="flex:0 0 auto;margin-top:2px"><rect x="4.5" y="10" width="15" height="10.5" rx="2.5"></rect><path d="M8 10V7.5a4 4 0 0 1 8 0V10"></path></svg>
+                <span style="font-size:11.5px;color:#5A4708;line-height:1.8">هذه التفاصيل لا تُعرض في المتجر — تُرسل للعميل عبر واتساب عند تأكيد الطلب فقط.</span>
+              </span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">العملة والأسعار</span>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">العملة</span>
+            <div style="position:relative">
+              <select style="appearance:none;width:100%;height:44px;padding:0 38px 0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:13px;color:#22364F;cursor:pointer;outline:0">
+                <option>الدينار الأردني (د.أ)</option>
+              </select>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2" stroke-linecap="round" style="position:absolute;left:13px;top:15px;pointer-events:none"><path d="m6 9 6 6 6-6"></path></svg>
+            </div>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">عدد الخانات العشرية</span>
+            <div style="display:flex;gap:7px">
+              <sc-for list="{{ decimals }}" as="dc" hint-placeholder-count="3">
+                <button type="button" onClick="{{ dc.pick }}" style="flex:1;height:40px;background:{{ dc.bg }};border:1.5px solid {{ dc.bd }};border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ dc.fg }};cursor:pointer">{{ dc.label }}</button>
+              </sc-for>
+            </div>
+          </label>
+          <sc-for list="{{ priceToggles }}" as="pt" hint-placeholder-count="3">
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12.5px;color:#22364F">{{ pt.label }}</span>
+                <span style="font-size:10.5px;color:#8595AA">{{ pt.note }}</span>
+              </span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ pt.bg }};border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ pt.pos }}"></span>
+              </span>
+            </span>
+          </sc-for>
+          <button type="button" style="height:44px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ الإعدادات</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isWhatsapp }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 400px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#12A150;border-radius:11px;color:#fff">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+            </span>
+            <span style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:15px;font-weight:700;color:#0F1B2D">رقم واتساب المتجر</span>
+              <span style="font-size:12px;color:#64748B">يستقبل كل الطلبات والاستفسارات من الموقع</span>
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 11px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:8px;font-size:11.5px;font-weight:600;color:#0E7A3E">
+              <span style="width:7px;height:7px;border-radius:50%;background:#12A150"></span>متصل
+            </span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">الرقم بالصيغة الدولية <span style="color:#E03131">*</span></span>
+              <input value="+962795718978" style="height:46px;padding:0 13px;background:#fff;border:1px solid #12A150;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:left;box-shadow:0 0 0 3px rgba(18,161,80,.1)" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">الرقم المعروض للعميل</span>
+              <input value="+962 79 571 8978" style="height:46px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0F1B2D;outline:0;direction:ltr;text-align:left" />
+            </label>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:15px;font-weight:700;color:#0F1B2D">قالب رسالة الطلب</span>
+            <span style="margin-inline-start:auto;font-size:11.5px;color:#8595AA">استخدم المتغيّرات أدناه — تُستبدل تلقائياً</span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ variables }}" as="v" hint-placeholder-count="8">
+              <span style="padding:6px 11px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#0B3C82;direction:ltr;cursor:pointer">{{ v }}</span>
+            </sc-for>
+          </div>
+          <textarea style="min-height:230px;padding:16px;background:#0B1F38;border:1px solid #14375F;border-radius:12px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:12px;color:#CFE3FA;outline:0;resize:vertical;line-height:2;direction:rtl;text-align:right" defaultValue="{{ template }}"></textarea>
+          <div style="display:flex;gap:9px">
+            <button type="button" style="height:44px;padding:0 20px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ القالب</button>
+            <button type="button" style="height:44px;padding:0 18px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;color:#3B4A5F;cursor:pointer" style-hover="border-color:#1B62E5;color:#1B62E5">استعادة القالب الافتراضي</button>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:15px;font-weight:700;color:#0F1B2D">الردود السريعة</span>
+            <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#0B3C82;cursor:pointer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              رد جديد
+            </button>
+          </div>
+          <sc-for list="{{ quickReplies }}" as="qr" hint-placeholder-count="4">
+            <div style="display:flex;gap:12px;padding:14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+              <span style="flex:0 0 150px;display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:12.5px;font-weight:600;color:#0F1B2D">{{ qr.name }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8595AA;direction:ltr;text-align:right">{{ qr.trigger }}</span>
+              </span>
+              <span style="flex:1;font-size:12px;color:#4A5B70;line-height:1.85">{{ qr.text }}</span>
+              <span style="flex:0 0 auto;width:36px;height:22px;display:flex;align-items:center;padding:2px;background:{{ qr.bg }};border-radius:11px;cursor:pointer">
+                <span style="width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ qr.pos }}"></span>
+              </span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">معاينة الرسالة</span>
+          <div style="background:#0B1F38;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:9px">
+            <span style="align-self:flex-end;max-width:92%;padding:12px 14px;background:#12A150;color:#fff;border-radius:14px 14px 4px 14px;font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10.5px;line-height:1.95;white-space:pre-wrap;direction:rtl;text-align:right">{{ preview }}</span>
+            <span style="align-self:flex-start;max-width:80%;padding:11px 13px;background:rgba(255,255,255,.92);color:#0F1B2D;border-radius:14px 14px 14px 4px;font-size:11.5px;line-height:1.75">تم استلام طلبك 👍 سنؤكّد التوفّر والتوصيل خلال دقائق.</span>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">أزرار واتساب في المتجر</span>
+          <sc-for list="{{ waToggles }}" as="wt" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12.5px;color:#22364F">{{ wt.label }}</span>
+                <span style="font-size:10.5px;color:#8595AA">{{ wt.note }}</span>
+              </span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ wt.bg }};border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ wt.pos }}"></span>
+              </span>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isReviews }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:#fff;border:1px solid #E4E9F1;border-radius:14px">
+        <div style="display:flex;gap:8px">
+          <sc-for list="{{ reviewChips }}" as="rc" hint-placeholder-count="4">
+            <button type="button" onClick="{{ rc.go }}" style="display:flex;align-items:center;gap:8px;height:38px;padding:0 14px;background:{{ rc.bg }};border:1px solid {{ rc.bd }};border-radius:999px;font-family:inherit;font-size:12.5px;font-weight:{{ rc.fw }};color:{{ rc.fg }};cursor:pointer">
+              {{ rc.label }}
+              <span style="font-size:11px;color:{{ rc.cfg }};font-variant-numeric:tabular-nums">{{ rc.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:8px;height:40px;padding:0 18px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          إضافة رأي يدوياً
+        </button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <sc-for list="{{ reviews }}" as="rv" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:13px;padding:20px;background:#fff;border:1px solid {{ rv.bd }};border-radius:14px">
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="width:36px;height:36px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#EEF4FE;border-radius:10px;font-size:12.5px;font-weight:600;color:#0B3C82">{{ rv.initials }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ rv.name }}</span>
+                <span style="font-size:11px;color:#8595AA">{{ rv.meta }}</span>
+              </span>
+              <span style="display:inline-flex;align-items:center;gap:5px;padding:5px 9px;background:{{ rv.stBg }};border:1px solid {{ rv.stBd }};border-radius:7px;font-size:10.5px;font-weight:600;color:{{ rv.stFg }}">{{ rv.status }}</span>
+            </div>
+            <span style="display:flex;gap:3px;color:#E9A100">{{ rv.stars }}</span>
+            <span style="font-size:12.5px;color:#3B4A5F;line-height:1.9;text-wrap:pretty">{{ rv.text }}</span>
+            <div style="display:flex;gap:7px;margin-top:auto;padding-top:13px;border-top:1px solid #EEF2F7">
+              <sc-if value="{{ rv.pending }}" hint-placeholder-val="{{ false }}">
+                <button type="button" style="flex:1;height:38px;background:#12A150;color:#fff;border:0;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer">موافقة ونشر</button>
+              </sc-if>
+              <sc-if value="{{ rv.published }}" hint-placeholder-val="{{ true }}">
+                <button type="button" style="flex:1;height:38px;background:#F4F7FB;color:#3B4A5F;border:1px solid #E3E9F0;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer">إخفاء من الرئيسية</button>
+              </sc-if>
+              <button type="button" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:9px;cursor:pointer;color:#3B4A5F" style-hover="border-color:#1B62E5;color:#1B62E5">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16z"></path></svg>
+              </button>
+              <button type="button" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:9px;cursor:pointer;color:#8595AA" style-hover="color:#E03131;border-color:#F5C2C2;background:#FFF5F5">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"></path></svg>
+              </button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPolicies }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:flex-start">
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:2px">
+        <sc-for list="{{ policyNav }}" as="pn" hint-placeholder-count="5">
+          <button type="button" onClick="{{ pn.go }}" style="display:flex;align-items:center;gap:11px;min-height:46px;padding:0 12px;background:{{ pn.bg }};border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:{{ pn.fw }};color:{{ pn.fg }};cursor:pointer;text-align:right" style-hover="background:#F4F7FB">
+            <span style="flex:1">{{ pn.label }}</span>
+            <sc-if value="{{ pn.dot }}" hint-placeholder-val="{{ false }}">
+              <span style="width:7px;height:7px;border-radius:50%;background:#E9A100"></span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:15.5px;font-weight:700;color:#0F1B2D">{{ policyTitle }}</span>
+          <span style="font-size:11.5px;color:#8595AA">آخر تحديث: 2026-07-18</span>
+          <span style="margin-inline-start:auto;display:flex;gap:9px">
+            <button type="button" style="height:38px;padding:0 15px;background:#fff;border:1px solid #E3E9F0;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:#3B4A5F;cursor:pointer" style-hover="border-color:#1B62E5;color:#1B62E5">معاينة</button>
+            <button type="button" style="height:38px;padding:0 18px;background:#1B62E5;color:#fff;border:0;border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ ونشر</button>
+          </span>
+        </div>
+        <div style="display:flex;gap:4px;padding:7px;background:#F7F9FC;border:1px solid #E3E9F0;border-bottom:0;border-radius:11px 11px 0 0">
+          <sc-for list="{{ editorTools }}" as="et" hint-placeholder-count="7">
+            <span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:7px;color:#64748B;font-size:12px;font-weight:600">{{ et }}</span>
+          </sc-for>
+        </div>
+        <textarea style="min-height:420px;margin-top:-16px;padding:18px;background:#fff;border:1px solid #E3E9F0;border-radius:0 0 11px 11px;font-family:inherit;font-size:13.5px;color:#0F1B2D;outline:0;resize:vertical;line-height:2.05" key="{{ policyKey }}" defaultValue="{{ policyBody }}"></textarea>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:11px">
+          <span style="flex:1;display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:12.5px;font-weight:600;color:#0F1B2D">إظهار الصفحة في تذييل الموقع</span>
+            <span style="font-size:11px;color:#8595AA">تظهر ضمن روابط السياسات أسفل كل صفحة</span>
+          </span>
+          <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#1B62E5;border-radius:12px;cursor:pointer">
+            <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:17px"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#fff;border:1px solid #E4E9F1;border-radius:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">٦ أسئلة</span>
+          <span style="font-size:12px;color:#64748B">اسحب لإعادة الترتيب</span>
+          <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:8px;height:38px;padding:0 16px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+            سؤال جديد
+          </button>
+        </div>
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <div style="display:flex;gap:12px;padding:16px 18px;background:#fff;border:1px solid #E4E9F1;border-radius:13px">
+            <span style="flex:0 0 auto;display:flex;align-items:flex-start;color:#C3CEDD;cursor:grab;padding-top:3px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+            </span>
+            <span style="flex:1;display:flex;flex-direction:column;gap:7px;min-width:0">
+              <span style="display:flex;align-items:center;gap:9px">
+                <span style="padding:4px 9px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:6px;font-size:10.5px;font-weight:600;color:#0B3C82">{{ f.cat }}</span>
+                <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ f.q }}</span>
+              </span>
+              <span style="font-size:12px;color:#64748B;line-height:1.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ f.a }}</span>
+            </span>
+            <span style="flex:0 0 auto;display:flex;align-items:flex-start;gap:7px">
+              <span style="width:38px;height:22px;display:flex;align-items:center;padding:2px;background:{{ f.tgBg }};border-radius:11px;cursor:pointer">
+                <span style="width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ f.tgPos }}"></span>
+              </span>
+              <button type="button" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#3B4A5F" style-hover="border-color:#1B62E5;color:#1B62E5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16z"></path></svg>
+              </button>
+              <button type="button" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#8595AA" style-hover="color:#E03131;border-color:#F5C2C2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"></path></svg>
+              </button>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">تصنيفات الأسئلة</span>
+        <sc-for list="{{ faqCats }}" as="fc" hint-placeholder-count="5">
+          <span style="display:flex;align-items:center;gap:10px;padding:11px 13px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:10px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+            <span style="flex:1;font-size:12.5px;color:#22364F">{{ fc.name }}</span>
+            <span style="font-size:11px;color:#8595AA;font-variant-numeric:tabular-nums">{{ fc.count }}</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9AA8BA" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+          </span>
+        </sc-for>
+        <button type="button" style="display:flex;align-items:center;justify-content:center;gap:8px;height:42px;background:#fff;border:1.5px dashed #C7D9F6;border-radius:10px;font-family:inherit;font-size:12.5px;font-weight:600;color:#1B62E5;cursor:pointer" style-hover="background:#F5F9FF;border-color:#1B62E5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          تصنيف جديد
+        </button>
+        <div style="display:flex;flex-direction:column;gap:11px;padding-top:14px;border-top:1px solid #EEF2F7">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">مواضع ظهور الأسئلة</span>
+          <sc-for list="{{ faqPlaces }}" as="fp" hint-placeholder-count="3">
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;font-size:12.5px;color:#22364F">{{ fp.label }}</span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ fp.bg }};border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ fp.pos }}"></span>
+              </span>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:15px;font-weight:700;color:#0F1B2D">بيانات المتجر</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <sc-for list="{{ contactFields }}" as="cf" hint-placeholder-count="6">
+              <label style="display:flex;flex-direction:column;gap:6px;grid-column:{{ cf.span }}">
+                <span style="font-size:12px;font-weight:600;color:#22364F">{{ cf.label }}</span>
+                <input value="{{ cf.value }}" style="height:46px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:{{ cf.font }};font-size:12.5px;color:#0F1B2D;outline:0;direction:{{ cf.dir }};text-align:right" />
+              </label>
+            </sc-for>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">رابط الخريطة (Google Maps Embed)</span>
+            <input value="https://maps.google.com/maps?q=marj+al+hamam+amman&output=embed" style="height:46px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:left" />
+          </label>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:15px;font-weight:700;color:#0F1B2D">أوقات العمل</span>
+          <sc-for list="{{ hours }}" as="h" hint-placeholder-count="7">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="flex:0 0 106px;font-size:12.5px;font-weight:500;color:#22364F">{{ h.day }}</span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ h.tgBg }};border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ h.tgPos }}"></span>
+              </span>
+              <sc-if value="{{ h.open }}" hint-placeholder-val="{{ true }}">
+                <span style="flex:1;display:flex;align-items:center;gap:9px">
+                  <input value="{{ h.from }}" style="flex:1;height:40px;padding:0 12px;background:#fff;border:1px solid #E3E9F0;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:center" />
+                  <span style="font-size:12px;color:#9AA8BA">—</span>
+                  <input value="{{ h.to }}" style="flex:1;height:40px;padding:0 12px;background:#fff;border:1px solid #E3E9F0;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:center" />
+                </span>
+              </sc-if>
+              <sc-if value="{{ h.closed }}" hint-placeholder-val="{{ false }}">
+                <span style="flex:1;height:40px;display:flex;align-items:center;padding:0 13px;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:9px;font-size:12.5px;color:#94A3B8">مغلق</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">مواقع التواصل</span>
+          <sc-for list="{{ socials }}" as="s" hint-placeholder-count="4">
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#22364F">
+                <span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:{{ s.tint }};border-radius:7px;color:#fff">{{ s.icon }}</span>
+                {{ s.name }}
+              </span>
+              <input value="{{ s.value }}" style="height:42px;padding:0 12px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:left" />
+            </label>
+          </sc-for>
+          <button type="button" style="height:44px;margin-top:4px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ معلومات الاتصال</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGeneral }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:15px;font-weight:700;color:#0F1B2D">هوية المتجر</span>
+          <div style="display:flex;gap:18px">
+            <div style="display:flex;flex-direction:column;gap:9px;flex:0 0 132px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">الشعار</span>
+              <span style="position:relative;width:132px;height:132px;background:#fff;border:1px solid #E4E9F1;border-radius:14px;display:flex;align-items:center;justify-content:center">
+                <img src="assets/smart-line-logo.png" alt="Smart Line" style="width:84px;height:84px;border-radius:16px" />
+                <span style="position:absolute;bottom:8px;left:8px;right:8px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94);border:1px solid #E4E9F1;border-radius:8px;font-size:11px;font-weight:600;color:#1B62E5;cursor:pointer">تغيير</span>
+              </span>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">اسم المتجر (عربي)</span>
+                <input value="متجر Smart Line للإلكترونيات والأجهزة الكهربائية" style="height:46px;padding:0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:13px;color:#0F1B2D;outline:0" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">الوصف القصير (يظهر في الترويسة والتذييل)</span>
+                <input value="إلكترونيات وأجهزة كهربائية — متجر متكامل في الأردن" style="height:46px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">وصف الميتا للصفحة الرئيسية</span>
+                <textarea style="min-height:70px;padding:11px 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12px;color:#4A5B70;outline:0;resize:vertical;line-height:1.8">متجر Smart Line في عمّان: رسيفرات وأجهزة أندرويد وشاشات وكيبلات وصوتيات ومراوح وأجهزة منزلية وعناية شخصية — توصيل لجميع مناطق المملكة وطلب عبر واتساب.</textarea>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+          <span style="font-size:15px;font-weight:700;color:#0F1B2D">اللغة والاتجاه</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">اللغة الافتراضية</span>
+              <div style="display:flex;gap:7px">
+                <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ lg.pick }}" style="flex:1;height:44px;background:{{ lg.bg }};border:1.5px solid {{ lg.bd }};border-radius:10px;font-family:inherit;font-size:13px;font-weight:{{ lg.fw }};color:{{ lg.fg }};cursor:pointer">{{ lg.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">اتجاه الواجهة</span>
+              <span style="height:44px;display:flex;align-items:center;gap:9px;padding:0 13px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:10px;font-size:12.5px;font-weight:600;color:#0E7A3E">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+                RTL — من اليمين إلى اليسار
+              </span>
+            </div>
+          </div>
+          <span style="display:flex;align-items:center;gap:11px;padding-top:14px;border-top:1px solid #EEF2F7">
+            <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:12.5px;color:#22364F">تفعيل النسخة الإنجليزية (LTR)</span>
+              <span style="font-size:10.5px;color:#8595AA">يظهر زر تبديل اللغة في الترويسة</span>
+            </span>
+            <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#DDE5EF;border-radius:12px;cursor:pointer">
+              <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25)"></span>
+            </span>
+          </span>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #EEF2F7">
+            <span style="font-size:15px;font-weight:700;color:#0F1B2D">المستخدمون والصلاحيات</span>
+            <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#0B3C82;cursor:pointer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              مستخدم جديد
+            </button>
+          </div>
+          <sc-for list="{{ users }}" as="u" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid #F1F5F9">
+              <span style="width:38px;height:38px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:{{ u.avBg }};border-radius:11px;font-size:12.5px;font-weight:600;color:{{ u.avFg }}">{{ u.initials }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ u.name }}</span>
+                <span style="font-size:11px;color:#8595AA;direction:ltr;text-align:right">{{ u.email }}</span>
+              </span>
+              <span style="flex:0 0 128px">
+                <span style="display:inline-flex;padding:6px 11px;background:{{ u.roleBg }};border:1px solid {{ u.roleBd }};border-radius:7px;font-size:11px;font-weight:600;color:{{ u.roleFg }}">{{ u.role }}</span>
+              </span>
+              <span style="flex:0 0 116px;font-size:11.5px;color:#8595AA">{{ u.last }}</span>
+              <button type="button" style="flex:0 0 32px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#3B4A5F" style-hover="border-color:#1B62E5;color:#1B62E5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16z"></path></svg>
+              </button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">إعدادات المتجر</span>
+          <sc-for list="{{ generalToggles }}" as="gt" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12.5px;color:#22364F">{{ gt.label }}</span>
+                <span style="font-size:10.5px;color:#8595AA">{{ gt.note }}</span>
+              </span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ gt.bg }};border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ gt.pos }}"></span>
+              </span>
+            </span>
+          </sc-for>
+        </div>
+        <div style="background:#FFF5F5;border:1px solid #F5C2C2;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <span style="display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;color:#C92A2A">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 3 2.5 20h19z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path></svg>
+            وضع الصيانة
+          </span>
+          <span style="font-size:12px;color:#7A2B2B;line-height:1.85">عند التفعيل يُعرض للزوّار إشعار بأن المتجر في تحديث مؤقّت، مع إبقاء زر واتساب فعّالاً.</span>
+          <span style="display:flex;align-items:center;gap:11px">
+            <span style="flex:1;font-size:12.5px;font-weight:600;color:#C92A2A">تفعيل وضع الصيانة</span>
+            <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#F0C9C9;border-radius:12px;cursor:pointer">
+              <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25)"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 20, height: size || 20, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+
+const STAR = React.createElement('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'currentColor' },
+  React.createElement('path', { d: 'm12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z' }));
+const stars = (n) => React.createElement('span', { style: { display: 'flex', gap: 3 } },
+  Array.from({ length: n }, (_, i) => React.cloneElement(STAR, { key: i })));
+
+const tg = (on) => ({ bg: on ? '#1B62E5' : '#DDE5EF', pos: on ? '17px' : '0' });
+
+const POLICIES = {
+  delivery: ['معلومات التوصيل', 'نوفّر سرعتَي توصيل داخل الأردن:\n\n• توصيل فوري — نفس اليوم: عمّان 3.00 د.أ، سحاب وعين الباشا والبقعة 4.00 د.أ، وباقي المحافظات 5.00 د.أ. يخضع للتوفّر ووقت الطلب.\n\n• توصيل اليوم التالي: سعر موحّد 2.00 د.أ لجميع مناطق المملكة.\n\n• الاستلام من المتجر: مجاناً خلال ساعات العمل — عمّان، مرج الحمام، إسكان عالية، مقابل شركة أورنج.\n\nتُحتسب كلفة التوصيل حسب المنطقة والسرعة المختارة، ويؤكَّد السعر النهائي وموعد التسليم معك عبر واتساب قبل الشحن.'],
+  payment: ['طرق الدفع', 'يمكنك الدفع بإحدى الطرق التالية:\n\n• الدفع عند الاستلام — نقداً للمندوب عند تسليم الطلب.\n• CliQ — تحويل فوري عبر تطبيق البنك.\n• حوالة بنكية — قبل الشحن مع إرسال إشعار التحويل.\n• الدفع في المتجر — عند استلام الطلب من الفرع.\n\nلا يوجد دفع إلكتروني على الموقع. تُرسل تفاصيل حساب CliQ أو الحوالة البنكية عند تأكيد الطلب على واتساب فقط ولا تُعرض بشكل عام.'],
+  returns: ['سياسة الاستبدال والإرجاع', 'لا تتوفر خدمة الإرجاع أو الاستبدال بعد استلام الطلب، باستثناء الحالات التي يصل فيها منتج غير مطابق للطلب.\n\nفي حال وصول منتج غير مطابق:\n\n1. تواصل معنا عبر واتساب فور استلام الطلب وقبل استخدام المنتج.\n2. أرسل صورة واضحة للمنتج المستلَم وصورة للفاتورة أو رسالة الطلب.\n3. نتحقّق من الحالة ونرتّب استبدال المنتج بالمنتج المطلوب في أسرع وقت.\n\nتُحدَّد تفاصيل ضمان كل منتج حسب الشركة المصنّعة وتُثبَّت في فاتورة الشراء.'],
+  privacy: ['سياسة الخصوصية', 'المعلومات التي نجمعها:\nنجمع فقط المعلومات التي تزوّدنا بها عند إرسال الطلب: الاسم، رقم الهاتف، المنطقة والعنوان، وأي ملاحظات تضيفها. لا يتطلب الموقع إنشاء حساب أو تسجيل دخول.\n\nكيف نستخدم المعلومات:\nتُستخدم بياناتك حصراً لتجهيز الطلب والتواصل معك حول التوصيل والدفع وخدمة ما بعد البيع.\n\nمشاركة المعلومات:\nلا نشارك بياناتك مع أي جهة خارجية باستثناء ما يلزم لتسليم الطلب (مندوب التوصيل).'],
+  terms: ['الشروط والأحكام', 'استخدام الموقع:\nيُتاح الموقع لعرض منتجات المتجر وتسهيل إرسال الطلبات عبر واتساب. المحتوى والأسعار قابلة للتحديث في أي وقت دون إشعار مسبق.\n\nالأسعار والتوفّر:\nتُعرض الأسعار بالدينار الأردني وتشمل قيمة المنتج فقط. كلفة التوصيل تُضاف حسب المنطقة والسرعة المختارة، ويُعتمد السعر النهائي عند تأكيد الطلب.\n\nالمنتجات والمواصفات:\nنحرص على دقة صور ومواصفات المنتجات. في حال وجود اختلاف بسيط في التغليف من المصنّع، يُعتمد وصف المنتج المتوفر لدى المتجر.']
+};
+
+const FAQS = [
+  ['الطلب', 'كيف أرسل طلبي عبر واتساب؟', 'بعد إضافة المنتجات إلى السلة، انتقل إلى صفحة مراجعة الطلب وأدخل بياناتك. سيقوم الموقع بتجهيز رسالة طلب مرتّبة تحتوي المنتجات والكميات والأسعار وطريقة التوصيل والدفع.', true],
+  ['الطلب', 'متى يعتبر الطلب مؤكداً؟', 'الطلب يصبح مؤكداً بعد ردّنا عليك على واتساب وتثبيت المنتجات والأسعار وموعد التسليم. إرسال الرسالة وحده لا يعني تثبيت الطلب.', true],
+  ['التوصيل', 'ما الفرق بين التوصيل الفوري واليوم التالي؟', 'التوصيل الفوري يصل في نفس اليوم وكلفته تختلف حسب المنطقة (٣–٥ د.أ). توصيل اليوم التالي بسعر موحّد ٢ د.أ لجميع مناطق المملكة.', true],
+  ['الدفع', 'هل يمكنني الدفع عند الاستلام؟', 'نعم، الدفع عند الاستلام متاح. كما يمكنك الدفع عبر CliQ أو حوالة بنكية قبل الشحن، أو الدفع في المتجر عند الاستلام منه.', true],
+  ['التوفر', 'ماذا تعني حالة «كمية محدودة»؟', 'تعني أن الكمية المتوفرة من المنتج قليلة وقد تنفد سريعاً. ننصح بتأكيد التوفر عبر واتساب قبل إرسال الطلب.', true],
+  ['الاستبدال', 'هل يمكن إرجاع منتج بعد استلامه؟', 'لا تتوفر خدمة الإرجاع أو الاستبدال بعد الاستلام، باستثناء وصول منتج غير مطابق للطلب.', false]
+];
+
+class Component extends DCLogic {
+  state = { policy: 'delivery', reviewChip: 0, decimals: 1, lang: 0 };
+
+  renderVals() {
+    const mode = this.props.mode || 'delivery';
+    const pol = POLICIES[this.state.policy] || POLICIES.delivery;
+    const rst = {
+      pub: { label: 'منشور', bg: '#F0FAF4', bd: '#CFE9DA', fg: '#0E7A3E' },
+      pend: { label: 'بانتظار الموافقة', bg: '#FFF9EC', bd: '#F3E0B5', fg: '#8A5D00' },
+      hid: { label: 'مخفي', bg: '#F1F5F9', bd: '#E2E8F0', fg: '#475569' }
+    };
+
+    return {
+      isDelivery: mode === 'delivery', isPayments: mode === 'payments', isWhatsapp: mode === 'whatsapp',
+      isReviews: mode === 'reviews', isPolicies: mode === 'policies', isFaq: mode === 'faq',
+      isContact: mode === 'contact', isGeneral: mode === 'general',
+
+      zones: [
+        { area: 'عمّان', fee: '3.00', eta: 'خلال 2 – 4 ساعات', on: true },
+        { area: 'سحاب', fee: '4.00', eta: 'خلال 3 – 5 ساعات', on: true },
+        { area: 'عين الباشا', fee: '4.00', eta: 'خلال 3 – 5 ساعات', on: true },
+        { area: 'البقعة', fee: '4.00', eta: 'خلال 3 – 5 ساعات', on: true },
+        { area: 'الزرقاء', fee: '4.00', eta: 'خلال 4 – 6 ساعات', on: true },
+        { area: 'باقي المحافظات', fee: '5.00', eta: 'نفس اليوم حسب التوفّر', on: true }
+      ].map((z) => Object.assign({}, z, { tgBg: tg(z.on).bg, tgPos: tg(z.on).pos })),
+      deliveryRules: [
+        { label: 'توصيل مجاني فوق مبلغ معيّن', note: 'يُطبَّق على المجموع قبل التوصيل', isToggle: false, value: '75 د.أ' },
+        { label: 'إظهار أسعار التوصيل في الرئيسية', note: 'جدول المناطق في قسم التوصيل', isToggle: true, value: '', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'طلب تأكيد المنطقة على واتساب', note: 'يُضاف سؤال في رسالة الطلب', isToggle: true, value: '', bg: tg(true).bg, pos: tg(true).pos }
+      ],
+
+      payMethods: [
+        { title: 'الدفع عند الاستلام', note: 'نقداً للمندوب عند تسليم الطلب', icon: svg([r(2.5, 6, 19, 12, 2.5), c(12, 12, 2.8), p('M6 9.5v5M18 9.5v5')], 21), iconBg: '#F0FAF4', iconFg: '#12A150', bd: '#CFE9DA', on: true, hasFields: false, fields: [] },
+        { title: 'CliQ', note: 'تحويل فوري عبر تطبيق البنك', icon: svg([r(7, 2.5, 10, 19, 3), p('M10.5 18.6h3')], 21), iconBg: '#EEF4FE', iconFg: '#1B62E5', bd: '#E4E9F1', on: true, hasFields: true, fields: [
+          { label: 'اسم مستعار CliQ', value: 'IVEGA', font: "'IBM Plex Mono',monospace", dir: 'ltr' },
+          { label: 'اسم صاحب الحساب', value: 'متجر Smart Line للإلكترونيات', font: 'inherit', dir: 'rtl' }
+        ] },
+        { title: 'حوالة بنكية', note: 'تحويل إلى حساب المتجر قبل الشحن', icon: svg([p('M3 9.5 12 4l9 5.5'), p('M5 10v8M9.5 10v8M14.5 10v8M19 10v8'), p('M3 20.5h18')], 21), iconBg: '#EEF4FE', iconFg: '#1B62E5', bd: '#E4E9F1', on: true, hasFields: true, fields: [
+          { label: 'البنك', value: 'البنك العربي', font: 'inherit', dir: 'rtl' },
+          { label: 'رقم الحساب / IBAN', value: 'JO00 ARAB 0000 0000 0000 0000 00', font: "'IBM Plex Mono',monospace", dir: 'ltr' }
+        ] },
+        { title: 'الدفع في المتجر', note: 'عند استلام الطلب من الفرع', icon: svg([p('M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5'), p('M2.5 9.5 5 4h14l2.5 5.5z')], 21), iconBg: '#EEF4FE', iconFg: '#1B62E5', bd: '#E4E9F1', on: true, hasFields: false, fields: [] }
+      ].map((m) => Object.assign({}, m, { tgBg: m.on ? '#12A150' : '#DDE5EF', tgPos: m.on ? '19px' : '0' })),
+      decimals: ['0', '2', '3'].map((l, i) => ({
+        label: l, pick: () => this.setState({ decimals: i }),
+        bg: this.state.decimals === i ? '#EEF4FE' : '#fff',
+        bd: this.state.decimals === i ? '#1B62E5' : '#E4E9F1',
+        fg: this.state.decimals === i ? '#0B3C82' : '#64748B'
+      })),
+      priceToggles: [
+        { label: 'إظهار السعر قبل الخصم', note: 'مشطوب بجانب السعر الحالي', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إظهار نسبة الخصم كشارة', note: 'شارة حمراء على صورة المنتج', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إخفاء أسعار المنتجات غير المتوفرة', note: 'يُستبدل السعر بزر استفسار', bg: tg(false).bg, pos: tg(false).pos }
+      ],
+
+      variables: ['{{products}}', '{{subtotal}}', '{{discount}}', '{{delivery}}', '{{total}}', '{{payment}}', '{{name}}', '{{phone}}', '{{address}}', '{{notes}}'],
+      template: 'السلام عليكم، أرغب بطلب المنتجات التالية من متجر Smart Line:\n\n{{products}}\n\nالمجموع الفرعي: {{subtotal}}\nالخصم: {{discount}}\n{{delivery}}\nالإجمالي التقديري: {{total}}\nطريقة الدفع: {{payment}}\n\nالاسم: {{name}}\nرقم الهاتف: {{phone}}\nالعنوان: {{address}}\nملاحظات: {{notes}}',
+      preview: 'السلام عليكم، أرغب بطلب المنتجات التالية من متجر Smart Line:\n\n1. رسيفر Smart Line HYPER K800 5G — الكمية: 1 — 42.00 د.أ\n2. كيبل HDMI 4K بطول ٣ متر — الكمية: 2 — 6.50 د.أ\n\nالمجموع الفرعي: 48.50 د.أ\nالخصم: 7.00 د.أ\nالتوصيل: فوري (نفس اليوم) — عمّان (3.00 د.أ)\nالإجمالي التقديري: 44.50 د.أ\nطريقة الدفع: الدفع عند الاستلام\n\nالاسم: محمد العبداللات\nرقم الهاتف: 079 123 4567',
+      quickReplies: [
+        { name: 'ترحيب', trigger: 'auto / first message', text: 'أهلاً بك في متجر Smart Line 👋 كيف نقدر نساعدك؟', on: true },
+        { name: 'تأكيد استلام الطلب', trigger: 'order received', text: 'تم استلام طلبك 👍 سنؤكّد التوفّر وكلفة التوصيل خلال دقائق.', on: true },
+        { name: 'تفاصيل CliQ', trigger: '/cliq', text: 'يمكنك التحويل على CliQ باسم IVEGA، وأرسل لنا صورة إشعار التحويل لتأكيد الطلب.', on: true },
+        { name: 'خارج ساعات العمل', trigger: 'after hours', text: 'شكراً لتواصلك — المتجر مغلق حالياً وسنرد عليك أول الدوام صباحاً.', on: false }
+      ].map((q) => Object.assign({}, q, { bg: q.on ? '#12A150' : '#DDE5EF', pos: q.on ? '15px' : '0' })),
+      waToggles: [
+        { label: 'زر عائم في كل الصفحات', note: 'أسفل يسار الشاشة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'زر واتساب في بطاقة المنتج', note: 'الزر المربّع بجانب زر السلة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'زر واتساب في شريحة البطل', note: 'بجانب الأزرار الأساسية', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'زر «اسأل عن توفّره» للمنتجات المنتهية', note: 'يستبدل زر السلة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إظهار الرقم في الشريط العلوي', note: 'أعلى الترويسة', bg: tg(true).bg, pos: tg(true).pos }
+      ],
+
+      reviewChips: [['الكل', 12], ['منشور', 6], ['بانتظار الموافقة', 4], ['مخفي', 2]].map(([label, count], i) => ({
+        label, count, go: () => this.setState({ reviewChip: i }),
+        bg: this.state.reviewChip === i ? '#EEF4FE' : '#fff',
+        bd: this.state.reviewChip === i ? '#1B62E5' : '#E3E9F0',
+        fg: this.state.reviewChip === i ? '#0B3C82' : '#3B4A5F',
+        cfg: this.state.reviewChip === i ? '#5B87D8' : '#9AA8BA',
+        fw: this.state.reviewChip === i ? 600 : 500
+      })),
+      reviews: [
+        { initials: 'أ.م', name: 'أبو محمد', meta: 'عمّان — طلب عبر واتساب', n: 5, s: 'pub', text: 'تعامل ممتاز وشرح واضح للفرق بين الأجهزة قبل الشراء. وصل الطلب بنفس اليوم وبنفس السعر المتفق عليه.' },
+        { initials: 'ر.ع', name: 'رامي ع.', meta: 'الزرقاء — استلام من المتجر', n: 5, s: 'pub', text: 'اشتريت رسيفر وكيبلات، وساعدوني بالضبط والتركيب على الهاتف بعد ما ركّبته في البيت.' },
+        { initials: 'س.خ', name: 'سائدة خ.', meta: 'إربد — توصيل اليوم التالي', n: 4, s: 'pub', text: 'أسعار مناسبة والتوصيل وصل بالوقت المحدد. الجهاز أصلي ومغلّف بشكل جيد.' },
+        { initials: 'ه.ش', name: 'هيا الشوابكة', meta: 'سحاب — قبل ساعتين', n: 5, s: 'pend', text: 'المروحة وصلت بسرعة والسعر أفضل من غيرهم. شكراً على المتابعة على واتساب.' },
+        { initials: 'خ.ر', name: 'خالد الرشدان', meta: 'البقعة — أمس', n: 4, s: 'pend', text: 'خدمة جيدة وردّ سريع. أتمنى توفير خيارات أكثر من الشاشات.' },
+        { initials: 'ن.ق', name: 'نور القضاة', meta: 'عمّان — الأسبوع الماضي', n: 3, s: 'hid', text: 'الجهاز جيد لكن التوصيل تأخر ساعة عن الموعد.' }
+      ].map((rv) => Object.assign({}, rv, {
+        stars: stars(rv.n), status: rst[rv.s].label, stBg: rst[rv.s].bg, stBd: rst[rv.s].bd, stFg: rst[rv.s].fg,
+        pending: rv.s === 'pend', published: rv.s !== 'pend',
+        bd: rv.s === 'pend' ? '#F3E0B5' : '#E4E9F1'
+      })),
+
+      policyNav: [
+        ['delivery', 'معلومات التوصيل', false], ['payment', 'طرق الدفع', false],
+        ['returns', 'الاستبدال والإرجاع', false], ['privacy', 'سياسة الخصوصية', true],
+        ['terms', 'الشروط والأحكام', true]
+      ].map(([id, label, dot]) => ({
+        label, dot, go: () => this.setState({ policy: id }),
+        bg: this.state.policy === id ? '#EEF4FE' : 'transparent',
+        fg: this.state.policy === id ? '#0B3C82' : '#3B4A5F',
+        fw: this.state.policy === id ? 600 : 500
+      })),
+      policyTitle: pol[0], policyBody: pol[1], policyKey: this.state.policy,
+      editorTools: ['B', 'I', 'U', 'H2', '≔', '⌘', '🔗'],
+
+      faqs: FAQS.map(([cat, q, a, on]) => ({
+        cat, q, a, tgBg: tg(on).bg, tgPos: on ? '15px' : '0'
+      })),
+      faqCats: [
+        { name: 'الطلب', count: 2 }, { name: 'التوصيل', count: 1 }, { name: 'الدفع', count: 1 },
+        { name: 'التوفر', count: 1 }, { name: 'الاستبدال', count: 1 }
+      ],
+      faqPlaces: [
+        { label: 'صفحة الدعم', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'صفحة السياسات', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'أسفل صفحة المنتج', bg: tg(false).bg, pos: tg(false).pos }
+      ],
+
+      contactFields: [
+        { label: 'رقم الهاتف', value: '+962 79 571 8978', font: "'IBM Plex Mono',monospace", dir: 'ltr', span: 'auto' },
+        { label: 'رقم واتساب', value: '+962 79 571 8978', font: "'IBM Plex Mono',monospace", dir: 'ltr', span: 'auto' },
+        { label: 'البريد الإلكتروني', value: 'info@smart-line-store.jo', font: "'IBM Plex Mono',monospace", dir: 'ltr', span: 'auto' },
+        { label: 'المدينة', value: 'عمّان', font: 'inherit', dir: 'rtl', span: 'auto' },
+        { label: 'العنوان الكامل', value: 'مرج الحمام، إسكان عالية، مقابل شركة أورنج', font: 'inherit', dir: 'rtl', span: 'span 2' }
+      ],
+      hours: [
+        { day: 'السبت', from: '10:00', to: '21:00', open: true },
+        { day: 'الأحد', from: '10:00', to: '21:00', open: true },
+        { day: 'الاثنين', from: '10:00', to: '21:00', open: true },
+        { day: 'الثلاثاء', from: '10:00', to: '21:00', open: true },
+        { day: 'الأربعاء', from: '10:00', to: '21:00', open: true },
+        { day: 'الخميس', from: '10:00', to: '22:00', open: true },
+        { day: 'الجمعة', from: '', to: '', open: false }
+      ].map((h) => Object.assign({}, h, {
+        closed: !h.open, tgBg: tg(h.open).bg, tgPos: h.open ? '17px' : '0'
+      })),
+      socials: [
+        { name: 'واتساب', value: 'https://wa.me/962795718978', tint: '#12A150', icon: svg([p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z')], 14) },
+        { name: 'إنستغرام', value: 'https://instagram.com/smartline.jo', tint: '#C13584', icon: svg([r(3, 3, 18, 18, 5), c(12, 12, 4)], 14) },
+        { name: 'فيسبوك', value: 'https://facebook.com/smart-linejordan', tint: '#1877F2', icon: svg([p('M15 3h-2.5A4.5 4.5 0 0 0 8 7.5V10H5.5v4H8v7h4v-7h3l1-4h-4V7.5c0-.6.4-1 1-1H15z')], 14) },
+        { name: 'تيك توك', value: '—', tint: '#0F1B2D', icon: svg([p('M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5'), p('M14 3c.4 2.4 2 4 4.5 4.3')], 14) }
+      ],
+
+      langs: ['العربية', 'English'].map((l, i) => ({
+        label: l, pick: () => this.setState({ lang: i }),
+        bg: this.state.lang === i ? '#EEF4FE' : '#fff',
+        bd: this.state.lang === i ? '#1B62E5' : '#E4E9F1',
+        fg: this.state.lang === i ? '#0B3C82' : '#64748B',
+        fw: this.state.lang === i ? 600 : 500
+      })),
+      users: [
+        { initials: 'م.ع', name: 'مدير المتجر', email: 'admin@smart-line-store.jo', role: 'مدير عام', last: 'متصل الآن', avBg: '#1B62E5', avFg: '#fff', roleBg: '#EEF4FE', roleBd: '#C7D9F6', roleFg: '#0B3C82' },
+        { initials: 'ه.م', name: 'هبة — الكتالوج', email: 'catalog@smart-line-store.jo', role: 'محرّر منتجات', last: 'اليوم 09:15', avBg: '#EEF4FE', avFg: '#0B3C82', roleBg: '#EAF7FB', roleBd: '#C7E6F0', roleFg: '#0E7490' },
+        { initials: 'ي.ط', name: 'ياسر — الطلبات', email: 'orders@smart-line-store.jo', role: 'موظّف طلبات', last: 'أمس 20:40', avBg: '#F0FAF4', avFg: '#0E7A3E', roleBg: '#F0FAF4', roleBd: '#CFE9DA', roleFg: '#0E7A3E' }
+      ],
+      generalToggles: [
+        { label: 'إظهار عدد المنتجات في الأقسام', note: 'يظهر أسفل اسم القسم', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إظهار المفضلة', note: 'أيقونة القلب في الترويسة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إظهار آراء العملاء في الرئيسية', note: 'قسم الآراء المنشورة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'تفعيل البحث الفوري', note: 'نتائج مقترحة أثناء الكتابة', bg: tg(true).bg, pos: tg(true).pos },
+        { label: 'إظهار شارة «كمية محدودة»', note: 'عند وصول الكمية لحد التنبيه', bg: tg(true).bg, pos: tg(true).pos }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

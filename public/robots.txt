@@ -1,0 +1,9 @@
+User-Agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /software/admin/
+Disallow: /software/login/
+Disallow: /checkout/
+Disallow: /cart/
+
+Sitemap: https://smart-line.business/sitemap.xml

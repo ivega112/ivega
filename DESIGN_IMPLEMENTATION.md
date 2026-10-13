@@ -1,0 +1,43 @@
+# Design Implementation Status
+
+Maps every `.dc.html` handoff screen to its production route/component. See
+`DESIGN_SOURCE_MAP.md` for the detailed file-by-file breakdown produced during design
+extraction; this file tracks build status against that map.
+
+| Design file | Production route(s) | Status | Responsive | Accessibility |
+|---|---|---|---|---|
+| `Smart Line Store.dc.html` (shell/nav/search/footer) | `src/app/(storefront)/layout.tsx`, `site-header.tsx`, `site-footer.tsx`, `search-trigger.tsx`, `mobile-nav.tsx` | Implemented (mega menu simplified to a flat nav row; full 12-item mega dropdown not ported) | Mobile bottom nav + drawer implemented; desktop nav implemented; verified no horizontal overflow at 375px on key pages | Skip link, `role="dialog"`/`aria-modal` on search + mobile drawer, `aria-current` on active nav, Escape-to-close, focus restoration |
+| `PageHome.dc.html` | `/` | Implemented and section-driven: `HomepageSection` rows control which blocks render, their order, and titles; hero (`HeroSlide`), category grid, banners, active campaigns, featured products, and approved/visible reviews all read from the DB | Responsive grid (2/4/6 cols) | Baseline |
+| `PageShop.dc.html` | `/shop` | Implemented — sidebar filter panel simplified to top chip bar (category/brand/sort), no price-range slider yet | Responsive grid | Baseline |
+| `PageBrands.dc.html` | `/brands`, `/brands/[slug]` | Implemented | Responsive grid | Baseline |
+| `PageProduct.dc.html` | `/product/[slug]` | Implemented (gallery, qty selector, related products, JSON-LD) — no recently-viewed rail on the page itself (data is tracked, rail not rendered) | Responsive 2-col → 1-col; verified 375px, no overflow | Baseline |
+| `PageCart.dc.html` | `/cart`, `/checkout/review` | Implemented as two routes (cart list + review/checkout form) instead of the prototype's single mode-switched screen | Responsive | Labels programmatically associated (`htmlFor`/`id`), validation errors use `role="alert"` |
+| `PageAbout.dc.html` | `/about` | Implemented, minimal (settings-driven description only) | N/A | Baseline |
+| `PageSupport.dc.html` | `/support` | Implemented, minimal (WhatsApp CTA only) | N/A | Baseline |
+| `PageContact.dc.html` | `/contact` | Implemented (contact info, opening hours, social links — all from `/admin/contact`) | N/A | Baseline |
+| `PageDocs.dc.html` | `/policies/[slug]`, `/faq` | Implemented via `PolicyPage`/`FaqItem` models, both editable in `/admin/policies` and `/admin/faq` | N/A | FAQ has `FAQPage` JSON-LD |
+| `PageSystem.dc.html` | none (dev-only design reference, not a production route) | Intentionally not ported — used only as the token-extraction source for `DESIGN_SYSTEM.md` | — | — |
+| `PageMobile.dc.html` | none (reference only — its patterns are folded into every route's mobile breakpoint) | Patterns applied inline (bottom nav, drawer, sticky checkout bar) rather than as a separate route | — | — |
+| `ProductCard.dc.html` | `src/components/storefront/product-card.tsx` | `grid` and `compact` variants implemented; `horizontal` variant (search-suggestion rows) not built | Responsive | Wishlist button has `aria-pressed`/`aria-label` |
+| `Smart Line Admin.dc.html` (admin shell) | `src/app/admin/(protected)/layout.tsx` + `admin-shell.tsx` | Implemented with a genuinely responsive sidebar: collapses to a hamburger-triggered off-canvas drawer under `md`, active-state highlighting via `usePathname`, grouped nav sections, permission-gated "المستخدمون" group (prototype used a fixed 1440px + CSS zoom hack — deliberately not replicated) | Verified at 375px: hamburger toggle, no horizontal overflow on `/admin/login` | Skip link, `aria-expanded`/`aria-controls` on the mobile toggle, `aria-current="page"` on active links |
+| `AdminOverview.dc.html` | `/admin` | Implemented with real DB-derived KPIs, latest orders, best sellers, low-stock alerts | — | Baseline |
+| `AdminProducts.dc.html` | `/admin/products`, `/admin/products/new`, `/admin/products/[id]` | Implemented: search, create/edit, image upload, visibility toggle, archive. **Not built**: duplicate, bulk actions, drag-reorder, dedicated SEO fields section, public preview link | — | Form fields labeled |
+| `AdminTaxonomy.dc.html` | `/admin/categories`, `/admin/brands` | Implemented: create + archive-when-linked. **Not built**: drag-and-drop reorder, image/logo upload, tint editor | — | Baseline |
+| `AdminHomepage.dc.html` | `/admin/homepage` | **Implemented**: section list with enable/disable, up/down reorder, title/subtitle editing, per-section item-limit config; hero slide create/edit/archive/enable with image upload, CTA, and schedule dates; promotional banner create/enable with image upload and link. Public homepage verified to reflect saved section config | — | Form fields labeled; toggle buttons have clear on/off text state |
+| `AdminSettings.dc.html` | `/admin/settings` (general store info + maintenance mode only) | Delivery/payments/WhatsApp/contact were split out of the original consolidated page into their own dedicated routes (see below) once those were built, to avoid duplicated architecture | — | Baseline |
+| *(new, not in original handoff mockup — required by spec)* | `/admin/delivery` | **Implemented**: delivery/pickup methods CRUD, zone CRUD with fee/estimated-time, active toggles. Checkout verified (e2e) to use the saved fee immediately | — | Baseline |
+| *(new)* | `/admin/payments` | **Implemented**: payment method CRUD, visibility toggle. Checkout verified (e2e) to only list visible methods | — | Baseline |
+| *(new)* | `/admin/whatsapp` | **Implemented**: international/display number, message template with placeholder validation (`{{unknownVar}}` rejected before save), quick replies, button-visibility locations, live message preview. Checkout verified (e2e) to use the saved number in the generated `wa.me` link | — | Baseline |
+| *(new)* | `/admin/contact` | **Implemented**: phone/address/map URL, opening hours (7 fixed rows, editable), social links CRUD. Public footer/contact page verified to render admin-managed social links | — | Baseline |
+| *(new)* | `/admin/policies` | **Implemented**: editor for all 5 fixed policy slugs (delivery/payment/returns/privacy/terms). Public `/policies/[slug]` verified (e2e) to reflect saved content. Content is rendered as plain text (React's default escaping) — no `dangerouslySetInnerHTML`, so no script-injection surface | — | Baseline |
+| *(new)* | `/admin/faq` | **Implemented**: create, edit-on-create, up/down reorder, show/hide, delete. Public `/faq` verified (e2e) to render newly created items | — | Baseline |
+| *(new)* | `/admin/reviews` | **Implemented**: approve/reject, show/hide, feature/unfeature, archive, manual review creation, status filter tabs. Public homepage "آراء عملائنا" section verified (e2e) to only show approved+visible reviews and to disappear when hidden | — | Baseline |
+| *(new)* | `/admin/campaigns` | **Implemented**: campaign create (name, description, discount label, display location, start/end dates, countdown toggle, linked products/categories via multi-select), activate/deactivate, archive. Validates end-date-after-start-date and that linked product/category IDs exist. Public homepage "حملات وعروض موسمية" section only shows campaigns where `isActive && startsAt <= now <= endsAt` | — | Baseline |
+| *(new)* | `/admin/users` | **Implemented, `SUPER_ADMIN`-only** (enforced server-side via `requirePermission("users:manage")`, not just hidden from nav): list, create, role change, activate/deactivate, force-revoke-all-sessions, password reset. Guards: cannot downgrade or deactivate the last active `SUPER_ADMIN` (verified by e2e test); passwords never exposed; session tokens never exposed (only hashes are stored, never returned to any client) | — | Baseline |
+
+## Genuinely unbuilt / known gaps (honest, not placeholders)
+- No drag-and-drop reordering anywhere (categories, brands, product images) — up/down-button reordering was used instead where reordering exists (FAQ, homepage sections).
+- No bulk product actions, product duplication, or dedicated SEO-fields sub-section in the product form (the fields exist in the schema and are settable via the API/Zod schema, just not surfaced in this form).
+- `ProductCard`'s `horizontal` variant (search-suggestion row layout) was not built — search results reuse the `grid`/`compact` card.
+- No dedicated accessibility audit tool (e.g. axe) was run — see `VERIFICATION_REPORT.md` for what accessibility work *was* done and why no automated tool was used.
+- Responsive verification was a targeted spot-check (specific routes/widths, documented in `VERIFICATION_REPORT.md`), not an exhaustive sweep of all 8 requested breakpoints × all routes.

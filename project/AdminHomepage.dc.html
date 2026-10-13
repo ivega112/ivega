@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;display:flex;flex-direction:column;gap:16px">
+
+  <sc-if value="{{ isBuilder }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;background:#fff;border:1px solid #E4E9F1;border-radius:14px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">أقسام الصفحة الرئيسية</span>
+          <span style="font-size:12px;color:#64748B">اسحب لإعادة الترتيب، وفعّل أو أخفِ أي قسم — التغييرات تظهر في المتجر بعد الحفظ</span>
+        </div>
+        <div style="margin-inline-start:auto;display:flex;gap:9px">
+          <button type="button" style="height:40px;padding:0 16px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;font-weight:600;color:#3B4A5F;cursor:pointer" style-hover="border-color:#1B62E5;color:#1B62E5">معاينة الرئيسية</button>
+          <button type="button" style="height:40px;padding:0 18px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ ونشر</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="10">
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fff;border:1px solid {{ b.bd }};border-radius:14px;transition:border-color .14s ease" style-hover="border-color:#BED2F2">
+              <span style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#C3CEDD;cursor:grab">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+              </span>
+              <span style="flex:0 0 auto;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:{{ b.iconBg }};border-radius:10px;color:{{ b.iconFg }}">{{ b.icon }}</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:3px;min-width:0">
+                <span style="display:flex;align-items:center;gap:9px">
+                  <span style="font-size:13.5px;font-weight:600;color:{{ b.titleFg }}">{{ b.title }}</span>
+                  <sc-if value="{{ b.tag }}" hint-placeholder-val="{{ false }}">
+                    <span style="padding:4px 8px;background:{{ b.tagBg }};border:1px solid {{ b.tagBd }};border-radius:6px;font-size:10px;font-weight:600;color:{{ b.tagFg }}">{{ b.tag }}</span>
+                  </sc-if>
+                </span>
+                <span style="font-size:11.5px;color:#8595AA;line-height:1.6">{{ b.desc }}</span>
+              </span>
+              <span style="flex:0 0 auto;display:flex;align-items:center;gap:9px">
+                <button type="button" style="height:34px;padding:0 13px;background:#F4F7FB;border:1px solid #E3E9F0;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#3B4A5F;cursor:pointer" style-hover="border-color:#1B62E5;color:#1B62E5">تخصيص</button>
+                <span style="width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ b.tgBg }};border-radius:12px;cursor:pointer">
+                  <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ b.tgPos }}"></span>
+                </span>
+              </span>
+            </div>
+          </sc-for>
+          <button type="button" style="display:flex;align-items:center;justify-content:center;gap:9px;min-height:52px;background:#fff;border:1.5px dashed #C7D9F6;border-radius:14px;font-family:inherit;font-size:13px;font-weight:600;color:#1B62E5;cursor:pointer" style-hover="background:#F5F9FF;border-color:#1B62E5">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+            إضافة قسم جديد إلى الرئيسية
+          </button>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">تخصيص: الأكثر مبيعاً</span>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">عنوان القسم</span>
+              <input value="الأكثر مبيعاً في المتجر" style="height:44px;padding:0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:13px;color:#0F1B2D;outline:0" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">وصف فرعي</span>
+              <input value="اختيارات العملاء الأكثر طلباً هذا الشهر" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#4A5B70;outline:0" />
+            </label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">طريقة اختيار المنتجات</span>
+              <sc-for list="{{ sourceOptions }}" as="so" hint-placeholder-count="3">
+                <label onClick="{{ so.pick }}" style="display:flex;gap:11px;padding:13px;background:{{ so.bg }};border:1.5px solid {{ so.bd }};border-radius:11px;cursor:pointer">
+                  <span style="flex:0 0 auto;width:18px;height:18px;margin-top:1px;display:flex;align-items:center;justify-content:center;border:1.5px solid {{ so.rb }};border-radius:50%">
+                    <span style="width:9px;height:9px;border-radius:50%;background:{{ so.dot }}"></span>
+                  </span>
+                  <span style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font-size:12.5px;font-weight:600;color:#0F1B2D">{{ so.label }}</span>
+                    <span style="font-size:11px;color:#64748B;line-height:1.65">{{ so.note }}</span>
+                  </span>
+                </label>
+              </sc-for>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">عدد المنتجات المعروضة</span>
+              <div style="display:flex;gap:7px">
+                <sc-for list="{{ countOptions }}" as="co" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ co.pick }}" style="flex:1;height:40px;background:{{ co.bg }};border:1.5px solid {{ co.bd }};border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:{{ co.fg }};cursor:pointer">{{ co.label }}</button>
+                </sc-for>
+              </div>
+            </label>
+            <div style="display:flex;flex-direction:column;gap:9px;padding-top:12px;border-top:1px solid #EEF2F7">
+              <span style="font-size:12px;font-weight:600;color:#22364F">تبويبات القسم</span>
+              <sc-for list="{{ tabRows }}" as="tr" hint-placeholder-count="3">
+                <span style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:9px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C3CEDD" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+                  <span style="flex:1;font-size:12px;color:#22364F">{{ tr }}</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9AA8BA" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+                </span>
+              </sc-for>
+            </div>
+            <button type="button" style="height:44px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">تطبيق على القسم</button>
+          </div>
+
+          <div style="background:#F8FAFD;border:1px solid #E4E9F1;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:11px">
+            <span style="font-size:13px;font-weight:600;color:#0F1B2D">ترتيب الرئيسية الحالي</span>
+            <sc-for list="{{ activeOrder }}" as="ao" hint-placeholder-count="8">
+              <span style="display:flex;align-items:center;gap:9px;font-size:11.5px;color:{{ ao.fg }}">
+                <span style="width:19px;height:19px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:{{ ao.numBg }};color:{{ ao.numFg }};border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ ao.n }}</span>
+                {{ ao.label }}
+              </span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCampaigns }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;gap:8px;padding:6px;background:#fff;border:1px solid #E4E9F1;border-radius:12px;align-self:flex-start">
+        <sc-for list="{{ campTabs }}" as="ct" hint-placeholder-count="3">
+          <button type="button" onClick="{{ ct.go }}" style="height:38px;padding:0 18px;background:{{ ct.bg }};color:{{ ct.fg }};border:0;border-radius:9px;font-family:inherit;font-size:13px;font-weight:{{ ct.fw }};cursor:pointer">{{ ct.label }}</button>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isHeroTab }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="font-size:15px;font-weight:700;color:#0F1B2D">شرائح البطل (Hero)</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:7px;font-size:11px;font-weight:600;color:#0E7A3E">3 شرائح مفعّلة</span>
+                <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#0B3C82;cursor:pointer">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                  شريحة جديدة
+                </button>
+              </div>
+              <sc-for list="{{ slides }}" as="s" hint-placeholder-count="3">
+                <div style="display:flex;gap:14px;padding:14px;background:{{ s.rowBg }};border:1px solid {{ s.rowBd }};border-radius:13px">
+                  <span style="flex:0 0 auto;display:flex;align-items:center;color:#C3CEDD;cursor:grab">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"></path></svg>
+                  </span>
+                  <span style="position:relative;flex:0 0 132px;height:84px;border-radius:10px;overflow:hidden;background:{{ s.bg }}">
+                    <sc-if value="{{ s.img }}" hint-placeholder-val="{{ false }}">
+                      <img src="{{ s.img }}" alt="{{ s.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+                    </sc-if>
+                    <span style="position:absolute;inset:0;background:linear-gradient(175deg,rgba(6,26,58,.1) 30%,rgba(6,26,58,.7))"></span>
+                    <sc-if value="{{ s.needsPhoto }}" hint-placeholder-val="{{ true }}">
+                      <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.65)">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2.5"></rect><path d="m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8"></path></svg>
+                      </span>
+                    </sc-if>
+                  </span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:6px;min-width:0">
+                    <span style="display:flex;align-items:center;gap:8px">
+                      <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ s.title }}</span>
+                      <sc-if value="{{ s.tag }}" hint-placeholder-val="{{ false }}">
+                        <span style="padding:3px 8px;background:{{ s.tagBg }};color:{{ s.tagFg }};border-radius:5px;font-size:10px;font-weight:600">{{ s.tag }}</span>
+                      </sc-if>
+                    </span>
+                    <span style="font-size:11.5px;color:#64748B;line-height:1.7">{{ s.sub }}</span>
+                    <span style="display:flex;align-items:center;gap:12px;margin-top:auto;font-size:11px;color:#8595AA">
+                      <span style="display:flex;align-items:center;gap:5px">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3 2"></path></svg>
+                        {{ s.dates }}
+                      </span>
+                      <span style="font-family:'IBM Plex Mono',monospace;direction:ltr">{{ s.link }}</span>
+                    </span>
+                  </span>
+                  <span style="flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:9px">
+                    <span style="width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ s.tgBg }};border-radius:12px;cursor:pointer">
+                      <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ s.tgPos }}"></span>
+                    </span>
+                    <span style="display:flex;gap:6px">
+                      <button type="button" style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#3B4A5F" style-hover="border-color:#1B62E5;color:#1B62E5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L20 8l-4-4L4 16z"></path></svg>
+                      </button>
+                      <button type="button" style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#8595AA" style-hover="color:#E03131;border-color:#F5C2C2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"></path></svg>
+                      </button>
+                    </span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+              <span style="font-size:15px;font-weight:700;color:#0F1B2D">تعديل الشريحة: «كل ما يخصّ الإلكترونيات»</span>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:12px;font-weight:600;color:#22364F">وسم أعلى العنوان</span>
+                  <input value="متجر إلكترونيات وأجهزة كهربائية في الأردن" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:12px;font-weight:600;color:#22364F">نص الزر الأساسي</span>
+                  <input value="تصفّح منتجات Smart Line" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+                </label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">العنوان الرئيسي</span>
+                <textarea style="min-height:66px;padding:12px 13px;background:#fff;border:1px solid #1B62E5;border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;color:#0F1B2D;outline:0;resize:vertical;line-height:1.6;box-shadow:0 0 0 3px rgba(27,98,229,.1)">كل ما يخصّ الإلكترونيات في مكان واحد</textarea>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">النص التوضيحي</span>
+                <textarea style="min-height:80px;padding:12px 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#4A5B70;outline:0;resize:vertical;line-height:1.85">رسيفرات وأجهزة أندرويد وشاشات وملحقات تلفزيون وكيبلات وصوتيات ومراوح وتبريد وأجهزة منزلية وعناية شخصية — منتجات أصلية وأسعار المتجر مباشرة، مع توصيل لكل مناطق المملكة.</textarea>
+              </label>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:12px;font-weight:600;color:#22364F">رابط الزر</span>
+                  <input value="/shop" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0F1B2D;outline:0;direction:ltr;text-align:left" />
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:12px;font-weight:600;color:#22364F">تاريخ البدء</span>
+                  <input value="2026-07-01" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0F1B2D;outline:0;direction:ltr;text-align:center" />
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:12px;font-weight:600;color:#22364F">تاريخ الانتهاء</span>
+                  <input value="—" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8595AA;outline:0;direction:ltr;text-align:center" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:13px">
+              <span style="font-size:14px;font-weight:700;color:#0F1B2D">معاينة الشريحة</span>
+              <div style="position:relative;overflow:hidden;background:#0B3C82;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:11px">
+                <span style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 0);background-size:18px 18px"></span>
+                <span style="position:relative;align-self:flex-start;padding:5px 10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:999px;font-size:9.5px;color:#CFE3FA">متجر إلكترونيات وأجهزة كهربائية</span>
+                <span style="position:relative;font-size:17px;font-weight:700;color:#fff;line-height:1.45">كل ما يخصّ الإلكترونيات في مكان واحد</span>
+                <span style="position:relative;font-size:11px;color:#B9D2F0;line-height:1.75">رسيفرات وشاشات وكيبلات وصوتيات ومراوح وأجهزة منزلية.</span>
+                <span style="position:relative;display:flex;gap:7px;margin-top:4px">
+                  <span style="height:32px;padding:0 14px;display:flex;align-items:center;background:#fff;color:#0B3C82;border-radius:8px;font-size:11px;font-weight:700">تصفّح منتجات Smart Line</span>
+                  <span style="height:32px;padding:0 12px;display:flex;align-items:center;background:#12A150;color:#fff;border-radius:8px;font-size:11px;font-weight:600">واتساب</span>
+                </span>
+              </div>
+              <span style="font-size:11px;color:#8595AA;line-height:1.75">المعاينة تقريبية — الشكل النهائي يظهر بعرض الشاشة الكامل في المتجر.</span>
+            </div>
+
+            <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:13px">
+              <span style="font-size:14px;font-weight:700;color:#0F1B2D">إعدادات الشرائح</span>
+              <sc-for list="{{ heroSettings }}" as="hs" hint-placeholder-count="4">
+                <span style="display:flex;align-items:center;gap:11px">
+                  <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:12.5px;color:#22364F">{{ hs.label }}</span>
+                    <span style="font-size:10.5px;color:#8595AA">{{ hs.note }}</span>
+                  </span>
+                  <sc-if value="{{ hs.isToggle }}" hint-placeholder-val="{{ true }}">
+                    <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:{{ hs.bg }};border-radius:12px;cursor:pointer">
+                      <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ hs.pos }}"></span>
+                    </span>
+                  </sc-if>
+                  <sc-if value="{{ hs.value }}" hint-placeholder-val="{{ false }}">
+                    <span style="flex:0 0 auto;height:32px;padding:0 12px;display:flex;align-items:center;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#0F1B2D;direction:ltr">{{ hs.value }}</span>
+                  </sc-if>
+                </span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBannerTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-size:15px;font-weight:700;color:#0F1B2D">البانرات الترويجية</span>
+              <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;color:#0B3C82;cursor:pointer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                بانر جديد
+              </button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <sc-for list="{{ banners }}" as="bn" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;background:#fff;border:1px solid #E4E9F1;border-radius:13px;overflow:hidden">
+                  <span style="position:relative;aspect-ratio:16/9;background:{{ bn.bg }};display:flex;align-items:flex-end;padding:14px">
+                    <sc-if value="{{ bn.img }}" hint-placeholder-val="{{ false }}">
+                      <img src="{{ bn.img }}" alt="{{ bn.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+                    </sc-if>
+                    <span style="position:absolute;inset:0;background:linear-gradient(175deg,rgba(6,26,58,.1) 30%,rgba(6,26,58,.8))"></span>
+                    <sc-if value="{{ bn.needsPhoto }}" hint-placeholder-val="{{ true }}">
+                      <span style="position:absolute;top:10px;left:10px;padding:4px 8px;background:rgba(255,255,255,.16);border:1px dashed rgba(255,255,255,.4);border-radius:6px;font-size:9.5px;color:rgba(255,255,255,.85)">صورة البانر</span>
+                    </sc-if>
+                    <span style="position:relative;display:flex;flex-direction:column;gap:4px">
+                      <span style="font-size:10px;font-weight:600;color:{{ bn.kickerFg }}">{{ bn.kicker }}</span>
+                      <span style="font-size:14px;font-weight:700;color:#fff;line-height:1.45">{{ bn.title }}</span>
+                    </span>
+                  </span>
+                  <span style="display:flex;align-items:center;gap:10px;padding:13px 14px">
+                    <span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
+                      <span style="font-size:11px;color:#8595AA">موضع الظهور</span>
+                      <span style="font-size:12px;font-weight:600;color:#22364F">{{ bn.slot }}</span>
+                    </span>
+                    <span style="width:38px;height:22px;display:flex;align-items:center;padding:2px;background:{{ bn.tgBg }};border-radius:11px;cursor:pointer">
+                      <span style="width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:{{ bn.tgPos }}"></span>
+                    </span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSeasonTab }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:1fr 372px;gap:16px;align-items:flex-start">
+          <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #EEF2F7">
+              <span style="font-size:15px;font-weight:700;color:#0F1B2D">الحملات الموسمية</span>
+              <button type="button" style="margin-inline-start:auto;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:#1B62E5;color:#fff;border:0;border-radius:9px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                حملة جديدة
+              </button>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 18px;background:#F8FAFD;border-bottom:1px solid #EEF2F7;font-size:11.5px;font-weight:600;color:#64748B">
+              <span style="flex:1">الحملة</span>
+              <span style="flex:0 0 168px">المدة</span>
+              <span style="flex:0 0 116px">الأقسام</span>
+              <span style="flex:0 0 96px">الخصم</span>
+              <span style="flex:0 0 100px">الحالة</span>
+            </div>
+            <sc-for list="{{ campaigns }}" as="cp" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid #F1F5F9">
+                <span style="flex:1;display:flex;align-items:center;gap:11px;min-width:0">
+                  <span style="width:34px;height:34px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:{{ cp.iconBg }};border-radius:9px;color:{{ cp.iconFg }}">{{ cp.icon }}</span>
+                  <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                    <span style="font-size:13px;font-weight:600;color:#0F1B2D">{{ cp.name }}</span>
+                    <span style="font-size:11px;color:#8595AA;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ cp.note }}</span>
+                  </span>
+                </span>
+                <span style="flex:0 0 168px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3B4A5F;direction:ltr;text-align:right">{{ cp.dates }}</span>
+                <span style="flex:0 0 116px;font-size:12px;color:#3B4A5F">{{ cp.scope }}</span>
+                <span style="flex:0 0 96px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:#B27700;direction:ltr">{{ cp.discount }}</span>
+                <span style="flex:0 0 100px">
+                  <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:{{ cp.stBg }};border:1px solid {{ cp.stBd }};border-radius:7px;font-size:11px;font-weight:600;color:{{ cp.stFg }}">
+                    <span style="width:6px;height:6px;border-radius:50%;background:{{ cp.stDot }}"></span>{{ cp.status }}
+                  </span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:#fff;border:1px solid #E4E9F1;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <span style="font-size:14.5px;font-weight:700;color:#0F1B2D">العدّاد الزمني للعروض</span>
+            <span style="display:flex;align-items:center;gap:11px">
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12.5px;color:#22364F">إظهار العدّاد في قسم العروض</span>
+                <span style="font-size:10.5px;color:#8595AA">يظهر أعلى شبكة العروض في الرئيسية</span>
+              </span>
+              <span style="flex:0 0 auto;width:40px;height:23px;display:flex;align-items:center;padding:2px;background:#1B62E5;border-radius:12px;cursor:pointer">
+                <span style="width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(15,27,45,.25);margin-inline-start:17px"></span>
+              </span>
+            </span>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">تاريخ ووقت الانتهاء</span>
+              <input value="2026-08-05 21:00" style="height:44px;padding:0 13px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0F1B2D;outline:0;direction:ltr;text-align:center" />
+            </label>
+            <div style="display:flex;flex-direction:column;gap:9px;padding:16px;background:#062A5C;border-radius:12px">
+              <span style="font-size:11px;color:#9FBEE8">معاينة العدّاد</span>
+              <div style="display:flex;gap:6px;direction:ltr">
+                <sc-for list="{{ countdown }}" as="cd" hint-placeholder-count="3">
+                  <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:9px">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:500;color:#fff">{{ cd.v }}</span>
+                    <span style="font-size:9.5px;color:#9FBEE8">{{ cd.l }}</span>
+                  </span>
+                </sc-for>
+              </div>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:600;color:#22364F">نص أعلى العدّاد</span>
+              <input value="ينتهي العرض بعد" style="height:44px;padding:0 13px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:10px;font-family:inherit;font-size:12.5px;color:#0F1B2D;outline:0" />
+            </label>
+            <button type="button" style="height:44px;background:#1B62E5;color:#fff;border:0;border-radius:10px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">حفظ الإعدادات</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 18, height: size || 18, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+
+const I = {
+  image: [r(3, 4.5, 18, 15, 2.5), c(8.5, 10, 1.6), p('m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8')],
+  truck: [p('M2 7h11v10H2z'), p('M13 10h4l3 3v4h-7z'), c(6, 18.5, 1.6), c(16.5, 18.5, 1.6)],
+  layers: [p('M12 3 3 8l9 5 9-5z'), p('m3 13 9 5 9-5')],
+  star: [p('m12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z')],
+  tag: [p('M20.2 12.4 12.4 20.2a2 2 0 0 1-2.8 0L3.8 14.4V4h10.4l6 6a2 2 0 0 1 0 2.4z'), c(8.4, 8.4, 1.2)],
+  box: [p('M12 2.5 3.5 7v10L12 21.5 20.5 17V7z'), p('M3.5 7 12 11.5 20.5 7')],
+  grid: [r(3, 3, 7.5, 7.5, 1.5), r(13.5, 3, 7.5, 7.5, 1.5), r(3, 13.5, 7.5, 7.5, 1.5), r(13.5, 13.5, 7.5, 7.5, 1.5)],
+  wa: [p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z'), p('M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8')],
+  pin: [p('M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z'), c(12, 10, 2.6)],
+  shield: [p('M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z'), p('m9 12 2 2 4-4')],
+  sun: [c(12, 12, 4), p('M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.6 5.6l2 2M16.4 16.4l2 2M18.4 5.6l-2 2M7.6 16.4l-2 2')],
+  snow: [p('M12 2v20M4 6l16 12M20 6L4 18')],
+  gift: [r(3, 8, 18, 12, 2), p('M3 12h18'), p('M12 8v12'), p('M8.5 8a2.5 2.5 0 0 1 0-5c1.7 0 3.5 2 3.5 5'), p('M15.5 8a2.5 2.5 0 0 0 0-5c-1.7 0-3.5 2-3.5 5')]
+};
+
+const BLOCKS = [
+  ['شريحة البطل (Hero)', 'العنوان الرئيسي + الأزرار + بطاقة العرض المميّز', I.image, true, 'ثابت', '#0B3C82'],
+  ['شريط الخدمات', 'التوصيل · الدفع · الدعم · الاستلام من المتجر', I.truck, true, '', ''],
+  ['شبكة الأقسام', '١٢ قسماً ببطاقات صور بنسبة 4:3', I.grid, true, '', ''],
+  ['الأكثر مبيعاً', 'ثلاثة تبويبات · ٤ منتجات لكل تبويب', I.box, true, '', ''],
+  ['حزمة التوفير + بانرات', 'حزمة تجهيز التلفزيون + بانرَي القسم', I.tag, true, '', ''],
+  ['شبكة الشركات', 'بطاقات الشركات بالشعارات', I.layers, true, '', ''],
+  ['وصل حديثاً', '٤ منتجات من جميع الأقسام', I.box, true, '', ''],
+  ['العروض الخاصة', 'خلفية داكنة + العدّاد الزمني', I.tag, true, 'حملة نشطة', '#E9A100'],
+  ['آراء العملاء', '٣ آراء منشورة من لوحة التحكم', I.star, true, '', ''],
+  ['التوصيل والموقع', 'أسعار المناطق + خريطة المتجر', I.pin, true, '', ''],
+  ['لماذا Smart Line', 'أربع بطاقات ثقة', I.shield, false, 'مخفي', '#64748B'],
+  ['شريط واتساب', 'دعوة للتواصل أسفل الصفحة', I.wa, true, '', '']
+];
+
+class Component extends DCLogic {
+  state = { source: 0, count: 1, campTab: 0 };
+
+  renderVals() {
+    const mode = this.props.mode || 'homepage';
+    const ct = this.state.campTab;
+    const st = {
+      active: { label: 'نشطة', bg: '#F0FAF4', bd: '#CFE9DA', fg: '#0E7A3E', dot: '#12A150' },
+      sched: { label: 'مجدولة', bg: '#F5F9FF', bd: '#D9E6FA', fg: '#0B3C82', dot: '#1B62E5' },
+      ended: { label: 'منتهية', bg: '#F1F5F9', bd: '#E2E8F0', fg: '#475569', dot: '#94A3B8' },
+      draft: { label: 'مسودّة', bg: '#FFF9EC', bd: '#F3E0B5', fg: '#8A5D00', dot: '#E9A100' }
+    };
+
+    return {
+      isBuilder: mode === 'homepage', isCampaigns: mode === 'campaigns',
+      blocks: BLOCKS.map(([title, desc, icon, on, tag, tint]) => ({
+        title, desc, tag, icon: svg(icon, 17),
+        titleFg: on ? '#0F1B2D' : '#8595AA',
+        iconBg: on ? '#EEF4FE' : '#F1F5F9', iconFg: on ? '#1B62E5' : '#94A3B8',
+        bd: on ? '#E4E9F1' : '#EDF1F7',
+        tagBg: tint === '#E9A100' ? '#FFF9EC' : tint === '#0B3C82' ? '#F5F9FF' : '#F1F5F9',
+        tagBd: tint === '#E9A100' ? '#F3E0B5' : tint === '#0B3C82' ? '#D9E6FA' : '#E2E8F0',
+        tagFg: tint === '#E9A100' ? '#8A5D00' : tint === '#0B3C82' ? '#0B3C82' : '#475569',
+        tgBg: on ? '#1B62E5' : '#DDE5EF', tgPos: on ? '17px' : '0'
+      })),
+      sourceOptions: [
+        { label: 'تلقائي — الأكثر مبيعاً', note: 'يُحدَّث أسبوعياً حسب الطلبات المؤكّدة' },
+        { label: 'اختيار يدوي', note: 'اختر المنتجات بنفسك من قائمة الكتالوج' },
+        { label: 'حسب القسم', note: 'أحدث منتجات قسم محدّد' }
+      ].map((o, i) => Object.assign({}, o, {
+        pick: () => this.setState({ source: i }),
+        bg: this.state.source === i ? '#F5F9FF' : '#fff',
+        bd: this.state.source === i ? '#1B62E5' : '#E4E9F1',
+        rb: this.state.source === i ? '#1B62E5' : '#CBD6E4',
+        dot: this.state.source === i ? '#1B62E5' : 'transparent'
+      })),
+      countOptions: ['4', '8', '12'].map((l, i) => ({
+        label: l, pick: () => this.setState({ count: i }),
+        bg: this.state.count === i ? '#EEF4FE' : '#fff',
+        bd: this.state.count === i ? '#1B62E5' : '#E4E9F1',
+        fg: this.state.count === i ? '#0B3C82' : '#64748B'
+      })),
+      tabRows: ['الأكثر مبيعاً', 'وصل حديثاً', 'الأفضل قيمة'],
+      activeOrder: BLOCKS.filter((b) => b[3]).map((b, i) => ({
+        n: i + 1, label: b[0], fg: '#3B4A5F', numBg: '#EEF4FE', numFg: '#0B3C82'
+      })),
+      campTabs: ['شرائح البطل', 'البانرات', 'الحملات الموسمية'].map((l, i) => ({
+        label: l, go: () => this.setState({ campTab: i }),
+        bg: ct === i ? '#1B62E5' : 'transparent',
+        fg: ct === i ? '#fff' : '#64748B',
+        fw: ct === i ? 600 : 500
+      })),
+      isHeroTab: ct === 0, isBannerTab: ct === 1, isSeasonTab: ct === 2,
+      slides: [
+        { title: 'كل ما يخصّ الإلكترونيات', sub: 'الشريحة الافتراضية — تعرّف المتجر ككل', img: 'assets/categories/cat-receivers.jpg', needsPhoto: false, bg: '#0B3C82', tag: 'نشطة', tagBg: '#12A150', tagFg: '#fff', dates: 'من 01/07 — بلا انتهاء', link: '/shop', on: true },
+        { title: 'موسم الصيف — مراوح ومبرّدات', sub: 'حملة موسمية تنتهي تلقائياً بنهاية آب', img: '', needsPhoto: true, bg: 'linear-gradient(150deg,#0E7490,#0891B2)', tag: 'نشطة', tagBg: '#12A150', tagFg: '#fff', dates: '01/06 — 31/08', link: '/category/cooling', on: true },
+        { title: 'عرض HYPER K800 5G', sub: 'شريحة منتج واحد مع السعر والخصم', img: '', needsPhoto: true, bg: 'linear-gradient(150deg,#0B3C82,#062A5C)', tag: '', tagBg: '', tagFg: '', dates: '20/07 — 05/08', link: '/product/k800', on: true }
+      ].map((s) => Object.assign({}, s, {
+        rowBg: s.on ? '#fff' : '#FAFCFE', rowBd: s.on ? '#E4E9F1' : '#EDF1F7',
+        tgBg: s.on ? '#1B62E5' : '#DDE5EF', tgPos: s.on ? '17px' : '0'
+      })),
+      heroSettings: [
+        { label: 'التبديل التلقائي بين الشرائح', note: 'يتوقف عند مرور المؤشر', isToggle: true, value: '', bg: '#1B62E5', pos: '17px' },
+        { label: 'مدة عرض الشريحة', note: 'بالثواني', isToggle: false, value: '6s', bg: '', pos: '' },
+        { label: 'إظهار مؤشرات الشرائح', note: 'الخطوط أسفل النص', isToggle: true, value: '', bg: '#1B62E5', pos: '17px' },
+        { label: 'إظهار زر واتساب في البطل', note: 'زر أخضر بجانب الأزرار الأساسية', isToggle: true, value: '', bg: '#1B62E5', pos: '17px' }
+      ],
+      banners: [
+        { kicker: 'موسم الصيف', kickerFg: '#BAF0FF', title: 'مراوح ومبرّدات هواء', slot: 'يمين شبكة الحزم', img: '', needsPhoto: true, bg: 'linear-gradient(150deg,#0E7490,#0891B2)', on: true },
+        { kicker: 'ملحقات أصلية', kickerFg: '#CFE3FA', title: 'ريموتات وكيبلات من 2.75 د.أ', slot: 'أسفل يمين الحزم', img: 'assets/categories/cat-mini.jpg', needsPhoto: false, bg: '#0B3C82', on: true },
+        { kicker: 'للمحلات والمقاسم', kickerFg: '#CFE3FA', title: 'أسعار الكميات', slot: 'صفحة العروض', img: '', needsPhoto: true, bg: 'linear-gradient(150deg,#1B4F8A,#062A5C)', on: false }
+      ].map((b) => Object.assign({}, b, {
+        tgBg: b.on ? '#1B62E5' : '#DDE5EF', tgPos: b.on ? '16px' : '0'
+      })),
+      campaigns: [
+        { name: 'موسم الصيف', note: 'مراوح · مبرّدات · مكيفات', dates: '2026-06-01 → 2026-08-31', scope: '3 أقسام', discount: '−15%', icon: svg(I.sun, 17), iconBg: '#FFF9EC', iconFg: '#B27700', s: 'active' },
+        { name: 'عرض الأسبوع — رسيفرات', note: 'HYPER K800 · K300 · K2', dates: '2026-07-20 → 2026-08-05', scope: 'قسم واحد', discount: '−14%', icon: svg(I.tag, 17), iconBg: '#EEF4FE', iconFg: '#1B62E5', s: 'active' },
+        { name: 'العودة إلى المدارس', note: 'أجهزة صغيرة · ساعات · سماعات', dates: '2026-08-15 → 2026-09-10', scope: '4 أقسام', discount: '−10%', icon: svg(I.gift, 17), iconBg: '#F5F9FF', iconFg: '#0B3C82', s: 'sched' },
+        { name: 'تجهيز الشتاء', note: 'أجهزة تدفئة وأجهزة منزلية', dates: '2025-11-01 → 2026-01-15', scope: '2 أقسام', discount: '−20%', icon: svg(I.snow, 17), iconBg: '#F1F5F9', iconFg: '#64748B', s: 'ended' }
+      ].map((cp) => Object.assign({}, cp, {
+        status: st[cp.s].label, stBg: st[cp.s].bg, stBd: st[cp.s].bd, stFg: st[cp.s].fg, stDot: st[cp.s].dot
+      })),
+      countdown: [{ v: '06', l: 'أيام' }, { v: '12', l: 'ساعة' }, { v: '24', l: 'دقيقة' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

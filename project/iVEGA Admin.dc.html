@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=1440" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F1F4F9;font-family:'IBM Plex Sans Arabic',system-ui,-apple-system,sans-serif;color:#0F1B2D;-webkit-font-smoothing:antialiased}
+  a{color:#1B62E5;text-decoration:none}
+  a:hover{color:#0B3C82}
+  button{font-family:inherit}
+  ::selection{background:#CFE0FB;color:#0B3C82}
+  @keyframes ivFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes ivShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+</style>
+</helmet>
+
+<div style="direction:rtl">
+  <div ref="{{ fitRef }}" style="min-width:1440px;padding-bottom:76px;transform-origin:top right">
+
+    <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:900px;display:grid;grid-template-columns:1fr 1fr;background:#fff">
+        <div style="position:relative;overflow:hidden;background:linear-gradient(160deg,#0B3C82,#062A5C);display:flex;flex-direction:column;justify-content:space-between;padding:48px">
+          <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 0);background-size:26px 26px"></div>
+          <div style="position:absolute;top:-160px;left:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.24),transparent 65%)"></div>
+          <div style="position:relative;display:flex;align-items:center;gap:12px">
+            <img src="assets/smart-line-logo.png" alt="Smart Line" style="width:48px;height:48px;border-radius:11px" />
+            <span style="display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:14px;font-weight:600;color:#fff">Smart Line — لوحة التحكم</span>
+              <span style="font-size:11.5px;color:#9FBEE8">إدارة متجر الإلكترونيات والأجهزة الكهربائية</span>
+            </span>
+          </div>
+          <div style="position:relative;display:flex;flex-direction:column;gap:22px">
+            <h1 style="margin:0;font-size:34px;font-weight:700;line-height:1.42;color:#fff;text-wrap:pretty">تحكّم كامل بالمنتجات<br />والأسعار والتوصيل والمحتوى</h1>
+            <div style="display:flex;flex-direction:column;gap:13px">
+              <sc-for list="{{ loginPoints }}" as="lp" hint-placeholder-count="4">
+                <span style="display:flex;align-items:center;gap:11px;font-size:14px;color:#CFE3FA">
+                  <span style="flex:0 0 auto;width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:9px;color:#7CC9F5">{{ lp.icon }}</span>
+                  {{ lp.text }}
+                </span>
+              </sc-for>
+            </div>
+          </div>
+          <span style="position:relative;font-size:11.5px;color:#7E9AC0">© 2026 Smart Line — جميع الحقوق محفوظة</span>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center;padding:48px">
+          <div style="width:100%;max-width:400px;display:flex;flex-direction:column;gap:22px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <h2 style="margin:0;font-size:26px;font-weight:700;line-height:1.4;color:#0F1B2D">تسجيل الدخول</h2>
+              <span style="font-size:13.5px;color:#64748B;line-height:1.8">أدخل بيانات حساب الإدارة للوصول إلى لوحة التحكم.</span>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:12.5px;font-weight:600;color:#22364F">البريد الإلكتروني أو اسم المستخدم</span>
+              <div style="display:flex;align-items:center;gap:10px;height:50px;padding:0 14px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:11px">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8595AA" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h18v11H3z"></path><path d="m3.5 7 8.5 6 8.5-6"></path></svg>
+                <input value="admin@smart-line-store.jo" style="flex:1;border:0;outline:0;background:transparent;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0F1B2D;direction:ltr;text-align:right" />
+              </div>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:12.5px;font-weight:600;color:#22364F">كلمة المرور</span>
+              <div style="display:flex;align-items:center;gap:10px;height:50px;padding:0 14px;background:#fff;border:1px solid #1B62E5;border-radius:11px;box-shadow:0 0 0 3px rgba(27,98,229,.1)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2.5"></rect><path d="M8 10V7.5a4 4 0 0 1 8 0V10"></path></svg>
+                <input value="••••••••••" style="flex:1;border:0;outline:0;background:transparent;font-size:14px;color:#0F1B2D;letter-spacing:.12em" />
+                <button type="button" style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#F4F7FB;border:1px solid #E3E9F0;border-radius:8px;cursor:pointer;color:#64748B">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12S18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="2.8"></circle></svg>
+                </button>
+              </div>
+            </label>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <label style="display:flex;align-items:center;gap:9px;cursor:pointer;font-size:12.5px;color:#3B4A5F">
+                <span style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;background:#1B62E5;border:1.5px solid #1B62E5;border-radius:5px;color:#fff">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+                </span>
+                أبقني مسجّلاً
+              </label>
+              <a href="#" style="font-size:12.5px;font-weight:600;color:#1B62E5">نسيت كلمة المرور؟</a>
+            </div>
+            <button type="button" onClick="{{ doLogin }}" style="height:52px;background:#1B62E5;color:#fff;border:0;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">دخول إلى لوحة التحكم</button>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:11px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round" style="flex:0 0 auto;margin-top:2px"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              <span style="font-size:12px;color:#4A5B70;line-height:1.8">الدخول محمي بتحقّق من خطوتين عبر رسالة واتساب إلى رقم المتجر المعتمد.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:262px 1fr;min-height:1000px">
+
+        <aside style="background:#08213F;display:flex;flex-direction:column;gap:0;padding:0 0 20px">
+          <div style="display:flex;align-items:center;gap:11px;padding:20px 18px;border-bottom:1px solid #14375F">
+            <img src="assets/smart-line-logo.png" alt="Smart Line" style="width:42px;height:42px;border-radius:10px" />
+            <span style="display:flex;flex-direction:column;gap:2px;flex:1">
+              <span style="font-size:13.5px;font-weight:600;color:#fff">لوحة تحكم Smart Line</span>
+              <span style="font-size:11px;color:#7E9AC0">إلكترونيات وأجهزة كهربائية</span>
+            </span>
+          </div>
+
+          <div style="padding:14px 12px;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="padding:0 10px 4px;font-size:10.5px;font-weight:600;color:#5E7CA4;letter-spacing:.06em">{{ g.title }}</span>
+                <sc-for list="{{ g.items }}" as="n" hint-placeholder-count="4">
+                  <button type="button" onClick="{{ n.go }}" style="display:flex;align-items:center;gap:11px;min-height:42px;padding:0 10px;background:{{ n.bg }};border:0;border-radius:9px;font-family:inherit;font-size:13px;font-weight:{{ n.fw }};color:{{ n.fg }};cursor:pointer;text-align:right;transition:background .14s ease" style-hover="background:#0E2E52;color:#fff">
+                    <span style="flex:0 0 auto;display:flex;color:{{ n.iconFg }}">{{ n.icon }}</span>
+                    <span style="flex:1">{{ n.label }}</span>
+                    <sc-if value="{{ n.badge }}" hint-placeholder-val="{{ false }}">
+                      <span style="min-width:20px;height:20px;padding:0 6px;display:flex;align-items:center;justify-content:center;background:{{ n.badgeBg }};color:#fff;border-radius:10px;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums">{{ n.badge }}</span>
+                    </sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:auto;padding:14px 12px 0;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:11px;padding:12px;background:#0E2E52;border:1px solid #1B4374;border-radius:11px">
+              <span style="width:36px;height:36px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#1B62E5;border-radius:10px;font-size:13px;font-weight:600;color:#fff">م.ع</span>
+              <span style="flex:1;display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:12.5px;font-weight:600;color:#fff">مدير المتجر</span>
+                <span style="font-size:10.5px;color:#7E9AC0;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">admin@smart-line-store.jo</span>
+              </span>
+              <button type="button" onClick="{{ doLogout }}" title="خروج" style="width:30px;height:30px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid #1B4374;border-radius:8px;cursor:pointer;color:#9FB8D8" style-hover="color:#fff;border-color:#38BDF8">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"></path><path d="M10 8 6 12l4 4"></path><path d="M6 12h9"></path></svg>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <main style="display:flex;flex-direction:column;min-width:0">
+          <header style="position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid #E4E9F1;display:flex;align-items:center;gap:18px;padding:0 24px;height:64px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <span style="font-size:16px;font-weight:700;color:#0F1B2D">{{ pageTitle }}</span>
+              <span style="font-size:11.5px;color:#8595AA">{{ pageSub }}</span>
+            </div>
+            <div style="margin-inline-start:auto;display:flex;align-items:center;gap:10px">
+              <div style="display:flex;align-items:center;gap:9px;height:40px;padding:0 13px;background:#F4F7FB;border:1px solid #E3E9F0;border-radius:10px;min-width:260px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8595AA" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+                <span style="flex:1;font-size:12.5px;color:#8595AA">ابحث عن منتج، طلب، أو إعداد…</span>
+                <span style="padding:2px 6px;background:#fff;border:1px solid #E3E9F0;border-radius:5px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#9AA8BA">⌘K</span>
+              </div>
+              <a href="#" style="display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:10px;font-size:12.5px;font-weight:600;color:#0E7A3E" style-hover="background:#12A150;color:#fff;border-color:#12A150">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+                طلبات واتساب
+                <span style="min-width:19px;height:19px;padding:0 5px;display:flex;align-items:center;justify-content:center;background:#12A150;color:#fff;border-radius:10px;font-size:10.5px;font-weight:700">6</span>
+              </a>
+              <button type="button" style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:10px;cursor:pointer;color:#3B4A5F" style-hover="border-color:#1B62E5;color:#1B62E5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+                <span style="position:absolute;top:-4px;left:-4px;min-width:18px;height:18px;padding:0 5px;display:flex;align-items:center;justify-content:center;background:#E03131;color:#fff;border-radius:9px;font-size:10.5px;font-weight:600;border:2px solid #fff">3</span>
+              </button>
+              <a href="#" style="display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;background:#fff;border:1px solid #E3E9F0;border-radius:10px;font-size:12.5px;font-weight:600;color:#0B3C82" style-hover="border-color:#1B62E5;color:#1B62E5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12S18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="2.8"></circle></svg>
+                عرض المتجر
+              </a>
+            </div>
+          </header>
+
+          <div style="flex:1;padding:20px 24px 32px;display:flex;flex-direction:column;gap:16px;min-width:0">
+            <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+              <dc-import name="AdminOverview" go="{{ goto }}" hint-size="100%,1200px"></dc-import>
+            </sc-if>
+            <sc-if value="{{ isProducts }}" hint-placeholder-val="{{ false }}">
+              <dc-import name="AdminProducts" mode="{{ screen }}" go="{{ goto }}" hint-size="100%,1200px"></dc-import>
+            </sc-if>
+            <sc-if value="{{ isTaxonomy }}" hint-placeholder-val="{{ false }}">
+              <dc-import name="AdminTaxonomy" mode="{{ screen }}" go="{{ goto }}" hint-size="100%,1100px"></dc-import>
+            </sc-if>
+            <sc-if value="{{ isHomepage }}" hint-placeholder-val="{{ false }}">
+              <dc-import name="AdminHomepage" mode="{{ screen }}" go="{{ goto }}" hint-size="100%,1200px"></dc-import>
+            </sc-if>
+            <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+              <dc-import name="AdminSettings" mode="{{ screen }}" go="{{ goto }}" hint-size="100%,1200px"></dc-import>
+            </sc-if>
+          </div>
+        </main>
+      </div>
+    </sc-if>
+  </div>
+
+  <div style="position:fixed;bottom:16px;right:50%;transform:translateX(50%);z-index:140;display:flex;align-items:center;gap:8px;max-width:94vw;height:52px;padding:0 12px;background:rgba(8,18,31,.96);border:1px solid #23364D;border-radius:14px;box-shadow:0 18px 40px -14px rgba(0,0,0,.6);overflow-x:auto">
+    <span style="display:flex;align-items:center;gap:7px;flex:0 0 auto;color:#7D8FA6;font-size:11px;font-weight:500;letter-spacing:.02em;font-family:'IBM Plex Mono',monospace">
+      <span style="width:7px;height:7px;border-radius:50%;background:#38BDF8"></span>Smart Line Admin
+    </span>
+    <div style="width:1px;height:22px;background:#23364D;flex:0 0 auto"></div>
+    <sc-for list="{{ screens }}" as="s" hint-placeholder-count="12">
+      <button type="button" onClick="{{ s.go }}" style="flex:0 0 auto;height:30px;padding:0 11px;border-radius:8px;border:1px solid {{ s.bd }};background:{{ s.bg }};color:{{ s.fg }};font-size:12px;font-weight:{{ s.fw }};cursor:pointer;white-space:nowrap;transition:all .14s ease" style-hover="border-color:#38BDF8;color:#fff">{{ s.label }}</button>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 18, height: size || 18, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+
+const I = {
+  grid: [r(3, 3, 7.5, 7.5, 1.5), r(13.5, 3, 7.5, 7.5, 1.5), r(3, 13.5, 7.5, 7.5, 1.5), r(13.5, 13.5, 7.5, 7.5, 1.5)],
+  box: [p('M12 2.5 3.5 7v10L12 21.5 20.5 17V7z'), p('M3.5 7 12 11.5 20.5 7'), p('M12 11.5v10')],
+  plus: [p('M12 5v14M5 12h14')],
+  layers: [p('M12 3 3 8l9 5 9-5z'), p('m3 13 9 5 9-5')],
+  tag: [p('M20.2 12.4 12.4 20.2a2 2 0 0 1-2.8 0L3.8 14.4V4h10.4l6 6a2 2 0 0 1 0 2.4z'), c(8.4, 8.4, 1.2)],
+  home: [p('M3.5 11.5 12 4l8.5 7.5'), p('M6 11v9.5h12V11')],
+  image: [r(3, 4.5, 18, 15, 2.5), c(8.5, 10, 1.6), p('m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8')],
+  truck: [p('M2 7h11v10H2z'), p('M13 10h4l3 3v4h-7z'), c(6, 18.5, 1.6), c(16.5, 18.5, 1.6)],
+  wallet: [r(3, 6, 18, 13, 3), p('M3 10h18'), c(17, 14.5, 1.2)],
+  wa: [p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z'), p('M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8')],
+  star: [p('m12 3.6 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.8l5.9-.9z')],
+  doc: [p('M6 3h8l4 4v14H6z'), p('M14 3v4h4'), p('M9 12h6M9 16h6')],
+  help: [c(12, 12, 9), p('M9.6 9.4a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6v.4'), p('M12 17h.01')],
+  pin: [p('M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z'), c(12, 10, 2.6)],
+  gear: [c(12, 12, 3), p('M12 2.5v3M12 18.5v3M3.5 12h3M17.5 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2')],
+  chart: [p('M4 20V10M10 20V4M16 20v-7M22 20H2')],
+  users: [c(9, 8, 3.4), p('M3 20a6 6 0 0 1 12 0'), p('M16 5.2a3.4 3.4 0 0 1 0 5.6'), p('M17.5 20a5.6 5.6 0 0 0-2-4')]
+};
+
+const SCREENS = [
+  { id: 'login', label: 'تسجيل الدخول' },
+  { id: 'overview', label: 'نظرة عامة' },
+  { id: 'products', label: 'المنتجات' },
+  { id: 'product-edit', label: 'تعديل منتج' },
+  { id: 'categories', label: 'الأقسام' },
+  { id: 'brands', label: 'الشركات' },
+  { id: 'homepage', label: 'بنّاء الرئيسية' },
+  { id: 'campaigns', label: 'الأبطال والحملات' },
+  { id: 'delivery', label: 'قواعد التوصيل' },
+  { id: 'payments', label: 'طرق الدفع' },
+  { id: 'whatsapp', label: 'إعدادات واتساب' },
+  { id: 'reviews', label: 'آراء العملاء' },
+  { id: 'policies', label: 'السياسات' },
+  { id: 'faq', label: 'الأسئلة الشائعة' },
+  { id: 'contact', label: 'معلومات الاتصال' },
+  { id: 'general', label: 'إعدادات عامة' }
+];
+
+const META = {
+  overview: ['نظرة عامة', 'ملخّص أداء المتجر والطلبات الواردة'],
+  products: ['المنتجات', '268 منتجاً في 12 قسماً'],
+  'product-edit': ['تعديل منتج', 'رسيفر Smart Line HYPER K800 5G — IVG-K800-5G'],
+  categories: ['الأقسام', '12 قسماً — الترتيب والصور والظهور'],
+  brands: ['الشركات', '8 شركات — الشعارات والأقسام المرتبطة'],
+  homepage: ['بنّاء الصفحة الرئيسية', 'ترتيب الأقسام وتفعيلها وتحديد محتواها'],
+  campaigns: ['الأبطال والحملات الموسمية', 'شرائح البطل، البانرات، والعدّاد الزمني'],
+  delivery: ['قواعد التوصيل', 'المناطق والأسعار وسرعات التوصيل'],
+  payments: ['طرق الدفع', 'تفعيل الطرق وتفاصيل الحسابات'],
+  whatsapp: ['إعدادات واتساب', 'الرقم وقالب رسالة الطلب والردود السريعة'],
+  reviews: ['آراء العملاء', 'مراجعة ونشر آراء العملاء على الرئيسية'],
+  policies: ['السياسات', 'التوصيل، الاستبدال، الخصوصية، والشروط'],
+  faq: ['الأسئلة الشائعة', 'إدارة الأسئلة وتصنيفها وترتيبها'],
+  contact: ['معلومات الاتصال', 'العنوان، الأرقام، الخريطة، وأوقات العمل'],
+  general: ['إعدادات عامة', 'الهوية، اللغة، العملة، والصلاحيات']
+};
+
+class Component extends DCLogic {
+  state = { screen: 'overview' };
+  fitRef = React.createRef();
+
+  fit = () => {
+    const el = this.fitRef.current;
+    if (!el) return;
+    const w = el.parentElement ? el.parentElement.clientWidth : window.innerWidth;
+    el.style.zoom = Math.min(1, w / 1440);
+  };
+
+  componentDidMount() {
+    this.fit();
+    window.addEventListener('resize', this.fit);
+    this._t = setInterval(this.fit, 900);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.fit);
+    clearInterval(this._t);
+  }
+
+  go = (id) => {
+    this.setState({ screen: id });
+    try { window.scrollTo(0, 0); } catch (e) {}
+  };
+
+  renderVals() {
+    const sc = this.state.screen;
+    const navDefs = [
+      ['التحليلات', [
+        ['overview', 'نظرة عامة', I.grid, '']
+      ]],
+      ['الكتالوج', [
+        ['products', 'المنتجات', I.box, '268'],
+        ['product-edit', 'إضافة / تعديل منتج', I.plus, ''],
+        ['categories', 'الأقسام', I.layers, '12'],
+        ['brands', 'الشركات', I.tag, '8']
+      ]],
+      ['واجهة المتجر', [
+        ['homepage', 'بنّاء الصفحة الرئيسية', I.home, ''],
+        ['campaigns', 'الأبطال والحملات', I.image, '3'],
+        ['reviews', 'آراء العملاء', I.star, '4']
+      ]],
+      ['الطلبات والإعدادات', [
+        ['delivery', 'قواعد التوصيل', I.truck, ''],
+        ['payments', 'طرق الدفع', I.wallet, ''],
+        ['whatsapp', 'إعدادات واتساب', I.wa, ''],
+        ['policies', 'السياسات', I.doc, ''],
+        ['faq', 'الأسئلة الشائعة', I.help, '6'],
+        ['contact', 'معلومات الاتصال', I.pin, ''],
+        ['general', 'إعدادات عامة', I.gear, '']
+      ]]
+    ];
+    const meta = META[sc] || ['لوحة التحكم', ''];
+
+    return {
+      fitRef: this.fitRef,
+      isLogin: sc === 'login', isApp: sc !== 'login',
+      screen: sc, pageTitle: meta[0], pageSub: meta[1],
+      isOverview: sc === 'overview',
+      isProducts: ['products', 'product-edit'].indexOf(sc) > -1,
+      isTaxonomy: ['categories', 'brands'].indexOf(sc) > -1,
+      isHomepage: ['homepage', 'campaigns'].indexOf(sc) > -1,
+      isSettings: ['delivery', 'payments', 'whatsapp', 'reviews', 'policies', 'faq', 'contact', 'general'].indexOf(sc) > -1,
+      loginPoints: [
+        { icon: svg(I.box, 15), text: 'إدارة المنتجات والأسعار والتوفّر' },
+        { icon: svg(I.image, 15), text: 'رفع صور الأقسام والحملات الموسمية' },
+        { icon: svg(I.truck, 15), text: 'ضبط مناطق التوصيل وأسعارها' },
+        { icon: svg(I.wa, 15), text: 'تخصيص قالب رسالة الطلب على واتساب' }
+      ],
+      navGroups: navDefs.map(([title, items]) => ({
+        title,
+        items: items.map(([id, label, icon, badge]) => ({
+          label, badge, go: () => this.go(id), icon: svg(icon, 17),
+          bg: sc === id ? '#1B62E5' : 'transparent',
+          fg: sc === id ? '#fff' : '#A9C2E0',
+          iconFg: sc === id ? '#fff' : '#6F8DB5',
+          fw: sc === id ? 600 : 500,
+          badgeBg: sc === id ? 'rgba(255,255,255,.24)' : '#14375F'
+        }))
+      })),
+      screens: SCREENS.map((s) => ({
+        label: s.label, go: () => this.go(s.id),
+        bg: sc === s.id ? '#1B62E5' : 'transparent',
+        bd: sc === s.id ? '#1B62E5' : '#243449',
+        fg: sc === s.id ? '#fff' : '#93A5BC',
+        fw: sc === s.id ? 600 : 500
+      })),
+      goto: this.go,
+      doLogin: () => this.go('overview'),
+      doLogout: () => this.go('login')
+    };
+  }
+}
+</script>
+</body>
+</html>

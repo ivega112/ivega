@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="direction:rtl;font-family:'IBM Plex Sans Arabic',system-ui,sans-serif;background:#EEF1F6;min-width:1440px;padding:0 0 90px">
+
+  <div style="background:#08213F;color:#fff;padding:38px 0">
+    <div style="max-width:1320px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:22px">
+      <img src="assets/smart-line-logo.png" alt="Smart Line" style="width:64px;height:64px;border-radius:14px" />
+      <div style="display:flex;flex-direction:column;gap:7px;flex:1">
+        <h1 style="margin:0;font-size:30px;font-weight:700;line-height:1.35">نظام تصميم Smart Line</h1>
+        <span style="font-size:14px;color:#9FB8D8;line-height:1.8">مرجع الألوان والطباعة والمكوّنات وقواعد الصور المعتمدة في متجر Smart Line للإلكترونيات والأجهزة الكهربائية — عربية أولاً (RTL) وجاهزة لدعم الإنجليزية.</span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <span style="display:flex;flex-direction:column;gap:3px;padding:14px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px">
+          <span style="font-size:11px;color:#9FB8D8">الخط</span>
+          <span style="font-size:13px;font-weight:600">IBM Plex Sans Arabic</span>
+        </span>
+        <span style="display:flex;flex-direction:column;gap:3px;padding:14px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px">
+          <span style="font-size:11px;color:#9FB8D8">الشبكة</span>
+          <span style="font-size:13px;font-weight:600;font-family:'IBM Plex Mono',monospace">1320 · 12 col · 8pt</span>
+        </span>
+        <span style="display:flex;flex-direction:column;gap:3px;padding:14px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px">
+          <span style="font-size:11px;color:#9FB8D8">النسخة</span>
+          <span style="font-size:13px;font-weight:600;font-family:'IBM Plex Mono',monospace">v2 · image-driven</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:1320px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:16px">
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">مبادئ الاتجاه البصري</h2>
+        <span style="font-size:13.5px;color:#64748B">القواعد الخمس التي تحكم كل صفحة في المتجر</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+        <sc-for list="{{ principles }}" as="pr" hint-placeholder-count="5">
+          <div style="display:flex;flex-direction:column;gap:10px;padding:20px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:14px">
+            <span style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#0B3C82;color:#fff;border-radius:9px;font-family:'IBM Plex Mono',monospace;font-size:12px">{{ pr.n }}</span>
+            <span style="font-size:14px;font-weight:600;color:#0F1B2D;line-height:1.5">{{ pr.title }}</span>
+            <span style="font-size:12.5px;color:#64748B;line-height:1.8;text-wrap:pretty">{{ pr.text }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">خريطة الموقع والتنقّل</h2>
+        <span style="font-size:13.5px;color:#64748B">التنقّل الأساسي في شريط واحد + قائمة أقسام منسدلة بـ ١٢ قسماً</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <sc-for list="{{ sitemap }}" as="g" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:10px;padding:18px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:14px">
+            <span style="font-size:12px;font-weight:600;color:#0B3C82;letter-spacing:.02em">{{ g.title }}</span>
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+              <span style="display:flex;align-items:center;gap:9px;padding:9px 11px;background:#fff;border:1px solid #E9EEF4;border-radius:9px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8595AA;direction:ltr">{{ it.route }}</span>
+                <span style="margin-inline-start:auto;font-size:12.5px;font-weight:500;color:#22364F">{{ it.name }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الألوان</h2>
+        <span style="font-size:13.5px;color:#64748B">الأزرق العميق للهوية، الأزرق الملكي للأزرار الأساسية، الأخضر لواتساب، والسماوي للتمييز فقط</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <sc-for list="{{ colorGroups }}" as="cg" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:12.5px;font-weight:600;color:#22364F">{{ cg.title }}</span>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px">
+              <sc-for list="{{ cg.items }}" as="sw" hint-placeholder-count="6">
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <span style="height:66px;border-radius:12px;background:{{ sw.hex }};border:1px solid {{ sw.bd }}"></span>
+                  <span style="display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:12px;font-weight:600;color:#0F1B2D">{{ sw.name }}</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8595AA;direction:ltr">{{ sw.hex }}</span>
+                    <span style="font-size:10.5px;color:#9AA8BA;line-height:1.5">{{ sw.use }}</span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:22px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">قواعد صور المنتجات</h2>
+        <span style="font-size:13.5px;color:#64748B">المنتج يملأ الإطار — إطار بنسبة 4:3، حشوة داخلية 4px فقط، خلفية متدرّجة فاتحة، وتكبير عند المرور</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:11px;padding:20px;background:#F0FAF4;border:1px solid #CFE9DA;border-radius:15px">
+          <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#0E7A3E">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+            الصحيح — المنتج يملأ الإطار
+          </span>
+          <div style="position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #EDF1F7">
+            <img src="assets/products/k800.png" alt="مثال صحيح" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:contain;mix-blend-mode:multiply" />
+          </div>
+          <span style="font-size:12.5px;color:#3B4A5F;line-height:1.85">قصّ الصورة على حدود المنتج مع هامش ٣٪ كحد أقصى، ثم عرضها بـ <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;direction:ltr">object-fit: contain</span> داخل إطار 4:3 بحشوة 4px.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px;padding:20px;background:#FFF5F5;border:1px solid #F5C2C2;border-radius:15px">
+          <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#C92A2A">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#E03131" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+            الخطأ — منتج صغير داخل صندوق فارغ
+          </span>
+          <div style="position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#fff;border:1px solid #EDF1F7;display:flex;align-items:center;justify-content:center">
+            <img src="assets/products/k800.png" alt="مثال خاطئ" style="width:44%;height:44%;object-fit:contain;mix-blend-mode:multiply;opacity:.75" />
+            <span style="position:absolute;inset:10px;border:1px dashed #F5C2C2;border-radius:9px"></span>
+          </div>
+          <span style="font-size:12.5px;color:#7A2B2B;line-height:1.85">لا تستخدم صوراً مربّعة بهوامش بيضاء واسعة، ولا حشوة داخلية أكبر من 12px، ولا إطارات بزوايا مبالغ فيها تُفقد المنتج ثقله البصري.</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <sc-for list="{{ imageRules }}" as="ir" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:7px;padding:18px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:13px">
+            <span style="font-size:12px;color:#8595AA">{{ ir.label }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:500;color:#0B3C82;direction:ltr">{{ ir.value }}</span>
+            <span style="font-size:11.5px;color:#64748B;line-height:1.7">{{ ir.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13.5px;font-weight:600;color:#22364F">معرض صور المنتج (صفحة التفاصيل)</span>
+        <div style="display:flex;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:9px;flex:0 0 88px">
+            <sc-for list="{{ galleryThumbs }}" as="g" hint-placeholder-count="4">
+              <span style="position:relative;width:88px;height:76px;background:#fff;border:1.5px solid {{ g.bd }};border-radius:10px;overflow:hidden">
+                <sc-if value="{{ g.img }}" hint-placeholder-val="{{ true }}">
+                  <img src="{{ g.img }}" alt="" style="position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px);object-fit:contain;mix-blend-mode:multiply" />
+                </sc-if>
+                <sc-if value="{{ g.ph }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#F2F6FB 0 6px,#FBFDFF 6px 12px)"></span>
+                </sc-if>
+              </span>
+            </sc-for>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:9px">
+            <div style="position:relative;aspect-ratio:4/3;background:#fff;border:1px solid #E4E9F1;border-radius:16px;overflow:hidden">
+              <img src="assets/products/k800.png" alt="معرض المنتج" style="position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain;mix-blend-mode:multiply" />
+              <span style="position:absolute;bottom:12px;left:12px;display:flex;align-items:center;gap:7px;padding:7px 11px;background:rgba(255,255,255,.94);border:1px solid #E4E9F1;border-radius:9px;font-size:11.5px;color:#64748B">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6M11 8.5v5M8.5 11h5"></path></svg>
+                تكبير 1.3× عند المرور
+              </span>
+            </div>
+            <span style="font-size:12px;color:#64748B;line-height:1.8">الصورة الرئيسية بنسبة 4:3 وحشوة 10px · المصغّرات 88×76 بحشوة 4px وحدّ أزرق 1.5px للمحدّد · أربع زوايا كحد أدنى لكل منتج.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">بطاقات الأقسام — قائمة على الصور</h2>
+        <span style="font-size:13.5px;color:#64748B">بطاقة القسم صورة كاملة بنسبة 4:3 مع تعتيم متدرّج واسم القسم وعدد المنتجات — بدون أيقونات كعنصر بصري رئيسي</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <sc-for list="{{ catSpecs }}" as="cs" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:11.5px;font-weight:600;color:#8595AA">{{ cs.label }}</span>
+            <span style="position:relative;display:block;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:{{ cs.bg }}">
+              <sc-if value="{{ cs.img }}" hint-placeholder-val="{{ false }}">
+                <img src="{{ cs.img }}" alt="{{ cs.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+              </sc-if>
+              <span style="position:absolute;inset:0;background:linear-gradient(175deg,rgba(6,26,58,.08) 30%,rgba(6,26,58,.86))"></span>
+              <sc-if value="{{ cs.needsPhoto }}" hint-placeholder-val="{{ true }}">
+                <span style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:5px;padding:5px 9px;background:rgba(255,255,255,.16);border:1px dashed rgba(255,255,255,.4);border-radius:6px;font-size:10px;color:rgba(255,255,255,.82)">صورة القسم</span>
+              </sc-if>
+              <span style="position:absolute;right:0;bottom:0;left:0;padding:14px 15px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px">
+                <span style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.45">{{ cs.name }}</span>
+                  <span style="font-size:11.5px;color:#BBD3EE;font-variant-numeric:tabular-nums">{{ cs.count }} منتج</span>
+                </span>
+                <span style="flex:0 0 auto;width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);border-radius:9px;color:#fff">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg>
+                </span>
+              </span>
+            </span>
+            <span style="font-size:11.5px;color:#64748B;line-height:1.7">{{ cs.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:11px;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B62E5" stroke-width="1.9" stroke-linecap="round" style="flex:0 0 auto;margin-top:2px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5.5"></path><path d="M12 8h.01"></path></svg>
+        <span style="font-size:13px;color:#4A5B70;line-height:1.85">مصدر صورة القسم بالترتيب: صورة تجميعية لمنتجات القسم ← صورة منتج بارز مقصوصة ← لوحة لونية بتدرّج الهوية مع وسم «صورة القسم» ريثما تُرفع الصورة من لوحة التحكم. لا تُستخدم الأيقونة إلا كعنصر ثانوي في القوائم المنسدلة والموبايل.</span>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">بطاقات الشركات</h2>
+        <span style="font-size:13.5px;color:#64748B">لوحة شعار بخلفية متدرّجة فاتحة + اسم عربي + الأقسام + عدد المنتجات — الشعار الحقيقي أولاً</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+        <sc-for list="{{ brandSpecs }}" as="b" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:11.5px;font-weight:600;color:#8595AA">{{ b.label }}</span>
+            <span style="display:flex;flex-direction:column;background:#fff;border:1px solid #E4E9F1;border-radius:14px;overflow:hidden">
+              <span style="position:relative;height:92px;display:flex;align-items:center;justify-content:center;background:#fff;border-bottom:1px solid #EDF1F7">
+                <sc-if value="{{ b.isSmart Line }}" hint-placeholder-val="{{ false }}">
+                  <img src="assets/smart-line-logo.png" alt="Smart Line" style="height:52px;width:52px;border-radius:11px" />
+                </sc-if>
+                <sc-if value="{{ b.isOther }}" hint-placeholder-val="{{ true }}">
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:500;letter-spacing:.08em;color:{{ b.tint }};direction:ltr">{{ b.name }}</span>
+                    <span style="width:34px;height:3px;border-radius:2px;background:{{ b.tint }};opacity:.5"></span>
+                  </span>
+                </sc-if>
+                <span style="position:absolute;top:9px;left:9px;font-size:9.5px;color:#B4C2D4">{{ b.hint }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:4px;padding:13px 14px">
+                <span style="font-size:14px;font-weight:600;color:#0F1B2D">{{ b.ar }}</span>
+                <span style="font-size:11.5px;color:#8595AA;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.cats }}</span>
+              </span>
+              <span style="display:flex;align-items:center;justify-content:space-between;padding:0 14px 13px">
+                <span style="font-size:11.5px;color:#64748B;font-variant-numeric:tabular-nums">{{ b.count }} منتج</span>
+                <span style="font-size:12px;font-weight:600;color:#1B62E5">تصفّح ←</span>
+              </span>
+            </span>
+            <span style="font-size:11.5px;color:#64748B;line-height:1.7">{{ b.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+      <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الطباعة</h2>
+          <span style="font-size:13.5px;color:#64748B">IBM Plex Sans Arabic للعربية والإنجليزية · IBM Plex Mono للأرقام التقنية والأكواد</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <sc-for list="{{ typeScale }}" as="t" hint-placeholder-count="7">
+            <div style="display:flex;align-items:baseline;gap:18px;padding:13px 0;border-bottom:1px solid #F1F5F9">
+              <span style="flex:0 0 132px;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:12px;font-weight:600;color:#22364F">{{ t.name }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8595AA;direction:ltr">{{ t.spec }}</span>
+              </span>
+              <span style="flex:1;font-size:{{ t.size }};font-weight:{{ t.weight }};color:#0F1B2D;line-height:1.45">{{ t.sample }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:14px">
+          <div style="flex:1;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px;display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">الأسعار</span>
+            <span style="display:flex;align-items:baseline;gap:7px"><span style="font-size:22px;font-weight:700;color:#0B3C82;font-variant-numeric:tabular-nums">42.00</span><span style="font-size:12px;font-weight:600;color:#0B3C82">د.أ</span><span style="font-size:13px;color:#9AA8BA;text-decoration:line-through">49.00</span></span>
+            <span style="font-size:11px;color:#8595AA;line-height:1.6">أرقام جدولية · العملة بحجم أصغر · السعر القديم رمادي مشطوب</span>
+          </div>
+          <div style="flex:1;padding:16px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px;display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12px;font-weight:600;color:#22364F">الإنجليزية (LTR جاهزة)</span>
+            <span style="direction:ltr;text-align:left;font-size:15px;font-weight:600;color:#0F1B2D">Smart Line HYPER K800 5G</span>
+            <span style="font-size:11px;color:#8595AA;line-height:1.6">أسماء الموديلات والشركات تبقى LTR داخل النص العربي</span>
+          </div>
+        </div>
+      </section>
+
+      <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">المسافات والزوايا والظلال</h2>
+          <span style="font-size:13.5px;color:#64748B">نظام ٨ نقاط · زوايا مضبوطة 9–18px</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ spacing }}" as="s" hint-placeholder-count="6">
+            <span style="display:flex;align-items:center;gap:12px">
+              <span style="flex:0 0 46px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8595AA;direction:ltr">{{ s.label }}</span>
+              <span style="height:12px;width:{{ s.w }};background:#1B62E5;border-radius:3px;opacity:.85"></span>
+            </span>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">الزوايا المعتمدة</span>
+          <div style="display:flex;gap:10px">
+            <sc-for list="{{ radii }}" as="rd" hint-placeholder-count="5">
+              <span style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px">
+                <span style="width:100%;height:44px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:{{ rd.r }}"></span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8595AA;direction:ltr">{{ rd.r }}</span>
+                <span style="font-size:10px;color:#9AA8BA;text-align:center;line-height:1.4">{{ rd.use }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">الظلال</span>
+          <div style="display:flex;gap:12px">
+            <sc-for list="{{ shadows }}" as="sh" hint-placeholder-count="3">
+              <span style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;height:64px;background:#fff;border:1px solid #EEF2F7;border-radius:12px;box-shadow:{{ sh.v }}">
+                <span style="font-size:11.5px;font-weight:600;color:#22364F">{{ sh.name }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding-top:4px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">الحاويات ونقاط الاستجابة</span>
+          <sc-for list="{{ breakpoints }}" as="b" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:9px;font-size:12px;color:#3B4A5F">
+              <span>{{ b.name }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8595AA;direction:ltr">{{ b.v }}</span>
+            </span>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">بطاقة المنتج — كل الأنماط</h2>
+        <span style="font-size:13.5px;color:#64748B">إطار صورة 4:3 يملأه المنتج · الشركة والقسم · الاسم بسطرين · حالة التوفر · السعر بالدينار · إجراءان فقط (السلة + واتساب)</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+        <sc-for list="{{ cardDemo }}" as="cd" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-size:11.5px;font-weight:600;color:#8595AA">{{ cd.label }}</span>
+            <dc-import name="ProductCard" product="{{ cd.product }}" hint-size="100%,430px"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:11.5px;font-weight:600;color:#8595AA">أفقية — نتائج القائمة والمقترحات</span>
+          <dc-import name="ProductCard" product="{{ hProduct }}" variant="horizontal" hint-size="100%,140px"></dc-import>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:11.5px;font-weight:600;color:#8595AA">مدمجة — الموبايل والبيع المتقاطع</span>
+          <dc-import name="ProductCard" product="{{ cProduct }}" variant="compact" hint-size="100%,270px"></dc-import>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-size:11.5px;font-weight:600;color:#8595AA">بديل الصورة — بانتظار صورة المنتج</span>
+          <dc-import name="ProductCard" product="{{ phProduct }}" variant="compact" hint-size="100%,270px"></dc-import>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+        <sc-for list="{{ cardRules }}" as="cr" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:7px;padding:18px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:13px">
+            <span style="font-size:12.5px;font-weight:600;color:#0F1B2D">{{ cr.title }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#0B3C82;direction:ltr;line-height:1.8">{{ cr.spec }}</span>
+            <span style="font-size:11.5px;color:#64748B;line-height:1.75">{{ cr.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الأزرار</h2>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <button type="button" style="height:52px;padding:0 26px;background:#1B62E5;color:#fff;border:0;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">أضف إلى السلة</button>
+            <button type="button" style="height:44px;padding:0 22px;background:#1B62E5;color:#fff;border:0;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#1550C4">زر أساسي</button>
+            <button type="button" style="height:36px;padding:0 16px;background:#1B62E5;color:#fff;border:0;border-radius:9px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">صغير</button>
+            <button type="button" style="height:44px;padding:0 22px;background:#C7D9F6;color:#fff;border:0;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;cursor:not-allowed">معطّل</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <button type="button" style="height:44px;padding:0 22px;background:#0B3C82;color:#fff;border:0;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer">أزرق عميق</button>
+            <button type="button" style="height:44px;padding:0 22px;background:#fff;color:#0B3C82;border:1px solid #D6E0EC;border-radius:11px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer" style-hover="border-color:#1B62E5;color:#1B62E5">ثانوي</button>
+            <a href="#" style="display:flex;align-items:center;gap:9px;height:44px;padding:0 20px;background:#12A150;color:#fff;border-radius:11px;font-size:14px;font-weight:600" style-hover="background:#0E8843;color:#fff">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8"></path></svg>
+              واتساب
+            </a>
+            <a href="#" style="display:flex;align-items:center;gap:9px;height:44px;padding:0 20px;background:#F0FAF4;color:#0E7A3E;border:1px solid #CFE9DA;border-radius:11px;font-size:14px;font-weight:600" style-hover="background:#12A150;color:#fff;border-color:#12A150">واتساب فاتح</a>
+            <button type="button" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:11px;cursor:pointer;color:#64748B" style-hover="color:#E03131;border-color:#F5C2C2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M19 14c1.5-1.5 2-3.2 2-5a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 1.8.5 3.5 2 5l7 7z"></path></svg>
+            </button>
+          </div>
+          <span style="font-size:12px;color:#64748B;line-height:1.8">زر السلة الأساسي أزرق ملكي دائماً؛ زر واتساب أخضر ولا يُستخدم للأزرار العامة. الحد الأدنى لمنطقة اللمس على الموبايل 44px.</span>
+        </div>
+      </section>
+
+      <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:22px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الشارات وحالات التوفر</h2>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">شارات المنتجات</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="padding:6px 10px;background:#0B3C82;color:#fff;border-radius:5px;font-size:11.5px;font-weight:600">جديد</span>
+            <span style="padding:6px 10px;background:#E9A100;color:#20170A;border-radius:5px;font-size:11.5px;font-weight:600">عرض</span>
+            <span style="padding:6px 10px;background:#0891B2;color:#fff;border-radius:5px;font-size:11.5px;font-weight:600">الأكثر مبيعاً</span>
+            <span style="padding:6px 10px;background:#5B5BD6;color:#fff;border-radius:5px;font-size:11.5px;font-weight:600">مميّز</span>
+            <span style="padding:6px 10px;background:#B27700;color:#fff;border-radius:5px;font-size:11.5px;font-weight:600">كمية محدودة</span>
+            <span style="padding:6px 10px;background:#64748B;color:#fff;border-radius:5px;font-size:11.5px;font-weight:600">غير متوفر</span>
+            <span style="padding:6px 10px;background:#E03131;color:#fff;border-radius:5px;font-size:11.5px;font-weight:700;direction:ltr">−14%</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">حالات التوفر داخل البطاقة</span>
+          <sc-for list="{{ stockStates }}" as="st" hint-placeholder-count="3">
+            <span style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:11px">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:{{ st.fg }}">
+                <span style="width:7px;height:7px;border-radius:50%;background:{{ st.dot }}"></span>{{ st.label }}
+              </span>
+              <span style="margin-inline-start:auto;font-size:11.5px;color:#64748B">{{ st.action }}</span>
+            </span>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">شرائح وتبويبات</span>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span style="padding:9px 14px;background:#EEF4FE;border:1px solid #1B62E5;border-radius:999px;font-size:12.5px;font-weight:600;color:#0B3C82">مُفعّلة</span>
+            <span style="padding:9px 14px;background:#fff;border:1px solid #E3E9F0;border-radius:999px;font-size:12.5px;color:#3B4A5F">عادية</span>
+            <span style="display:flex;align-items:center;gap:7px;padding:9px 14px;background:#EEF4FE;border:1px solid #C7D9F6;border-radius:999px;font-size:12px;color:#0B3C82">
+              10 – 60 د.أ
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="opacity:.6"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+            </span>
+          </div>
+          <div style="display:flex;gap:2px;border-bottom:1px solid #EEF2F7;margin-top:4px">
+            <span style="padding:13px 16px;border-bottom:2px solid #1B62E5;font-size:13.5px;font-weight:600;color:#0B3C82">نظرة عامة</span>
+            <span style="padding:13px 16px;border-bottom:2px solid transparent;font-size:13.5px;color:#64748B">المواصفات</span>
+            <span style="padding:13px 16px;border-bottom:2px solid transparent;font-size:13.5px;color:#64748B">الضمان</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الأيقونات</h2>
+        <span style="font-size:13.5px;color:#64748B">عائلة واحدة خطّية بسماكة 1.7–2px · تُستخدم للتنقّل والحالات والخدمات — وليست بديلاً عن صور الأقسام</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:12px">
+        <sc-for list="{{ iconSet }}" as="ic" hint-placeholder-count="20">
+          <span style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+            <span style="color:#0B3C82">{{ ic.icon }}</span>
+            <span style="font-size:10.5px;color:#8595AA;text-align:center;line-height:1.4">{{ ic.name }}</span>
+          </span>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">الحقول والتنبيهات وحالات الواجهة</h2>
+        <span style="font-size:13.5px;color:#64748B">الحقول تُستخدم في مراجعة الطلب والبحث والتصفية فقط — لا يوجد نموذج مراسلة في الموقع</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12.5px;font-weight:600;color:#22364F">حقل عادي</span>
+            <input placeholder="الاسم الكامل" style="height:46px;padding:0 14px;background:#F7F9FC;border:1px solid #E3E9F0;border-radius:11px;font-family:inherit;font-size:13.5px;color:#0F1B2D;outline:0" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12.5px;font-weight:600;color:#22364F">حالة التركيز</span>
+            <input value="079 123 4567" style="height:46px;padding:0 14px;background:#fff;border:1px solid #1B62E5;border-radius:11px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0F1B2D;outline:0;direction:ltr;text-align:right;box-shadow:0 0 0 3px rgba(27,98,229,.12)" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12.5px;font-weight:600;color:#C92A2A">حالة الخطأ</span>
+            <input value="07" style="height:46px;padding:0 14px;background:#FFF5F5;border:1px solid #E03131;border-radius:11px;font-family:inherit;font-size:13.5px;color:#0F1B2D;outline:0" />
+            <span style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:#C92A2A">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4.5"></path><path d="M12 16h.01"></path></svg>
+              رقم الهاتف غير مكتمل
+            </span>
+          </label>
+          <div style="display:flex;gap:24px;padding-top:4px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:12.5px;font-weight:600;color:#22364F">مربعات اختيار</span>
+              <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3B4A5F">
+                <span style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;background:#1B62E5;border:1.5px solid #1B62E5;border-radius:5px;color:#fff">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+                </span>
+                محدّد
+              </label>
+              <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3B4A5F">
+                <span style="width:18px;height:18px;background:#fff;border:1.5px solid #CBD6E4;border-radius:5px"></span>
+                غير محدّد
+              </label>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:12.5px;font-weight:600;color:#22364F">أزرار راديو</span>
+              <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3B4A5F">
+                <span style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:1.5px solid #1B62E5;border-radius:50%"><span style="width:9px;height:9px;background:#1B62E5;border-radius:50%"></span></span>
+                توصيل فوري
+              </label>
+              <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3B4A5F">
+                <span style="width:18px;height:18px;border:1.5px solid #CBD6E4;border-radius:50%"></span>
+                استلام من المتجر
+              </label>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:12.5px;font-weight:600;color:#22364F">إشعارات (Toasts)</span>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1px solid #E3E9F0;border-inline-start:3px solid #12A150;border-radius:12px;box-shadow:0 8px 20px -12px rgba(8,18,31,.3)">
+            <span style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:#E8F7EE;border-radius:8px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12A150" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"></path></svg>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:2px;flex:1">
+              <span style="font-size:13.5px;font-weight:600;color:#0F1B2D">تمت الإضافة إلى السلة</span>
+              <span style="font-size:12px;color:#64748B">رسيفر Smart Line HYPER K800 5G</span>
+            </span>
+            <span style="height:32px;padding:0 12px;display:flex;align-items:center;background:#0B3C82;color:#fff;border-radius:8px;font-size:12px;font-weight:600">عرض السلة</span>
+          </div>
+          <span style="font-size:12.5px;font-weight:600;color:#22364F;margin-top:4px">هياكل التحميل (Skeletons)</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <sc-for list="{{ skeletons }}" as="sk" hint-placeholder-count="2">
+              <div style="background:#fff;border:1px solid #E4E9F1;border-radius:12px;overflow:hidden">
+                <span style="display:block;aspect-ratio:4/3;background:linear-gradient(90deg,#EEF2F7 25%,#F7FAFD 50%,#EEF2F7 75%);background-size:200% 100%;animation:ivShimmer 1.4s linear infinite"></span>
+                <span style="display:flex;flex-direction:column;gap:8px;padding:14px">
+                  <span style="height:10px;width:45%;background:#EEF2F7;border-radius:5px"></span>
+                  <span style="height:12px;width:85%;background:#EEF2F7;border-radius:5px"></span>
+                  <span style="height:34px;background:#F1F5F9;border-radius:9px;margin-top:6px"></span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:12.5px;font-weight:600;color:#22364F;margin-top:4px">لا توجد نتائج</span>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:24px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:14px;text-align:center">
+            <span style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #E3E9F0;border-radius:13px;color:#8595AA">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg>
+            </span>
+            <span style="font-size:14.5px;font-weight:600;color:#0F1B2D">لا توجد نتائج مطابقة</span>
+            <span style="font-size:12.5px;color:#64748B;line-height:1.8;max-width:300px">جرّب كلمة أقصر أو تصفّح الأقسام، أو اسألنا على واتساب عن المنتج مباشرة.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#fff;border:1px solid #E4E9F1;border-radius:18px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:30px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">ملاحظات الاستجابة</h2>
+        <sc-for list="{{ responsiveNotes }}" as="n" hint-placeholder-count="6">
+          <span style="display:flex;gap:11px;padding:14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+            <span style="flex:0 0 auto;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:#EEF4FE;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#0B3C82">{{ n.n }}</span>
+            <span style="display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:13.5px;font-weight:600;color:#0F1B2D">{{ n.title }}</span>
+              <span style="font-size:12.5px;color:#64748B;line-height:1.8">{{ n.text }}</span>
+            </span>
+          </span>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-size:20px;font-weight:700;line-height:1.45;color:#0F1B2D">التفاعل والحركة</h2>
+        <sc-for list="{{ motionNotes }}" as="n" hint-placeholder-count="6">
+          <span style="display:flex;gap:11px;padding:14px;background:#F8FAFD;border:1px solid #EDF1F7;border-radius:12px">
+            <span style="flex:0 0 auto;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:#EAF7FB;border-radius:8px;color:#0E7490">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M13 3 4 14h6l-1 7 9-11h-6z"></path></svg>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:3px">
+              <span style="font-size:13.5px;font-weight:600;color:#0F1B2D">{{ n.title }}</span>
+              <span style="font-size:12.5px;color:#64748B;line-height:1.8">{{ n.text }}</span>
+            </span>
+          </span>
+        </sc-for>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const svg = (kids, size) => React.createElement('svg', {
+  width: size || 22, height: size || 22, viewBox: '0 0 24 24', fill: 'none',
+  stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round'
+}, kids.map((k, i) => React.cloneElement(k, { key: i })));
+const p = (d) => React.createElement('path', { d });
+const c = (cx, cy, r) => React.createElement('circle', { cx, cy, r });
+const r = (x, y, w, h, rx) => React.createElement('rect', { x, y, width: w, height: h, rx });
+
+const ICON_SET = [
+  ['بحث', [c(11, 11, 7), p('m20 20-3.6-3.6')]],
+  ['سلة', [c(9, 20, 1.4), c(18, 20, 1.4), p('M2 3h2.2l2.4 12h11.6l2.2-9H5')]],
+  ['مفضلة', [p('M19 14c1.5-1.5 2-3.2 2-5a5 5 0 0 0-9-3 5 5 0 0 0-9 3c0 1.8.5 3.5 2 5l7 7z')]],
+  ['قائمة', [p('M4 6h16M4 12h16M4 18h16')]],
+  ['شبكة', [r(3, 3, 7.5, 7.5, 1.5), r(13.5, 3, 7.5, 7.5, 1.5), r(3, 13.5, 7.5, 7.5, 1.5), r(13.5, 13.5, 7.5, 7.5, 1.5)]],
+  ['تصفية', [p('M4 5h16M7 12h10M10 19h4')]],
+  ['واتساب', [p('M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z'), p('M8.6 9.2c0 3.2 2.6 5.8 5.8 5.8')]],
+  ['هاتف', [p('M21 16.5v3a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 3.8 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.6a15 15 0 0 0 5.7 5.7l1-1a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z')]],
+  ['موقع', [p('M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z'), c(12, 10, 2.6)]],
+  ['ساعة', [c(12, 12, 9), p('M12 7.2V12l3.2 2')]],
+  ['توصيل', [p('M2 7h11v10H2z'), p('M13 10h4l3 3v4h-7z'), c(6, 18.5, 1.6), c(16.5, 18.5, 1.6)]],
+  ['متجر', [p('M3.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h14a1.5 1.5 0 0 0 1.5-1.5V9.5'), p('M2.5 9.5 5 4h14l2.5 5.5z')]],
+  ['دفع', [r(3, 6, 18, 13, 3), p('M3 10h18'), c(17, 14.5, 1.2)]],
+  ['ضمان', [p('M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z'), p('m9 12 2 2 4-4')]],
+  ['دعم', [p('M4 14a8 8 0 0 1 16 0'), p('M4 14v3a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2z'), p('M20 14v3a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2z')]],
+  ['استبدال', [p('M20 12a8 8 0 1 1-2.6-5.9'), p('M20 3.5V8h-4.5')]],
+  ['عرض', [p('M20.2 12.4 12.4 20.2a2 2 0 0 1-2.8 0L3.8 14.4V4h10.4l6 6a2 2 0 0 1 0 2.4z'), c(8.4, 8.4, 1.2)]],
+  ['صورة', [r(3, 4.5, 18, 15, 2.5), c(8.5, 10, 1.6), p('m3.5 17 4.8-4.4 3.4 3 3.2-2.6 5.6 4.8')]],
+  ['طبقات', [p('M12 3 3 8l9 5 9-5z'), p('m3 13 9 5 9-5')]],
+  ['معلومات', [c(12, 12, 9), p('M12 11v5.5'), p('M12 8h.01')]]
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    const all = this.props.products || [];
+    const cats = this.props.cats || [];
+    const find = (id) => all.find((x) => x.id === id) || {};
+    return {
+      principles: [
+        { n: '01', title: 'متجر إلكترونيات متكامل', text: 'الرسالة والأقسام والصور تعكس ١٢ قسماً — لا يُقدَّم المتجر كمتجر رسيفرات فقط.' },
+        { n: '02', title: 'الصورة قبل الأيقونة', text: 'الأقسام والشركات تُمثَّل بصور ومنتجات وشعارات حقيقية؛ الأيقونة للتنقّل والحالات فقط.' },
+        { n: '03', title: 'المنتج يملأ إطاره', text: 'قصّ محكم وإطار 4:3 بحشوة 4px — لا منتجات صغيرة داخل صناديق فارغة.' },
+        { n: '04', title: 'زوايا وظلال مضبوطة', text: 'زوايا 9–18px وظلال خفيفة موجّهة للأسفل — بلا إطارات رخوة أو ظلال مبالغ فيها.' },
+        { n: '05', title: 'الطلب عبر واتساب', text: 'كل مسار شراء ينتهي برسالة واتساب جاهزة — بدون حسابات ولا نماذج مراسلة.' }
+      ],
+      sitemap: [
+        { title: 'الرئيسية والتسوّق', items: [
+          { route: '/', name: 'الرئيسية' }, { route: '/shop', name: 'المتجر' },
+          { route: '/category/[slug]', name: 'صفحة القسم' }, { route: '/offers', name: 'العروض' }
+        ] },
+        { title: 'المنتجات والشركات', items: [
+          { route: '/product/[slug]', name: 'تفاصيل المنتج' }, { route: '/brands', name: 'الشركات' },
+          { route: '/brand/[slug]', name: 'صفحة شركة' }, { route: '/search', name: 'نتائج البحث' }
+        ] },
+        { title: 'مسار الشراء', items: [
+          { route: '/wishlist', name: 'المفضلة' }, { route: '/cart', name: 'سلة المشتريات' },
+          { route: '/review', name: 'مراجعة الطلب' }, { route: 'wa.me', name: 'إرسال الطلب' }
+        ] },
+        { title: 'المتجر والسياسات', items: [
+          { route: '/about', name: 'من نحن' }, { route: '/support', name: 'الدعم' },
+          { route: '/contact', name: 'تواصل معنا' }, { route: '/pages/[slug]', name: 'السياسات والأسئلة' }
+        ] }
+      ],
+      colorGroups: [
+        { title: 'هوية العلامة', items: [
+          { name: 'Brand 950', hex: '#062A5C', bd: 'transparent', use: 'أقسام داكنة' },
+          { name: 'Brand 900 · الأساسي', hex: '#0B3C82', bd: 'transparent', use: 'شعار، ترويسة، أسعار' },
+          { name: 'Brand 700', hex: '#0E4A9E', bd: 'transparent', use: 'تدرّجات الأبطال' },
+          { name: 'Primary 600', hex: '#1B62E5', bd: 'transparent', use: 'أزرار وروابط' },
+          { name: 'Primary 100', hex: '#EEF4FE', bd: '#DCE7F8', use: 'خلفيات أيقونات' },
+          { name: 'Accent Cyan', hex: '#0891B2', bd: 'transparent', use: 'تمييز محدود' }
+        ] },
+        { title: 'الرماديات وأسطح الصور', items: [
+          { name: 'Ink 900', hex: '#0F1B2D', bd: 'transparent', use: 'العناوين والنصوص' },
+          { name: 'Slate 600', hex: '#4A5B70', bd: 'transparent', use: 'نص الفقرات' },
+          { name: 'Slate 400', hex: '#8595AA', bd: 'transparent', use: 'نص مساعد' },
+          { name: 'Border', hex: '#E4E9F1', bd: '#DDE4EC', use: 'حدود البطاقات' },
+          { name: 'Image Top', hex: '#FBFCFE', bd: '#E4E9F1', use: 'أعلى تدرّج الصورة' },
+          { name: 'Image Base', hex: '#F1F5FA', bd: '#E4E9F1', use: 'أسفل تدرّج الصورة' }
+        ] },
+        { title: 'دلالية', items: [
+          { name: 'Success', hex: '#12A150', bd: 'transparent', use: 'متوفر ونجاح' },
+          { name: 'WhatsApp', hex: '#128C4B', bd: 'transparent', use: 'أزرار واتساب' },
+          { name: 'Warning', hex: '#E9A100', bd: 'transparent', use: 'شارة العروض' },
+          { name: 'Low Stock', hex: '#B27700', bd: 'transparent', use: 'كمية محدودة' },
+          { name: 'Error', hex: '#E03131', bd: 'transparent', use: 'الخصم والأخطاء' },
+          { name: 'Muted', hex: '#64748B', bd: 'transparent', use: 'غير متوفر' }
+        ] }
+      ],
+      imageRules: [
+        { label: 'نسبة إطار الصورة', value: '4 / 3', note: 'موحّدة في البطاقات والمعرض والأقسام' },
+        { label: 'حشوة الصورة داخل الإطار', value: '4px · 10px', note: 'البطاقة 4px · الصورة الرئيسية 10px' },
+        { label: 'هامش القصّ حول المنتج', value: '≤ 3%', note: 'يُقصّ الملف على حدود المنتج قبل الرفع' },
+        { label: 'التكبير عند المرور', value: '1.07× · 1.3×', note: 'البطاقة 1.07 · معرض المنتج 1.3' }
+      ],
+      galleryThumbs: [
+        { img: 'assets/products/k800.png', ph: '', bd: '#1B62E5' },
+        { img: '', ph: 'x', bd: '#E4E9F1' },
+        { img: '', ph: 'x', bd: '#E4E9F1' },
+        { img: '', ph: 'x', bd: '#E4E9F1' }
+      ],
+      catSpecs: [
+        { label: 'صورة تجميعية للقسم', name: 'رسيفرات وأجهزة استقبال', count: 48, img: 'assets/categories/cat-receivers.jpg', needsPhoto: false, bg: '#0B3C82', note: 'الخيار الأول: صورة تجمع منتجات القسم.' },
+        { label: 'منتج بارز مقصوص', name: 'ريموتات', count: 37, img: 'assets/categories/cat-mini.jpg', needsPhoto: false, bg: '#0B3C82', note: 'الخيار الثاني: صورة منتج واحد بارز.' },
+        { label: 'لوحة انتظار الصورة', name: 'مراوح وتبريد ومكيفات', count: 26, img: '', needsPhoto: true, bg: 'linear-gradient(160deg,#0891B2,#062A5C)', note: 'مؤقّت: تدرّج الهوية + وسم «صورة القسم».' },
+        { label: 'لوحة انتظار الصورة', name: 'أجهزة العناية الشخصية', count: 17, img: '', needsPhoto: true, bg: 'linear-gradient(160deg,#3E5A8A,#062A5C)', note: 'يُستبدل تلقائياً عند رفع الصورة.' }
+      ],
+      brandSpecs: [
+        { label: 'شعار حقيقي', name: 'Smart Line', ar: 'آي فيغا', cats: 'رسيفرات · ريموتات · ملحقات', count: 64, isSmart Line: true, isOther: false, tint: '#0B3C82', hint: '', note: 'الشعار الرسمي على لوحة فاتحة 92px.' },
+        { label: 'شعار بانتظار الملف', name: 'QUBIT', ar: 'كيوبت', cats: 'أندرويد TV · شاشات', count: 22, isSmart Line: false, isOther: true, tint: '#0E7490', hint: 'شعار', note: 'اسم بخط Mono ملوّن + شريط الهوية.' },
+        { label: 'شعار بانتظار الملف', name: 'MAXSOUND', ar: 'ماكس ساوند', cats: 'سماعات · ساوند بار', count: 18, isSmart Line: false, isOther: true, tint: '#1B4F8A', hint: 'شعار', note: 'يُستبدل بملف PNG/SVG شفاف.' },
+        { label: 'شعار بانتظار الملف', name: 'SEREEN', ar: 'سيرين', cats: 'مراوح · تبريد', count: 12, isSmart Line: false, isOther: true, tint: '#0891B2', hint: 'شعار', note: 'ارتفاع الشعار الأقصى 52px.' }
+      ],
+      typeScale: [
+        { name: 'Display / H1', spec: '44 / 1.36 · 700', size: '30px', weight: 700, sample: 'كل ما يخصّ الإلكترونيات في مكان واحد' },
+        { name: 'H2 قسم', spec: '24 / 1.45 · 700', size: '24px', weight: 700, sample: 'تسوّق حسب القسم' },
+        { name: 'H3 بطاقة', spec: '19 / 1.5 · 600', size: '19px', weight: 600, sample: 'مراوح ومبرّدات هواء' },
+        { name: 'اسم منتج', spec: '14.5 / 1.5 · 600', size: '14.5px', weight: 600, sample: 'رسيفر Smart Line HYPER K800 5G' },
+        { name: 'نص أساسي', spec: '14 / 1.9 · 400', size: '14px', weight: 400, sample: 'رسيفرات وشاشات ومراوح وأجهزة منزلية بأسعار المتجر.' },
+        { name: 'وسم / Label', spec: '12.5 / 1.6 · 600', size: '12.5px', weight: 600, sample: 'الشركة المصنّعة' },
+        { name: 'تعليق', spec: '11.5 / 1.6 · 400', size: '11.5px', weight: 400, sample: 'الأسعار بالدينار الأردني' }
+      ],
+      spacing: [
+        { label: '4px', w: '4px' }, { label: '8px', w: '8px' }, { label: '12px', w: '12px' },
+        { label: '16px', w: '16px' }, { label: '24px', w: '24px' }, { label: '32px', w: '32px' },
+        { label: '48px', w: '48px' }, { label: '64px', w: '64px' }
+      ],
+      radii: [
+        { r: '5px', use: 'شارات' }, { r: '9px', use: 'أزرار صغيرة' }, { r: '12px', use: 'بطاقة منتج · صور' },
+        { r: '14px', use: 'بطاقة قسم' }, { r: '18px', use: 'أقسام كبيرة' }
+      ],
+      shadows: [
+        { name: 'sm', v: '0 1px 2px rgba(15,27,45,.06)' },
+        { name: 'md', v: '0 16px 32px -16px rgba(11,60,130,.26)' },
+        { name: 'lg', v: '0 30px 60px -26px rgba(3,20,45,.6)' }
+      ],
+      breakpoints: [
+        { name: 'حاوية سطح المكتب', v: 'max 1320px · padding 24' },
+        { name: 'سطح المكتب', v: '≥ 1280px · 4 أعمدة منتجات' },
+        { name: 'تابلت', v: '768 – 1279px · 2–3 أعمدة' },
+        { name: 'موبايل', v: '≤ 767px · عمودان · 390 مرجعي' }
+      ],
+      iconSet: ICON_SET.map(([name, kids]) => ({ name, icon: svg(kids, 22) })),
+      cardDemo: [
+        { label: 'قياسية — متوفر', product: find('k000') },
+        { label: 'بخصم — شارة عرض', product: find('k800') },
+        { label: 'كمية محدودة', product: find('k100') },
+        { label: 'غير متوفر — واتساب بديلاً', product: find('k3') }
+      ],
+      hProduct: find('k220s'),
+      cProduct: find('k150'),
+      phProduct: find('fan'),
+      cardRules: [
+        { title: 'إطار الصورة', spec: 'aspect-ratio: 4/3 · inset 4px\nradius 12px · border #EDF1F7', note: 'خلفية متدرّجة من #FBFCFE إلى #F1F5FA مع mix-blend-mode: multiply.' },
+        { title: 'الحدود والحركة', spec: 'border 1px #E4E9F1 · radius 12px\nhover: translateY(-3px)', note: 'ظل md عند المرور وحدّ #BED2F2 — بدون تغيير حجم البطاقة.' },
+        { title: 'ترتيب المحتوى', spec: 'brand · cat → name (2 lines)\n→ spec → stock → price → CTA', note: 'إجراءان فقط: زر السلة الأساسي + زر واتساب المربّع 40px.' }
+      ],
+      stockStates: [
+        { label: 'متوفر', fg: '#0E7A3E', dot: '#12A150', action: 'زر «أضف إلى السلة» مُفعّل + زر واتساب' },
+        { label: 'كمية محدودة', fg: '#B27700', dot: '#E9A100', action: 'نفس الإجراءات + شارة «كمية محدودة»' },
+        { label: 'غير متوفر', fg: '#64748B', dot: '#94A3B8', action: 'يُستبدل زر السلة بـ «اسأل عن توفّره» على واتساب' }
+      ],
+      skeletons: [1, 2],
+      responsiveNotes: [
+        { n: '01', title: 'شبكة المنتجات', text: 'أربعة أعمدة على 1440، ثلاثة مع شريط التصفية، عمودان على التابلت، وعمودان مدمجان على الموبايل.' },
+        { n: '02', title: 'بطاقات الأقسام', text: 'أربعة أعمدة على سطح المكتب بنسبة 4:3؛ على الموبايل شريط أفقي قابل للتمرير ببطاقات مربّعة.' },
+        { n: '03', title: 'التنقّل', text: 'على الموبايل: شريط سفلي ثابت (٥ عناصر) + قائمة جانبية للأقسام بدل القائمة المنسدلة.' },
+        { n: '04', title: 'التصفية', text: 'شريط جانبي ثابت على سطح المكتب، و bottom sheet قابل للسحب على الموبايل مع زر «عرض النتائج».' },
+        { n: '05', title: 'مسار الشراء', text: 'مراجعة الطلب بعمودين على سطح المكتب، وعمود واحد على الموبايل مع شريط «إرسال عبر واتساب» ثابت.' },
+        { n: '06', title: 'العربية والاتجاه', text: 'كل التخطيط RTL أصلاً مع خصائص منطقية (inline-start/end)، وأسماء الموديلات الإنجليزية تبقى LTR.' }
+      ],
+      motionNotes: [
+        { title: 'بطاقة المنتج', text: 'رفع 3px مع ظل md وحدّ أزرق فاتح في 180ms، وتكبير الصورة 1.07× في 350ms.' },
+        { title: 'بطاقة القسم', text: 'رفع 3px مع تكبير الصورة 1.06× في 400ms — التعتيم المتدرّج ثابت لضمان قراءة النص.' },
+        { title: 'الأزرار', text: 'تغيّر لون في 150ms، وتصغير بسيط 0.98 عند الضغط.' },
+        { title: 'القوائم المنسدلة', text: 'ظهور مع انزلاق 10px في 160ms عند المرور، وإخفاء عند مغادرة المؤشر.' },
+        { title: 'إضافة للسلة', text: 'إشعار أسفل الشاشة لمدة ٢.٦ ثانية + تحديث رقم السلة في الترويسة.' },
+        { title: 'التحميل', text: 'هياكل skeleton بنسبة 4:3 ولمعان أفقي 1.4s بدل مؤشرات الدوران في الشبكات.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
