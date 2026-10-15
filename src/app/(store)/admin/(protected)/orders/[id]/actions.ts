@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requirePermission } from "@/lib/auth/guard";
-import { confirmOrderInventory, cancelOrderAndRestoreInventory, InsufficientStockError } from "@/lib/inventory";
+import { confirmOrderInventory, cancelOrderAndRestoreInventory } from "@/lib/inventory";
 import { prisma } from "@/lib/prisma";
 
 export interface OrderActionState {
@@ -16,10 +16,7 @@ export async function confirmOrderAction(orderId: string): Promise<OrderActionSt
     await confirmOrderInventory(orderId, user.id);
     revalidatePath(`/admin/orders/${orderId}`);
     return { ok: true };
-  } catch (err) {
-    if (err instanceof InsufficientStockError) {
-      return { ok: false, error: `الكمية غير كافية للمنتج (متوفر: ${err.available}, مطلوب: ${err.requested})` };
-    }
+  } catch {
     return { ok: false, error: "تعذّر تأكيد الطلب" };
   }
 }

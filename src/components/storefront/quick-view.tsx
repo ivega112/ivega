@@ -32,7 +32,6 @@ export function QuickView() {
 
   if (!product) return null;
   const discount = calculateDiscountPercent(product.price, product.oldPrice);
-  const outOfStock = product.quantity <= 0;
 
   return (
     <div className="fixed inset-0 z-[160] grid place-items-center overflow-y-auto p-[15px] text-ay-text">
@@ -67,14 +66,13 @@ export function QuickView() {
           <h2 className="pe-8 text-[24px] leading-[1.3] font-medium text-ay-title">{product.nameAr}</h2>
           <ProductPrice price={product.price} oldPrice={product.oldPrice} className="justify-start text-[22px]" />
           {product.shortSpec && <p className="text-[14px] leading-[1.7]">{product.shortSpec}</p>}
-          <StockStatus outOfStock={outOfStock} />
-          {!outOfStock && (
-            <div className="flex flex-wrap items-center gap-[10px]">
-              <QuantityInput value={qty} max={product.quantity} onChange={setQty} />
+          <StockStatus />
+          <div className="flex flex-wrap items-center gap-[10px]">
+              <QuantityInput value={qty} onChange={setQty} />
               <button
                 type="button"
                 onClick={() => {
-                  addToCart(product.id, qty, product.quantity);
+                  addToCart(product.id, qty);
                   closeQuickView();
                   setCartOpen(true);
                 }}
@@ -83,7 +81,6 @@ export function QuickView() {
                 أضف إلى السلة
               </button>
             </div>
-          )}
           <Link
             href={`/product/${product.slug}`}
             onClick={closeQuickView}

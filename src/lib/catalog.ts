@@ -73,7 +73,8 @@ export async function getProducts(filters: CatalogFilters) {
   if (filters.isNew) where.AND = [...(Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : []), { OR: [{ isNew: true }, { badge: "NEW" }] }];
   if (filters.excludeNew) where.AND = [...(Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : []), { isNew: false, NOT: { badge: "NEW" } }];
   if (filters.discounted) where.oldPrice = { not: null };
-  if (filters.onlyInStock) where.quantity = { gt: 0 };
+  // Store availability is controlled exclusively by `isVisible`. Quantities remain
+  // administrative records and must never remove a published product from the catalog.
   if (filters.minPrice != null || filters.maxPrice != null) {
     where.price = {
       ...(filters.minPrice != null ? { gte: filters.minPrice } : {}),

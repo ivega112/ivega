@@ -44,10 +44,8 @@ export function ProductPrice({ price, oldPrice, className = "" }: { price: numbe
   );
 }
 
-export function StockStatus({ outOfStock, className = "" }: { outOfStock: boolean; className?: string }) {
-  return outOfStock ? (
-    <p className={`text-[14px] font-semibold text-ay-out ${className}`}>غير متوفر</p>
-  ) : (
+export function StockStatus({ className = "" }: { className?: string }) {
+  return (
     <p className={`inline-flex items-center gap-1 text-[14px] font-semibold text-ay-stock ${className}`}>
       <Check className="size-4" strokeWidth={2.4} />
       متوفر
@@ -59,7 +57,6 @@ export function ProductCard({ product, priority = false }: { product: ProductCar
   const { addToCart } = useCart();
   const { openQuickView, setCartOpen } = useStorefrontUi();
   const discount = calculateDiscountPercent(product.price, product.oldPrice);
-  const outOfStock = product.quantity <= 0;
   const href = `/product/${product.slug}`;
   const label = BADGE_LABEL[product.badge];
 
@@ -116,25 +113,19 @@ export function ProductCard({ product, priority = false }: { product: ProductCar
             {product.nameAr}
           </Link>
         </h3>
-        <StockStatus outOfStock={outOfStock} />
+        <StockStatus />
         <ProductPrice price={product.price} oldPrice={product.oldPrice} className="text-[14px]" />
         <div className="mt-auto pt-[5px]">
-          {outOfStock ? (
-            <Link href={href} className="ay-btn-pill">
-              اقرأ المزيد
-            </Link>
-          ) : (
-            <button
-              type="button"
-              className="ay-btn-pill"
-              onClick={() => {
-                addToCart(product.id, 1, product.quantity);
-                setCartOpen(true);
-              }}
-            >
-              أضف إلى السلة
-            </button>
-          )}
+          <button
+            type="button"
+            className="ay-btn-pill"
+            onClick={() => {
+              addToCart(product.id);
+              setCartOpen(true);
+            }}
+          >
+            أضف إلى السلة
+          </button>
         </div>
       </div>
     </div>

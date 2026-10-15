@@ -9,9 +9,12 @@ declare global {
 function createPrismaClient() {
   const connectionString = process.env.DATABASE_URL || "";
 
-  // Force override the SSL property to ignore self-signed certs (required for Supabase/Vercel)
-  // This prevents any ?sslmode=require in the URL from overriding our setting.
-  const pool = new Pool({ connectionString });
+  // Supabase's pooler may present a self-signed certificate in some regions.
+  // Keep TLS required, but use node-postgres' libpq-compatible interpretation
+  // of sslmode=require (encrypted without certificate validation).
+  const databaseUrl = new URL(connectionString);
+  databaseUrl.searchParams.set("uselibpqcompat", "true");
+  const pool = new Pool({ connectionString: databaseUrl.toString() });
   const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter });
 }

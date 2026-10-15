@@ -42,7 +42,6 @@ export function ProductDetail({
   const { setCartOpen } = useStorefrontUi();
   const [qty, setQty] = useState(1);
   const discount = calculateDiscountPercent(product.price, product.oldPrice);
-  const outOfStock = product.quantity <= 0;
 
   useEffect(() => {
     recordRecentlyViewed(product.id);
@@ -120,15 +119,14 @@ export function ProductDetail({
 
           <ProductPrice price={product.price} oldPrice={product.oldPrice} className="justify-start text-[22px]" />
           {product.shortSpec && <p className="text-[14px] leading-[1.8]">{product.shortSpec}</p>}
-          <StockStatus outOfStock={outOfStock} />
+          <StockStatus />
 
-          {!outOfStock && (
-            <div className="flex flex-wrap items-center gap-[10px]">
-              <QuantityInput value={qty} max={product.quantity} onChange={setQty} />
+          <div className="flex flex-wrap items-center gap-[10px]">
+              <QuantityInput value={qty} onChange={setQty} />
               <button
                 type="button"
                 onClick={() => {
-                  addToCart(product.id, qty, product.quantity);
+                  addToCart(product.id, qty);
                   setCartOpen(true);
                 }}
                 className="ay-btn-primary min-w-[160px]"
@@ -136,7 +134,6 @@ export function ProductDetail({
                 أضف إلى السلة
               </button>
             </div>
-          )}
 
           {whatsappNumber && (
             <a

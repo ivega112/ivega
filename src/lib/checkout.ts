@@ -22,7 +22,7 @@ export interface CreateOrderResult {
 }
 
 /**
- * Server-side checkout: revalidates visibility/price/stock for every line, computes totals
+ * Server-side checkout: revalidates visibility and price for every line, computes totals
  * from DB state only (never trusts client totals), and is idempotent via idempotencyKey —
  * retrying with the same key returns the existing order instead of creating a duplicate.
  */
@@ -49,7 +49,7 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
   const productMap = new Map(products.map((p) => [p.id, p]));
   // Campaign prices are resolved fresh here, server-side, from current DB state — never
   // trust a client-submitted price. This is the same rule the rest of checkout already
-  // follows for stock/visibility (see module docstring above).
+  // follows for visibility (see module docstring above).
   const effectivePrices = await getEffectivePricesForProducts(
     products.map((p) => ({
       id: p.id,
@@ -64,9 +64,6 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
     const product = productMap.get(item.productId);
     if (!product || !product.isVisible || product.isArchived) {
       throw new CheckoutError(`المنتج غير متوفر حالياً`, "items");
-    }
-    if (product.quantity < item.quantity) {
-      throw new CheckoutError(`الكمية المطلوبة من "${product.nameAr}" غير متوفرة`, "items");
     }
     const unitPrice = effectivePrices.get(item.productId)?.finalPrice ?? toMoney(product.price.toString());
     return {

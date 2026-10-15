@@ -17,14 +17,30 @@ The section below is about the production database.
   filesystem is ephemeral and per-instance.
 
 ## 2. Environment variables (Vercel project settings)
-Copy every key from `.env.example`:
-`DATABASE_URL`, `SESSION_SECRET` (32+ random chars — `openssl rand -base64 32`),
-`STORAGE_PROVIDER` and its matching provider keys, `NEXT_PUBLIC_SITE_URL` (your production
-domain, used for canonical URLs / `metadataBase`).
+Add these variables to the Vercel Production environment:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | Supabase transaction-pooler URL (port `6543`) from Connect; append `pgbouncer=true&connection_limit=1` if absent |
+| `DIRECT_URL` | Supabase session-pooler URL (port `5432`) or direct URL from Connect, for Prisma migrations |
+| `SESSION_SECRET` | A random value with at least 32 characters (`openssl rand -base64 32`) |
+| `NEXT_PUBLIC_SITE_URL` | The production website URL |
+| `NEXT_PUBLIC_SUPABASE_URL` | The Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | The project's publishable key (`sb_publishable_…`) |
+| `SUPABASE_SECRET_KEY` | A newly rotated secret key (`sb_secret_…`); server only, never `NEXT_PUBLIC_` |
+| `STORAGE_PROVIDER` | `supabase` |
+
+Use the exact connection strings shown in Supabase **Connect**. After rotating the database
+password, replace its value in both connection strings and URL-encode special characters.
+Do not commit any of these environment values to GitHub. `@supabase/ssr` uses cookie-based
+sessions in Next.js; `@supabase/server` is not needed for this app's current auth flow.
 
 ## 3. Migrations
-Run once against the production database (from CI or locally with the prod `DATABASE_URL`,
-never from a client machine with a cached/stale schema):
+Vercel runs `prisma migrate deploy` before every build through `vercel.json`. The command is
+idempotent: it applies only committed migrations that are still pending in the database.
+Both `DATABASE_URL` and `DIRECT_URL` must be configured for the matching Vercel environment.
+
+To apply the same migrations manually from a trusted CI environment:
 
 ```bash
 pnpm db:deploy   # prisma migrate deploy — applies committed migrations, no prompts
@@ -48,9 +64,9 @@ it via the same command (it upserts by email) if it leaks.
 
 ## 6. Build & deploy
 Standard Vercel Next.js deployment — `vercel --prod`, or connect the GitHub repo and let
-Vercel's Git integration build on push. Build command is `pnpm build` (already the default
-Next.js detection); no special output config needed since all data-driven routes are
-`force-dynamic`.
+Vercel's Git integration build on push. The configured build command applies pending Prisma
+migrations, generates Prisma Client, and then builds Next.js. No special output config is
+needed since all data-driven routes are `force-dynamic`.
 
 ## 7. Domain configuration
 Point your domain at the Vercel project, set `NEXT_PUBLIC_SITE_URL` to match, redeploy so

@@ -39,9 +39,9 @@ function saveVersioned<T>(key: string, data: T) {
 interface CartContextValue {
   lines: CartLine[];
   recentlyViewed: string[];
-  addToCart: (productId: string, quantity?: number, maxQuantity?: number) => void;
+  addToCart: (productId: string, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
-  setQuantity: (productId: string, quantity: number, maxQuantity?: number) => void;
+  setQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   recordRecentlyViewed: (productId: string) => void;
   cartCount: number;
@@ -76,10 +76,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (hydrated) saveVersioned(RECENT_KEY, recentlyViewed);
   }, [recentlyViewed, hydrated]);
 
-  const addToCart = useCallback((productId: string, quantity = 1, maxQuantity?: number) => {
+  const addToCart = useCallback((productId: string, quantity = 1) => {
     setLines((prev) => {
       const existing = prev.find((l) => l.productId === productId);
-      const cap = maxQuantity ?? 99;
+      const cap = 99;
       if (existing) {
         return prev.map((l) =>
           l.productId === productId ? { ...l, quantity: Math.min(cap, l.quantity + quantity) } : l
@@ -94,8 +94,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLines((prev) => prev.filter((l) => l.productId !== productId));
   }, []);
 
-  const setQuantity = useCallback((productId: string, quantity: number, maxQuantity?: number) => {
-    const cap = maxQuantity ?? 99;
+  const setQuantity = useCallback((productId: string, quantity: number) => {
+    const cap = 99;
     setLines((prev) => {
       if (quantity <= 0) return prev.filter((l) => l.productId !== productId);
       return prev.map((l) => (l.productId === productId ? { ...l, quantity: Math.min(cap, quantity) } : l));

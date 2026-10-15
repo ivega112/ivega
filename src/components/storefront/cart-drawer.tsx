@@ -50,7 +50,7 @@ export function CartDrawer() {
                     {product.nameAr}
                   </Link>
                   <div className="mt-2 flex items-center gap-2">
-                    <QuantityInput size="sm" value={line.quantity} max={product.quantity} onChange={(v) => setQuantity(product.id, v, product.quantity)} />
+                    <QuantityInput size="sm" value={line.quantity} onChange={(v) => setQuantity(product.id, v)} />
                     <span className="text-[13px]">×</span>
                     <span className="text-[14px] font-semibold text-ay-primary">{formatCurrency(product.price)}</span>
                   </div>

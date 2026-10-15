@@ -4,8 +4,17 @@ import { prisma } from "@/lib/prisma";
 import { CatalogGrid, parseListingParams } from "@/components/storefront/catalog-grid";
 import type { SortOption } from "@/lib/catalog";
 
+function normalizeCategorySlug(slug: string) {
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = normalizeCategorySlug(rawSlug);
   const category = await prisma.category.findUnique({ where: { slug } });
   return { title: category?.nameAr ?? "قسم" };
 }
@@ -17,7 +26,8 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const { slug } = await params;
+  const { slug: rawSlug } = await params;
+  const slug = normalizeCategorySlug(rawSlug);
   const sp = await searchParams;
   const category = await prisma.category.findUnique({ where: { slug, isVisible: true, isArchived: false } });
   if (!category) notFound();

@@ -184,6 +184,7 @@ export async function toggleVisibilityAction(productId: string) {
   const product = await prisma.product.findUniqueOrThrow({ where: { id: productId } });
   await prisma.product.update({ where: { id: productId }, data: { isVisible: !product.isVisible } });
   revalidatePath("/admin/products");
+  revalidatePath("/", "layout");
 }
 
 export async function archiveProductAction(productId: string) {

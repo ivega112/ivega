@@ -66,7 +66,7 @@ export function CartClient() {
             </Link>
             <span className="text-[14px] text-ay-primary">{formatCurrency(line.product.price)}</span>
             <span>
-              <QuantityInput value={line.quantity} max={line.product.quantity} onChange={(v) => setQuantity(line.productId, v, line.product.quantity)} />
+              <QuantityInput value={line.quantity} onChange={(v) => setQuantity(line.productId, v)} />
             </span>
             <span className="text-[14px] font-semibold text-ay-primary">{formatCurrency(line.product.price * line.quantity)}</span>
           </div>
