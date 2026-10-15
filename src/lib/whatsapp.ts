@@ -1,6 +1,6 @@
 export interface WhatsappOrderItem {
   name: string;
-  sku: string;
+  model?: string | null;
   quantity: number;
   unitPrice: number;
   lineTotal: number;
@@ -74,7 +74,7 @@ function fmt(n: number) {
 export function buildWhatsappMessage(input: WhatsappMessageInput): string {
   const currency = input.currencyLabel ?? "د.أ";
   const itemsList = input.items
-    .map((it, i) => `${i + 1}. ${it.name} (${it.sku}) × ${it.quantity} = ${fmt(it.lineTotal)} ${currency}`)
+    .map((it, i) => `${i + 1}. ${it.name} (رقم الموديل: ${it.model?.trim() || "غير محدد"}) × ${it.quantity} = ${fmt(it.lineTotal)} ${currency}`)
     .join("\n");
 
   const values: Record<string, string> = {

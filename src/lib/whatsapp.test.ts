@@ -3,7 +3,7 @@ import { buildWhatsappMessage, buildWhatsappUrl, sanitizeWhatsappNumber } from "
 
 const baseInput = {
   orderNumber: "IV-260101-AB12",
-  items: [{ name: "رسيفر K800", sku: "IV-K800", quantity: 2, unitPrice: 42, lineTotal: 84 }],
+  items: [{ name: "رسيفر K800", model: "K800", quantity: 2, unitPrice: 42, lineTotal: 84 }],
   subtotal: 84,
   discountTotal: 0,
   deliveryFee: 3,
@@ -19,6 +19,8 @@ describe("buildWhatsappMessage", () => {
     const msg = buildWhatsappMessage(baseInput);
     expect(msg).toContain("IV-260101-AB12");
     expect(msg).toContain("رسيفر K800");
+    expect(msg).toContain("رقم الموديل: K800");
+    expect(msg).not.toContain("IV-K800");
     expect(msg).toContain("87.00");
     expect(msg).toContain("أحمد");
   });

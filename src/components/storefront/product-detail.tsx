@@ -137,7 +137,7 @@ export function ProductDetail({
 
           {whatsappNumber && (
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`مرحباً، أود الاستفسار عن: ${product.nameAr} (${formatCurrency(product.price)}) — SKU: ${product.sku}`)}`}
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`مرحباً، أود الاستفسار عن: ${product.nameAr} (${formatCurrency(product.price)}) — رقم الموديل: ${product.model?.trim() || "غير محدد"}`)}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex h-[42px] w-fit items-center gap-2 rounded-[3px] bg-ay-whatsapp px-5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"

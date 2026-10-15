@@ -22,7 +22,7 @@ export interface CreateOrderResult {
 }
 
 /**
- * Server-side checkout: revalidates visibility and price for every line, computes totals
+ * Server-side checkout: revalidates product existence and price for every line, computes totals
  * from DB state only (never trusts client totals), and is idempotent via idempotencyKey —
  * retrying with the same key returns the existing order instead of creating a duplicate.
  */
@@ -49,7 +49,7 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
   const productMap = new Map(products.map((p) => [p.id, p]));
   // Campaign prices are resolved fresh here, server-side, from current DB state — never
   // trust a client-submitted price. This is the same rule the rest of checkout already
-  // follows for visibility (see module docstring above).
+  // follows for product existence (see module docstring above).
   const effectivePrices = await getEffectivePricesForProducts(
     products.map((p) => ({
       id: p.id,
@@ -62,7 +62,10 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
 
   const lines = input.items.map((item) => {
     const product = productMap.get(item.productId);
-    if (!product || !product.isVisible || product.isArchived) {
+    // Visibility controls storefront rendering only. A product already placed in a
+    // customer's cart must not be rejected merely because a cached page predates an
+    // admin visibility change; only a genuinely missing product blocks the order.
+    if (!product) {
       throw new CheckoutError(`المنتج غير متوفر حالياً`, "items");
     }
     const unitPrice = effectivePrices.get(item.productId)?.finalPrice ?? toMoney(product.price.toString());
@@ -107,7 +110,7 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
     orderNumber,
     items: lines.map((l) => ({
       name: l.product.nameAr,
-      sku: l.product.sku,
+      model: l.product.model,
       quantity: l.quantity,
       unitPrice: l.unitPrice,
       lineTotal: l.lineTotal,
