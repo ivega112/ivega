@@ -66,7 +66,7 @@ export async function createOrderFromCheckout(rawInput: unknown): Promise<Create
     // customer's cart must not be rejected merely because a cached page predates an
     // admin visibility change; only a genuinely missing product blocks the order.
     if (!product) {
-      throw new CheckoutError(`المنتج غير متوفر حالياً`, "items");
+      throw new CheckoutError("تم تحديث السلة لأن أحد المنتجات لم يعد موجوداً. يرجى المحاولة مرة أخرى.", "items");
     }
     const unitPrice = effectivePrices.get(item.productId)?.finalPrice ?? toMoney(product.price.toString());
     return {

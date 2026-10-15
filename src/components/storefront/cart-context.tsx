@@ -42,6 +42,8 @@ interface CartContextValue {
   addToCart: (productId: string, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
   setQuantity: (productId: string, quantity: number) => void;
+  /** Removes stale product ids (for example, from a previous database/deployment). */
+  keepOnlyProducts: (productIds: string[]) => void;
   clearCart: () => void;
   recordRecentlyViewed: (productId: string) => void;
   cartCount: number;
@@ -102,6 +104,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const keepOnlyProducts = useCallback((productIds: string[]) => {
+    const validIds = new Set(productIds);
+    setLines((prev) => prev.filter((line) => validIds.has(line.productId)));
+  }, []);
+
   const clearCart = useCallback(() => setLines([]), []);
 
   const recordRecentlyViewed = useCallback((productId: string) => {
@@ -116,6 +123,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     addToCart,
     removeFromCart,
     setQuantity,
+    keepOnlyProducts,
     clearCart,
     recordRecentlyViewed,
     cartCount,

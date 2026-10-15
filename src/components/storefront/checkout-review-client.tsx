@@ -34,7 +34,7 @@ interface PaymentMethod {
 }
 
 export function CheckoutReviewClient() {
-  const { lines, clearCart } = useCart();
+  const { lines, clearCart, keepOnlyProducts } = useCart();
   const [products, setProducts] = useState<ProductCardData[]>([]);
   const [zones, setZones] = useState<DeliveryZone[]>([]);
   const [payments, setPayments] = useState<PaymentMethod[]>([]);
@@ -60,7 +60,13 @@ export function CheckoutReviewClient() {
     if (lines.length > 0) {
       fetch(`/api/catalog/by-ids?ids=${lines.map((l) => l.productId).join(",")}`)
         .then((r) => r.json())
-        .then((d) => setProducts(d.products));
+        .then((d) => {
+          const availableProducts = d.products ?? [];
+          setProducts(availableProducts);
+          // Cart storage survives deployments. Remove only IDs the active catalog no
+          // longer recognizes, preventing an old cart entry from blocking checkout.
+          keepOnlyProducts(availableProducts.map((product: ProductCardData) => product.id));
+        });
     }
     fetch("/api/settings/public")
       .then((r) => r.json())
@@ -68,7 +74,7 @@ export function CheckoutReviewClient() {
         setZones(d.deliveryZones);
         setPayments(d.paymentMethods);
       });
-  }, [lines]);
+  }, [lines, keepOnlyProducts]);
 
   const subtotal = useMemo(() => {
     const cartLines = lines
@@ -84,10 +90,18 @@ export function CheckoutReviewClient() {
   const totals = calculateOrderTotals({ subtotal, deliveryFee: deliveryKind === "DELIVERY" ? selectedZone?.fee ?? 0 : 0 });
 
   async function onSubmit(values: FormValues) {
+    // Avoid submitting while the current catalog lookup is still catching up with a
+    // just-added item. The server receives only product IDs it can resolve.
+    const availableIds = new Set(products.map((product) => product.id));
+    const orderLines = lines.filter((line) => availableIds.has(line.productId));
+    if (orderLines.length === 0 || orderLines.length !== lines.length) {
+      setError("تم تحديث السلة، يرجى إرسال الطلب مرة أخرى.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     const res = await submitCheckout({
-      items: lines,
+      items: orderLines,
       ...values,
       idempotencyKey,
     });
@@ -203,7 +217,7 @@ export function CheckoutReviewClient() {
         {error && <p role="alert" className="mt-3 text-xs text-discount-ribbon">{error}</p>}
         <button
           type="submit"
-          disabled={submitting}
+          disabled={submitting || products.length !== lines.length}
           className="mt-4 flex h-13 w-full items-center justify-center rounded-[35px] bg-ay-whatsapp text-sm font-bold text-white hover:opacity-90 disabled:opacity-60"
         >
           {submitting ? "جارٍ الإرسال…" : "إرسال الطلب عبر واتساب"}
