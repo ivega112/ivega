@@ -43,7 +43,7 @@ export async function CatalogGrid({
     : {};
   const [{ items, total, page, pageCount, pageSize }, categories, brands, newResult] = await Promise.all([
     getProducts(listingFilters),
-    prisma.category.findMany({ where: { isVisible: true, isArchived: false }, orderBy: { displayOrder: "asc" } }),
+    prisma.category.findMany({ where: { isVisible: true, isArchived: false }, orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }] }),
     prisma.brand.findMany({ where: { isVisible: true, isArchived: false, ...categoryBrandWhere }, orderBy: { displayOrder: "asc" } }),
     showNewFirst
       ? getProducts({ ...filters, isNew: true, excludeNew: false, prioritizeNew: false, page: 1, pageSize: 12 })

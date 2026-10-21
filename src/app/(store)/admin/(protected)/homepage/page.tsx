@@ -14,7 +14,7 @@ import {
 
 // Where each homepage section key appears in the storefront, shown next to the raw key.
 const SECTION_HELP: Record<string, string> = {
-  categories: "أشرطة منتجات الأقسام المختارة — الرقم = عدد الأقسام في القائمة الجانبية",
+  categories: "تسوّق حسب القسم — تظهر كل الأقسام الظاهرة، والترتيب من صفحة الأقسام",
   featured_products: "تبويبات المنتجات (مميزة / وصل حديثاً / الأكثر مبيعاً / العروض) — الرقم = عدد المنتجات",
   campaigns: "بطاقات الحملات مع العد التنازلي",
   reviews: "آراء العملاء — الرقم = عدد التقييمات",
@@ -60,7 +60,7 @@ export default async function AdminHomepagePage() {
                 <input type="hidden" name="id" value={s.id} />
                 <input name="titleAr" defaultValue={s.titleAr} className="input flex-1" />
                 <input name="subtitleAr" defaultValue={s.subtitleAr ?? ""} placeholder="عنوان فرعي" className="input flex-1" />
-                {(s.key === "categories" || s.key === "featured_products" || s.key === "reviews") && (
+                {(s.key === "featured_products" || s.key === "reviews") && (
                   <input
                     name="limit"
                     type="number"

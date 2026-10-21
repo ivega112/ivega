@@ -16,7 +16,7 @@ type CatalogItem = Awaited<ReturnType<typeof getProducts>>["items"][number];
 export default async function HomePage() {
   const [sections, categories, heroSlides, campaigns, reviews, menuProducts] = await Promise.all([
     prisma.homepageSection.findMany({ where: { isEnabled: true }, orderBy: { displayOrder: "asc" } }),
-    prisma.category.findMany({ where: { isVisible: true, isArchived: false }, orderBy: { displayOrder: "asc" } }),
+    prisma.category.findMany({ where: { isVisible: true, isArchived: false }, orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }] }),
     prisma.heroSlide.findMany({ where: { isArchived: false }, orderBy: { displayOrder: "asc" }, take: 10 }),
     prisma.campaign.findMany({
       where: {
@@ -67,7 +67,8 @@ export default async function HomePage() {
   );
   const toCards = (items: CatalogItem[]) => items.map((p) => mapProductToCard(p, effectivePrices.get(p.id)));
 
-  const categoryCards = categories.slice(0, Math.max(1, limitOf("categories", categories.length))).map((c) => {
+  // Every visible category is shown — no cap — so newly added ones appear automatically.
+  const categoryCards = categories.map((c) => {
     const own = menuProducts.filter((p) => p.categoryId === c.id);
     return {
       id: c.id,

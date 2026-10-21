@@ -7,7 +7,7 @@ export async function SiteFooter({ settings }: { settings: StoreSettingsData }) 
   const [categories, socialLinks, openingHours] = await Promise.all([
     prisma.category.findMany({
       where: { isVisible: true, isArchived: false },
-      orderBy: { displayOrder: "asc" },
+      orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
       take: 6,
       select: { nameAr: true, slug: true },
     }),

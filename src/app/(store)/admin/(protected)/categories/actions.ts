@@ -57,7 +57,10 @@ export async function upsertCategoryAction(formData: FormData) {
     redirect(`/admin/categories/${id}?saved=1`);
   }
 
-  const created = await prisma.category.create({ data: { nameAr, slug, description, isFeatured, ...(imageUrl ? { imageUrl } : {}) } });
+  // New categories go to the end of the list; the admin can move them from the categories page.
+  const last = await prisma.category.aggregate({ _max: { displayOrder: true } });
+  const displayOrder = (last._max.displayOrder ?? -1) + 1;
+  const created = await prisma.category.create({ data: { nameAr, slug, description, isFeatured, displayOrder, ...(imageUrl ? { imageUrl } : {}) } });
   await syncSecondaryProducts(created.id, productIds);
   revalidatePath("/admin/categories");
   revalidatePath("/");
@@ -83,6 +86,39 @@ export async function deleteCategoryAction(id: string) {
   }
   revalidatePath("/admin/categories");
   revalidatePath("/");
+}
+
+export type CategoryMove = "up" | "down" | "top" | "bottom";
+
+/**
+ * Reorders a category relative to the others. The whole list is renumbered 0..n-1 so
+ * categories that still share a displayOrder (e.g. all 0) move predictably.
+ */
+export async function moveCategoryAction(id: string, move: CategoryMove) {
+  await requirePermission("categories:write");
+  const categories = await prisma.category.findMany({
+    where: { isArchived: false },
+    orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
+    select: { id: true, displayOrder: true },
+  });
+  const from = categories.findIndex((c) => c.id === id);
+  if (from === -1) return;
+  const to = move === "top" ? 0 : move === "bottom" ? categories.length - 1 : move === "up" ? from - 1 : from + 1;
+  if (to < 0 || to >= categories.length || to === from) return;
+
+  const reordered = [...categories];
+  const [moved] = reordered.splice(from, 1);
+  reordered.splice(to, 0, moved!);
+
+  await prisma.$transaction(
+    reordered
+      .map((c, index) => ({ ...c, index }))
+      .filter((c) => c.displayOrder !== c.index)
+      .map((c) => prisma.category.update({ where: { id: c.id }, data: { displayOrder: c.index } }))
+  );
+  revalidatePath("/admin/categories");
+  // Header, footer and shop sidebar all list categories, so refresh the whole storefront.
+  revalidatePath("/", "layout");
 }
 
 export async function toggleCategoryVisibilityAction(id: string, currentVisibility: boolean) {

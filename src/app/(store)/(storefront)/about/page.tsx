@@ -17,7 +17,7 @@ export default async function AboutPage() {
     getStoreSettings(),
     prisma.category.findMany({
       where: { isVisible: true, isArchived: false },
-      orderBy: { displayOrder: "asc" },
+      orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
       take: 8,
       select: { nameAr: true, slug: true, tintColor: true },
     }),

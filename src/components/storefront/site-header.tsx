@@ -5,7 +5,7 @@ import { HeaderShell } from "./header-shell";
 export async function SiteHeader({ settings }: { settings: StoreSettingsData }) {
   const categories = await prisma.category.findMany({
     where: { isVisible: true, isArchived: false },
-    orderBy: { displayOrder: "asc" },
+    orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
     select: { id: true, nameAr: true, slug: true },
   });
 
