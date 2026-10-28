@@ -132,7 +132,36 @@ class SupabaseStorageAdapter implements StorageAdapter {
   }
 }
 
-export function getStorageAdapter(): StorageAdapter {
+// Uploaded photos are served as-is (next.config.ts sets images.unoptimized), so shrink them
+// once here instead of on every request.
+const MAX_IMAGE_DIMENSION = 1600;
+const WEBP_QUALITY = 82;
+// GIFs may be animated and videos are left untouched.
+const RESIZABLE_MIME = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
+
+/**
+ * Resizes to fit within MAX_IMAGE_DIMENSION (never enlarges), applies EXIF rotation and
+ * re-encodes as WebP. Falls back to the original file if anything goes wrong or if the
+ * result would not be smaller, so an upload never fails because of this step.
+ */
+export async function optimizeImage(buffer: Buffer, mimeType: string): Promise<{ buffer: Buffer; mimeType: string }> {
+  if (!RESIZABLE_MIME.has(mimeType)) return { buffer, mimeType };
+  try {
+    const { default: sharp } = await import("sharp");
+    const output = await sharp(buffer)
+      .rotate()
+      .resize({ width: MAX_IMAGE_DIMENSION, height: MAX_IMAGE_DIMENSION, fit: "inside", withoutEnlargement: true })
+      .webp({ quality: WEBP_QUALITY })
+      .toBuffer();
+    if (output.byteLength >= buffer.byteLength) return { buffer, mimeType };
+    return { buffer: output, mimeType: "image/webp" };
+  } catch (error) {
+    console.error("Image optimization failed, uploading original", error);
+    return { buffer, mimeType };
+  }
+}
+
+function createAdapter(): StorageAdapter {
   const provider = process.env.STORAGE_PROVIDER ?? "supabase";
   switch (provider) {
     case "vercel-blob":
@@ -145,4 +174,16 @@ export function getStorageAdapter(): StorageAdapter {
     default:
       return new LocalStorageAdapter();
   }
+}
+
+export function getStorageAdapter(): StorageAdapter {
+  const adapter = createAdapter();
+  return {
+    async upload(buffer, mimeType) {
+      // Validate the original first so oversized or unsupported files are still rejected.
+      assertValidUpload(mimeType, buffer.byteLength);
+      const optimized = await optimizeImage(buffer, mimeType);
+      return adapter.upload(optimized.buffer, optimized.mimeType);
+    },
+  };
 }

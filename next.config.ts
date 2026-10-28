@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Serve images straight from storage instead of Vercel's paid image optimizer (its free
+    // quota ran out and every product photo came back blank). Uploads are resized to WebP in
+    // src/lib/storage.ts instead.
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "**.public.blob.vercel-storage.com" },
       { protocol: "https", hostname: "**.r2.cloudflarestorage.com" },
