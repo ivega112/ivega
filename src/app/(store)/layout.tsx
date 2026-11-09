@@ -3,6 +3,7 @@ import { IBM_Plex_Sans_Arabic, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { getStoreSettings } from "@/lib/settings";
 import { Toaster } from "sonner";
+import Script from "next/script";
 
 // All storefront data (catalog, settings, homepage content) is admin-editable and must
 // always reflect current DB state — never statically cached across deploys.
@@ -74,6 +75,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         {children}
         <Toaster position="top-center" dir="rtl" richColors />
+        {/* Vercel Web Analytics (visitor counts in the Vercel dashboard). */}
+        <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
       </body>
     </html>
   );
