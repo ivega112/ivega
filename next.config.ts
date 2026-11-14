@@ -2,10 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Serve images straight from storage instead of Vercel's paid image optimizer (its free
-    // quota ran out and every product photo came back blank). Uploads are resized to WebP in
-    // src/lib/storage.ts instead.
-    unoptimized: true,
+    // Not Vercel's paid image optimizer (its free quota ran out and every product photo came
+    // back blank): Supabase photos go through our own /img route, which resizes them and lets
+    // the CDN cache the result. See src/lib/image-loader.ts.
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
     remotePatterns: [
       { protocol: "https", hostname: "**.public.blob.vercel-storage.com" },
       { protocol: "https", hostname: "**.r2.cloudflarestorage.com" },
